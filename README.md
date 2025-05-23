@@ -45,7 +45,7 @@ A modern, SEO-optimized headless CMS built with Next.js that reads content from 
 ### 1. Clone and Install
 
 ```bash
-git clone <your-repo-url>
+git clone git@github.com:geek-id/linuxid-headless-cms.git
 cd headless-cms
 npm install
 ```
