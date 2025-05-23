@@ -1,6 +1,6 @@
 # 📋 Changelog
 
-## [1.0.0] - 2024-01-20
+## [1.0.0] - 2025-05-23
 
 ### 🚀 **LinuxID Pure Static Site Generator**
 
@@ -179,12 +179,6 @@ Write your content here with full markdown support.
 
 ### **From Previous Versions**
 This release represents a complete architectural transformation:
-
-#### **Removed Components**
-- ❌ All API endpoints and server-side code
-- ❌ Database connections and authentication
-- ❌ Cloud storage and dynamic uploads
-- ❌ Admin panel and dashboard functionality
 
 #### **Added Features**
 - ✅ Pure static site generation
