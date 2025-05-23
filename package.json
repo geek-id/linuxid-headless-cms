@@ -1,27 +1,76 @@
 {
-  "name": "headless-cms",
-  "version": "0.1.0",
-  "private": true,
+  "name": "linuxid-headless-cms",
+  "version": "1.0.0",
+  "description": "A modern, SEO-optimized headless CMS built with Next.js that reads content from markdown files with cloud storage integration",
+  "main": "server.js",
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "headless-cms",
+    "markdown",
+    "nextjs",
+    "cloudflare-r2",
+    "aws-s3",
+    "image-optimization",
+    "seo",
+    "typescript",
+    "cms",
+    "blog",
+    "static-site-generator"
+  ],
+  "author": {
+    "name": "LinuxID",
+    "email": "hello@agemcloud.com",
+    "url": "https://linux-id.net"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/geek-id/linuxid-headless-cms.git"
+  },
+  "bugs": {
+    "url": "https://github.com/geek-id/linuxid-headless-cms/issues"
+  },
+  "homepage": "https://github.com/geek-id/linuxid-headless-cms#readme",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.1.8"
+    "react": "^18",
+    "react-dom": "^18",
+    "next": "14.0.4",
+    "gray-matter": "^4.0.3",
+    "marked": "^9.1.6",
+    "mongoose": "^8.0.3",
+    "next-auth": "^4.24.5",
+    "@auth/mongodb-adapter": "^2.4.2",
+    "lucide-react": "^0.294.0",
+    "@headlessui/react": "^1.7.17",
+    "clsx": "^2.0.0",
+    "date-fns": "^2.30.0",
+    "react-hook-form": "^7.48.2",
+    "@hookform/resolvers": "^3.3.2",
+    "zod": "^3.22.4",
+    "@aws-sdk/client-s3": "^3.470.0",
+    "@aws-sdk/s3-request-presigner": "^3.470.0",
+    "sharp": "^0.32.6",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "typescript": "^5",
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/uuid": "^9.0.7",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-    "eslint": "^9",
-    "eslint-config-next": "15.1.8",
-    "@eslint/eslintrc": "^3"
+    "tailwindcss": "^3.3.0",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.4"
   }
 }
