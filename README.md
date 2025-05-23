@@ -421,6 +421,8 @@ module.exports = {
 ## 📚 **Documentation**
 
 - **[Quick Reference](docs/QUICK-REFERENCE.md)** - Commands, syntax, and search guide
+- **[Configuration Guide](docs/CONFIGURATION.md)** - Environment variables and site settings
+- **[Deployment Guide](docs/DEPLOYMENT.md)** - CI/CD setup and hosting platforms
 - **[Changelog](CHANGELOG.md)** - Version history and feature updates
 
 ## ❓ **FAQ**

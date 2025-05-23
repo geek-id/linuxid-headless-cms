@@ -10,6 +10,10 @@ git clone https://github.com/geek-id/linuxid-static-site.git
 cd linuxid-static-site
 npm install
 
+# Configure your site
+cp env.example .env.local
+# Edit .env.local with your site details
+
 # Start development
 npm run dev
 
@@ -19,6 +23,29 @@ npm run build
 # Deploy anywhere
 # Just upload the 'out/' folder to any static host!
 ```
+
+## ⚙️ **Site Configuration**
+
+### **Environment Variables (.env.local)**
+```bash
+# Basic Site Information
+NEXT_PUBLIC_SITE_NAME=Your Site Name
+NEXT_PUBLIC_SITE_DESCRIPTION=Your site description for SEO
+NEXT_PUBLIC_SITE_URL=https://yourdomain.com
+NEXT_PUBLIC_SITE_KEYWORDS=keyword1,keyword2,keyword3
+NEXT_PUBLIC_SITE_AUTHOR=Your Name
+NEXT_PUBLIC_SITE_EMAIL=your@email.com
+
+# Social Media (Optional)
+NEXT_PUBLIC_TWITTER_HANDLE=@yourusername
+NEXT_PUBLIC_GITHUB_URL=https://github.com/your-repo
+
+# Analytics (Optional)
+NEXT_PUBLIC_GA_TRACKING_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_PLAUSIBLE_DOMAIN=yourdomain.com
+```
+
+**📖 [Complete Configuration Guide →](CONFIGURATION.md)**
 
 ## 🔍 **Search Functionality**
 
@@ -53,21 +80,24 @@ linuxid-static-site/
 │   │   ├── page.tsx           # Homepage (with search)
 │   │   ├── posts/             # Blog pages (with search)
 │   │   ├── reviews/           # Review pages (with search)
-│   │   └── layout.tsx         # Root layout
+│   │   └── layout.tsx         # Root layout + SEO
 │   ├── components/
 │   │   ├── SearchBox.tsx      # 🔍 Main search component
 │   │   └── HomePageSearch.tsx # Homepage search wrapper
 │   ├── lib/
+│   │   ├── config/
+│   │   │   └── site.ts        # ⚙️ Centralized configuration
 │   │   ├── content/           # Markdown parsing
 │   │   └── utils/             # Utility functions
 │   └── types/                 # TypeScript definitions
 ├── content/                   # Markdown content
-│   ├── posts/                 # Blog posts
-│   ├── pages/                 # Static pages
-│   └── reviews/               # Product reviews
+│   ├── posts/                 # Blog posts (searchable)
+│   ├── pages/                 # Static pages (searchable)
+│   └── reviews/               # Product reviews (searchable)
 ├── public/
 │   └── static/
 │       └── img/               # Static images
+├── env.example                # Environment configuration template
 └── out/                       # Generated static site (after build)
 ```
 
@@ -145,12 +175,12 @@ featuredImage:
 ## 🎨 **Styling & Customization**
 
 ### **Site Configuration**
-```typescript
-// Edit src/app/page.tsx
-const siteConfig = {
-  siteName: 'Your Site Name',
-  description: 'Your site description'
-};
+All site settings are managed via environment variables in `.env.local`:
+```bash
+# Centralized configuration - no more hardcoded values!
+NEXT_PUBLIC_SITE_NAME=Your Site Name
+NEXT_PUBLIC_SITE_DESCRIPTION=Your description
+# ... see CONFIGURATION.md for complete reference
 ```
 
 ### **Theme Customization**
@@ -211,6 +241,8 @@ git subtree push --prefix out origin gh-pages
 scp -r out/* user@server:/var/www/html/
 ```
 
+**📖 [Complete Deployment Guide →](DEPLOYMENT.md)**
+
 ## 🛠️ **Development**
 
 ### **Available Scripts**
@@ -224,38 +256,40 @@ npm run clean        # Clean build cache
 ```
 
 ### **Development Workflow**
-1. **Write content** - Add `.md` files to `content/` directories
-2. **Add images** - Place in `public/static/img/`
-3. **Preview** - Run `npm run dev` to see changes (**test search functionality**)
-4. **Build** - Run `npm run build` for production
-5. **Deploy** - Upload `out/` folder to any static host
+1. **Configure site** - Edit `.env.local` with your site details
+2. **Write content** - Add `.md` files to `content/` directories
+3. **Add images** - Place in `public/static/img/`
+4. **Preview** - Run `npm run dev` to see changes (**test search functionality**)
+5. **Build** - Run `npm run build` for production
+6. **Deploy** - Upload `out/` folder to any static host
 
 ## ⚡ **Performance Features**
 
 - **Zero server-side processing** - Everything pre-rendered at build time
 - **Instant search** - Client-side filtering with no API calls
-- **Minimal JavaScript** - Only essential client-side code
-- **Perfect SEO** - Meta tags, Open Graph, structured data
+- **Minimal JavaScript** - Only essential client-side code + search
+- **Perfect SEO** - Auto-generated meta tags from environment config
 - **Instant loading** - Static files served from CDN
 - **Unlimited scaling** - Static files scale infinitely
 
 ## 🔧 **Technical Stack**
 
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: Next.js 14 (App Router) with static export
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **Content**: Markdown + Gray Matter
 - **Rendering**: Marked.js
 - **Search**: Pure client-side JavaScript filtering
+- **Configuration**: Environment variables with TypeScript interfaces
 - **Output**: Pure static HTML/CSS/JS
 
 ## 📊 **File Sizes (Typical)**
-- **Homepage**: ~50KB (gzipped) + Search functionality
-- **Blog post**: ~30KB (gzipped) + Search functionality
+- **Homepage**: ~99KB (including search functionality)
+- **Blog post**: ~93KB (with search)
 - **CSS bundle**: ~40KB (gzipped)
-- **JS bundle**: ~120KB (gzipped) + Search components
-- **Total build**: <600KB for 50 posts with full search
+- **JS bundle**: ~180KB (gzipped, includes search components)
+- **Total build**: <600KB for 50 posts with full search capabilities
 
 ---
 
-**🚀 Pure static, infinitely scalable, instant search, works everywhere!** 
+**🚀 Pure static, environment-configured, instant search, works everywhere!** 

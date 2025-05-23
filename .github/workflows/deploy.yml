@@ -1,4 +1,4 @@
-name: Deploy LinuxID Headless CMS to Cloudflare Pages
+name: Deploy LinuxID Pure Static Site Generator
 
 on:
   push:
@@ -32,100 +32,106 @@ jobs:
       - name: Run tests
         run: npm run test --if-present
         
-      - name: Initialize file-based configuration
+      - name: Verify content structure
         run: |
-          mkdir -p .config
-          echo '{"siteName":"LinuxID Headless CMS","siteUrl":"${{ secrets.SITE_URL || 'https://your-domain.com' }}","description":"A modern headless CMS built with Next.js","defaultSEO":{"title":"LinuxID Headless CMS","description":"Modern, SEO-optimized headless CMS with cloud storage","keywords":["cms","headless","nextjs","markdown","seo"]},"adminEmails":["${{ secrets.ADMIN_EMAILS }}"],"theme":{"primaryColor":"#3b82f6"},"features":{"enableComments":false,"enableAnalytics":false,"enableSearch":true}}' > .config/site.json
-          echo '{"uploadSettings":{"maxFileSize":10485760,"allowedImageTypes":["image/jpeg","image/png","image/webp","image/gif"],"imageQuality":85},"contentSettings":{"defaultContentType":"post","enableDrafts":true,"autoSave":true},"seoSettings":{"enableSitemap":true,"enableRobots":true,"enableAnalytics":false}}' > .config/admin.json
+          echo "📁 Verifying content structure..."
+          ls -la content/
+          echo "📝 Posts:"
+          ls -la content/posts/ || echo "No posts directory"
+          echo "⭐ Reviews:"
+          ls -la content/reviews/ || echo "No reviews directory"
+          echo "📄 Pages:"
+          ls -la content/pages/ || echo "No pages directory"
+          echo "🖼️ Static images:"
+          ls -la public/static/img/ || echo "No static images directory"
         
-      - name: Build application
+      - name: Build static site
         run: npm run build
         env:
-          # Authentication - Required for OAuth
-          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
-          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-          GITHUB_ID: ${{ secrets.GITHUB_ID }}
-          GITHUB_SECRET: ${{ secrets.GITHUB_SECRET }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          # === SITE CONFIGURATION ===
+          # Basic site information
+          NEXT_PUBLIC_SITE_NAME: ${{ secrets.NEXT_PUBLIC_SITE_NAME || 'LinuxID' }}
+          NEXT_PUBLIC_SITE_DESCRIPTION: ${{ secrets.NEXT_PUBLIC_SITE_DESCRIPTION || 'Modern, SEO-optimized static site built with Next.js' }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://linux-id.net' }}
           
-          # Admin Configuration - File-based system
-          ADMIN_EMAILS: ${{ secrets.ADMIN_EMAILS }}
+          # SEO Configuration
+          NEXT_PUBLIC_SITE_KEYWORDS: ${{ secrets.NEXT_PUBLIC_SITE_KEYWORDS || 'nextjs,static-site,typescript,tailwind,markdown,blog,reviews' }}
+          NEXT_PUBLIC_SITE_AUTHOR: ${{ secrets.NEXT_PUBLIC_SITE_AUTHOR || 'LinuxID Team' }}
+          NEXT_PUBLIC_SITE_EMAIL: ${{ secrets.NEXT_PUBLIC_SITE_EMAIL || 'hello@linux-id.net' }}
           
-          # Site Configuration - For public website
-          SITE_NAME: ${{ secrets.SITE_NAME || 'LinuxID Headless CMS' }}
-          SITE_URL: ${{ secrets.SITE_URL }}
+          # Social Media (Optional)
+          NEXT_PUBLIC_TWITTER_HANDLE: ${{ secrets.NEXT_PUBLIC_TWITTER_HANDLE }}
+          NEXT_PUBLIC_GITHUB_URL: ${{ secrets.NEXT_PUBLIC_GITHUB_URL }}
           
-          # Cloud Storage Configuration - Choose ONE provider
-          STORAGE_PROVIDER: ${{ secrets.STORAGE_PROVIDER || 'cloudflare_r2' }}
+          # Open Graph / Social Sharing
+          NEXT_PUBLIC_OG_IMAGE: ${{ secrets.NEXT_PUBLIC_OG_IMAGE || '/static/img/og-image.jpg' }}
+          NEXT_PUBLIC_OG_TYPE: ${{ secrets.NEXT_PUBLIC_OG_TYPE || 'website' }}
+          NEXT_PUBLIC_OG_LOCALE: ${{ secrets.NEXT_PUBLIC_OG_LOCALE || 'en_US' }}
           
-          # Cloudflare R2 (Recommended - Zero egress fees)
-          CLOUDFLARE_R2_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_R2_ACCOUNT_ID }}
-          CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
-          CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
-          CLOUDFLARE_R2_BUCKET_NAME: ${{ secrets.CLOUDFLARE_R2_BUCKET_NAME }}
-          CLOUDFLARE_R2_PUBLIC_URL: ${{ secrets.CLOUDFLARE_R2_PUBLIC_URL }}
+          # Analytics (Optional)
+          NEXT_PUBLIC_GA_TRACKING_ID: ${{ secrets.NEXT_PUBLIC_GA_TRACKING_ID }}
+          NEXT_PUBLIC_PLAUSIBLE_DOMAIN: ${{ secrets.NEXT_PUBLIC_PLAUSIBLE_DOMAIN }}
+          NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ secrets.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }}
           
-          # AWS S3 (Alternative option)
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
-          AWS_S3_PUBLIC_URL: ${{ secrets.AWS_S3_PUBLIC_URL }}
+          # === DEVELOPMENT SETTINGS ===
+          # Content directory (build-time only)
+          CONTENT_DIR: ./content
           
-          # S3-Compatible Storage (DigitalOcean, Linode, etc.)
-          S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
-          S3_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
-          S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
-          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
-          S3_PUBLIC_URL: ${{ secrets.S3_PUBLIC_URL }}
-          S3_REGION: ${{ secrets.S3_REGION }}
-          
-          # Image Processing Configuration
-          MAX_IMAGE_SIZE: ${{ secrets.MAX_IMAGE_SIZE || '10485760' }}
-          ALLOWED_IMAGE_TYPES: ${{ secrets.ALLOWED_IMAGE_TYPES || 'image/jpeg,image/png,image/webp,image/gif' }}
-          IMAGE_QUALITY: ${{ secrets.IMAGE_QUALITY || '85' }}
-          
-          # Performance Optimization
+          # Build settings
           NODE_ENV: production
-          
-      - name: Generate sitemap (if enabled)
-        run: |
-          if [ -f "scripts/generate-sitemap.js" ]; then
-            node scripts/generate-sitemap.js
-          fi
-        continue-on-error: true
         
       - name: Verify build output
         run: |
-          echo "✅ Build completed successfully"
+          echo "✅ Static site build completed successfully"
+          echo ""
           echo "📁 Build output directory:"
           ls -la out/
-          echo "📄 Key files:"
-          ls -la out/*.html || true
-          echo "📊 Build size:"
+          echo ""
+          echo "📄 Generated pages:"
+          find out/ -name "*.html" | head -10
+          echo ""
+          echo "📊 Build size analysis:"
           du -sh out/
+          echo ""
+          echo "🔍 Search functionality included:"
+          ls -la out/_next/static/chunks/ | grep -E "\.(js|css)$" | head -5 || true
+          echo ""
+          echo "🖼️ Static assets:"
+          ls -la out/static/img/ || echo "No static images found"
           
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME || 'linuxid-headless-cms' }}
+          projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME || 'linuxid-static-site' }}
           directory: out
           # Optional: Use a custom domain
           # customDomain: ${{ secrets.CUSTOM_DOMAIN }}
           
       - name: Post-deployment verification
         run: |
-          echo "🚀 Deployment completed!"
-          echo "🌐 Your website should be available at: ${{ secrets.SITE_URL }}"
-          echo "📊 Dashboard: ${{ secrets.SITE_URL }}/dashboard"
-          echo "⚙️ Admin Panel: ${{ secrets.SITE_URL }}/admin"
-          echo "📝 Blog: ${{ secrets.SITE_URL }}/posts"
-          echo "⭐ Reviews: ${{ secrets.SITE_URL }}/reviews"
+          echo "🚀 Pure static site deployment completed!"
+          echo ""
+          echo "🌐 Website URLs:"
+          echo "   🏠 Homepage: ${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com' }}"
+          echo "   📝 Blog: ${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com' }}/posts"
+          echo "   ⭐ Reviews: ${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com' }}/reviews"
+          echo ""
+          echo "✨ Features deployed:"
+          echo "   🔍 Client-side search across all pages"
+          echo "   📱 Responsive design with modern UI"
+          echo "   🎯 SEO-optimized with meta tags"
+          echo "   ⚡ Zero server requirements"
+          echo "   🌐 Global CDN distribution"
+          echo ""
+          echo "📊 Performance benefits:"
+          echo "   💰 Zero hosting costs (static)"
+          echo "   🚀 Instant loading from CDN"
+          echo "   🔒 Maximum security (no server)"
+          echo "   📈 Unlimited scaling"
 
-  # Optional: Run lighthouse performance audit
+  # Lighthouse performance audit for pure static site
   lighthouse-audit:
     needs: deploy
     runs-on: ubuntu-latest
@@ -135,13 +141,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         
-      - name: Run Lighthouse CI
+      - name: Run Lighthouse CI for Static Site
         uses: treosh/lighthouse-ci-action@v10
         with:
           urls: |
-            ${{ secrets.SITE_URL }}
-            ${{ secrets.SITE_URL }}/posts
-            ${{ secrets.SITE_URL }}/dashboard
+            ${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com' }}
+            ${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com' }}/posts
+            ${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com' }}/reviews
           configPath: './.lighthouserc.json'
           temporaryPublicStorage: true
-        continue-on-error: true 
+        continue-on-error: true
+        
+      - name: Performance Summary
+        run: |
+          echo "📊 Lighthouse audit completed for pure static site"
+          echo "🎯 Expected scores: 100/100 for Performance, Accessibility, Best Practices, SEO"
+          echo "⚡ Static sites typically achieve perfect Lighthouse scores" 
