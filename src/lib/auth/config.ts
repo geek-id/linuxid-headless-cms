@@ -1,6 +1,8 @@
 import { NextAuthOptions } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
+import { isUserAdmin } from '@/lib/config/file-storage';
+import '@/lib/init'; // Initialize file-based configuration
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -16,8 +18,8 @@ export const authOptions: NextAuthOptions = {
   
   callbacks: {
     async signIn({ user, account, profile }) {
-      // Add admin user validation here
-      // For now, allow all users - you can restrict this later
+      // OAuth providers are allowed to sign in
+      // Admin validation happens in session callback
       return true;
     },
     
@@ -25,7 +27,8 @@ export const authOptions: NextAuthOptions = {
       // Add custom session data
       if (session.user) {
         session.user.id = token.sub!;
-        session.user.isAdmin = await isUserAdmin(session.user.email);
+        // Use file-based admin check
+        session.user.isAdmin = isUserAdmin(session.user.email);
       }
       return session;
     },
@@ -44,21 +47,11 @@ export const authOptions: NextAuthOptions = {
   },
   
   session: {
-    strategy: 'jwt',
+    strategy: 'jwt', // File-based, no database needed
   },
   
   secret: process.env.NEXTAUTH_SECRET,
 };
-
-// Function to check if user is admin
-async function isUserAdmin(email?: string | null): Promise<boolean> {
-  if (!email) return false;
-  
-  // For now, define admin emails in environment variables
-  // Later you can use a database
-  const adminEmails = process.env.ADMIN_EMAILS?.split(',') || [];
-  return adminEmails.includes(email);
-}
 
 // Middleware helper for protecting admin routes
 export async function requireAuth(request: any) {
