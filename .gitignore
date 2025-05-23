@@ -39,4 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+<<<<<<< HEAD
 package-lock.json
+=======
+>>>>>>> e788a90 (Initial commit from Create Next App)
