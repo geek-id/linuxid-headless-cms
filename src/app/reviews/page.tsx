@@ -1,20 +1,37 @@
 import { getAllContent } from '@/lib/content/parser';
-import { getSiteConfig } from '@/lib/config/file-storage';
 import { Review } from '@/types/content';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatDistanceToNow } from 'date-fns';
 import { Metadata } from 'next';
+import SearchBox from '@/components/SearchBox';
+import { siteConfig } from '@/lib/config/site';
 
 export const metadata: Metadata = {
   title: 'Reviews',
-  description: 'Browse all our product and service reviews',
+  description: 'Browse all our product reviews and ratings',
 };
 
 export default async function ReviewsPage() {
-  const siteConfig = getSiteConfig();
   const allReviews = getAllContent('review') as Review[];
   const publishedReviews = allReviews.filter(review => review.published);
+
+  // Transform reviews for search
+  const searchContent = publishedReviews.map(review => ({
+    id: review.id,
+    title: review.title,
+    excerpt: review.excerpt || '',
+    slug: review.slug,
+    type: 'review' as const,
+    category: review.category,
+    tags: review.tags,
+    publishedAt: new Date(review.publishedAt || review.createdAt),
+    featuredImage: review.featuredImage ? {
+      url: review.featuredImage.url,
+      alt: review.featuredImage.alt || review.title,
+    } : undefined,
+    rating: 'rating' in review ? review.rating : undefined,
+  }));
 
   // Calculate average rating
   const reviewsWithRating = publishedReviews.filter(review => 'rating' in review && review.rating);
@@ -47,12 +64,6 @@ export default async function ReviewsPage() {
               <Link href="/posts" className="text-gray-600 hover:text-blue-600 font-medium">
                 Blog
               </Link>
-              <Link href="/dashboard" className="text-gray-600 hover:text-blue-600 font-medium">
-                Dashboard
-              </Link>
-              <Link href="/admin" className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">
-                Admin
-              </Link>
             </div>
           </div>
         </div>
@@ -67,6 +78,15 @@ export default async function ReviewsPage() {
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             Honest reviews and ratings of products and services
           </p>
+          
+          {/* Search Box */}
+          <div className="max-w-md mx-auto mb-8">
+            <SearchBox
+              content={searchContent}
+              placeholder="⭐ Search reviews..."
+              className="w-full"
+            />
+          </div>
           
           {/* Rating Summary */}
           {reviewsWithRating.length > 0 && (
@@ -239,12 +259,6 @@ export default async function ReviewsPage() {
                 <div className="text-6xl mb-4">📝</div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">No reviews yet</h3>
                 <p className="text-gray-600 mb-6">Be the first to share your review!</p>
-                <Link
-                  href="/admin/content/new?type=review"
-                  className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
-                >
-                  Create Review
-                </Link>
               </div>
             )}
           </main>

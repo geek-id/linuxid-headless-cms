@@ -1,8 +1,7 @@
 {
-  "name": "linuxid-headless-cms",
+  "name": "linuxid-static-site",
   "version": "1.0.0",
-  "description": "A modern, SEO-optimized headless CMS built with Next.js that reads content from markdown files with cloud storage integration",
-  "main": "server.js",
+  "description": "A pure static site generator built with Next.js that reads content from markdown files - zero APIs, zero database, pure static",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,28 +9,20 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
-    "verify": "node scripts/verify-setup.js",
-    "setup": "npm install && node scripts/verify-setup.js",
     "clean": "rm -rf .next out node_modules/.cache",
-    "reset": "rm -rf node_modules package-lock.json && npm install",
-    "dev:debug": "NODE_OPTIONS='--inspect' npm run dev",
-    "build:analyze": "ANALYZE=true npm run build",
-    "preview": "npm run build && npm run start"
+    "reset": "rm -rf node_modules package-lock.json && npm install"
   },
   "keywords": [
-    "headless-cms",
+    "static-site-generator",
+    "pure-static",
     "markdown",
     "nextjs",
-    "cloudflare-r2",
-    "aws-s3",
-    "image-optimization",
     "seo",
     "typescript",
-    "cms",
     "blog",
-    "static-site-generator",
     "file-based",
-    "no-database"
+    "no-database",
+    "zero-api"
   ],
   "author": {
     "name": "LinuxID",
@@ -41,21 +32,17 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/geek-id/linuxid-headless-cms.git"
+    "url": "https://github.com/geek-id/linuxid-static-site.git"
   },
   "bugs": {
-    "url": "https://github.com/geek-id/linuxid-headless-cms/issues"
+    "url": "https://github.com/geek-id/linuxid-static-site/issues"
   },
-  "homepage": "https://github.com/geek-id/linuxid-headless-cms#readme",
+  "homepage": "https://github.com/geek-id/linuxid-static-site#readme",
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.470.0",
-    "@aws-sdk/s3-request-presigner": "^3.470.0",
-    "@headlessui/react": "^1.7.17",
-    "@hookform/resolvers": "^3.3.2",
     "@tailwindcss/typography": "^0.5.16",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
@@ -63,19 +50,13 @@
     "lucide-react": "^0.294.0",
     "marked": "^9.1.6",
     "next": "14.0.4",
-    "next-auth": "^4.24.5",
     "react": "^18",
-    "react-dom": "^18",
-    "react-hook-form": "^7.48.2",
-    "sharp": "^0.32.6",
-    "uuid": "^9.0.1",
-    "zod": "^3.22.4"
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@types/uuid": "^9.0.7",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "postcss": "^8",

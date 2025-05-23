@@ -1,10 +1,11 @@
 import { getAllContent } from '@/lib/content/parser';
-import { getSiteConfig } from '@/lib/config/file-storage';
 import { BlogPost } from '@/types/content';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatDistanceToNow } from 'date-fns';
 import { Metadata } from 'next';
+import SearchBox from '@/components/SearchBox';
+import { siteConfig } from '@/lib/config/site';
 
 export const metadata: Metadata = {
   title: 'Blog Posts',
@@ -12,9 +13,24 @@ export const metadata: Metadata = {
 };
 
 export default async function PostsPage() {
-  const siteConfig = getSiteConfig();
   const allPosts = getAllContent('post') as BlogPost[];
   const publishedPosts = allPosts.filter(post => post.published);
+  
+  // Transform posts for search
+  const searchContent = publishedPosts.map(post => ({
+    id: post.id,
+    title: post.title,
+    excerpt: post.excerpt || '',
+    slug: post.slug,
+    type: 'post' as const,
+    category: post.category,
+    tags: post.tags,
+    publishedAt: new Date(post.publishedAt || post.createdAt),
+    featuredImage: post.featuredImage ? {
+      url: post.featuredImage.url,
+      alt: post.featuredImage.alt || post.title,
+    } : undefined,
+  }));
   
   // Get categories and tags for filtering
   const categories = [...new Set(publishedPosts.map(post => post.category).filter(Boolean))];
@@ -41,11 +57,8 @@ export default async function PostsPage() {
               <Link href="/" className="text-gray-600 hover:text-blue-600 font-medium">
                 ← Home
               </Link>
-              <Link href="/dashboard" className="text-gray-600 hover:text-blue-600 font-medium">
-                Dashboard
-              </Link>
-              <Link href="/admin" className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">
-                Admin
+              <Link href="/reviews" className="text-gray-600 hover:text-blue-600 font-medium">
+                Reviews
               </Link>
             </div>
           </div>
@@ -61,15 +74,12 @@ export default async function PostsPage() {
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             Discover insights, tutorials, and stories from our team
           </p>
-          <div className="flex justify-center">
-            <div className="bg-white rounded-lg shadow-sm p-2 max-w-md w-full">
-              <input
-                type="text"
-                placeholder="Search posts..."
-                className="w-full px-4 py-2 border-0 focus:ring-0 focus:outline-none"
-                id="search-input"
-              />
-            </div>
+          <div className="max-w-md mx-auto">
+            <SearchBox
+              content={searchContent}
+              placeholder="🔍 Search blog posts..."
+              className="w-full"
+            />
           </div>
         </div>
       </section>

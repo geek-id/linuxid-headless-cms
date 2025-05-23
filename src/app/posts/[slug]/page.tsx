@@ -1,27 +1,27 @@
-import { getContentBySlug, getAllContent, markdownToHtml } from '@/lib/content/parser';
-import { getSiteConfig } from '@/lib/config/file-storage';
+import { getAllContent, getContentBySlug } from '@/lib/content/parser';
 import { BlogPost } from '@/types/content';
-import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatDistanceToNow, format } from 'date-fns';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { siteConfig } from '@/lib/config/site';
 
-interface PageProps {
+type Props = {
   params: { slug: string };
-}
+};
 
 export async function generateStaticParams() {
   const posts = getAllContent('post') as BlogPost[];
   return posts
     .filter(post => post.published)
-    .map((post) => ({
+    .map(post => ({
       slug: post.slug,
     }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const post = getContentBySlug('post', params.slug) as BlogPost;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const post = getContentBySlug('post', params.slug) as BlogPost | null;
   
   if (!post || !post.published) {
     return {
@@ -29,52 +29,43 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const siteConfig = getSiteConfig();
-
   return {
-    title: post.seo.title || post.title,
-    description: post.seo.description || post.excerpt,
-    keywords: post.seo.keywords,
-    authors: post.author ? [{ name: post.author.name }] : undefined,
+    title: post.seo?.title || post.title,
+    description: post.seo?.description || post.excerpt,
+    keywords: post.seo?.keywords?.join(', ') || post.tags?.join(', '),
     openGraph: {
-      title: post.seo.ogTitle || post.title,
-      description: post.seo.ogDescription || post.excerpt,
-      type: 'article',
-      publishedTime: post.publishedAt?.toISOString(),
-      modifiedTime: post.updatedAt.toISOString(),
-      images: post.featuredImage ? [post.featuredImage.url] : undefined,
-      siteName: siteConfig.siteName,
+      title: post.seo?.ogTitle || post.title,
+      description: post.seo?.ogDescription || post.excerpt,
+      images: post.featuredImage ? [post.featuredImage.url] : [],
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.seo.twitterTitle || post.title,
-      description: post.seo.twitterDescription || post.excerpt,
-      images: post.featuredImage ? [post.featuredImage.url] : undefined,
+      title: post.seo?.twitterTitle || post.title,
+      description: post.seo?.twitterDescription || post.excerpt,
+      images: post.featuredImage ? [post.featuredImage.url] : [],
     },
   };
 }
 
-export default async function BlogPostPage({ params }: PageProps) {
-  const post = getContentBySlug('post', params.slug) as BlogPost;
+export default async function PostPage({ params }: Props) {
+  const post = getContentBySlug('post', params.slug) as BlogPost | null;
   
   if (!post || !post.published) {
     notFound();
   }
 
-  const siteConfig = getSiteConfig();
-  const html = await markdownToHtml(post.content);
-  
   // Get related posts
   const allPosts = getAllContent('post') as BlogPost[];
   const relatedPosts = allPosts
-    .filter(p => p.published && p.id !== post.id && (
-      p.category === post.category || 
-      p.tags?.some(tag => post.tags?.includes(tag))
-    ))
+    .filter(p => 
+      p.published && 
+      p.id !== post.id && 
+      (p.category === post.category || p.tags?.some(tag => post.tags?.includes(tag)))
+    )
     .slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
       <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,10 +75,10 @@ export default async function BlogPostPage({ params }: PageProps) {
             </Link>
             <div className="flex items-center space-x-4">
               <Link href="/posts" className="text-gray-600 hover:text-blue-600 font-medium">
-                ← Back to Posts
+                ← All Posts
               </Link>
-              <Link href="/admin" className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">
-                Admin
+              <Link href="/" className="text-gray-600 hover:text-blue-600 font-medium">
+                Home
               </Link>
             </div>
           </div>
@@ -175,7 +166,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         {/* Article Content */}
         <div 
           className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 prose-strong:text-gray-900 prose-code:text-pink-600 prose-pre:bg-gray-900 prose-img:rounded-lg"
-          dangerouslySetInnerHTML={{ __html: html }}
+          dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
         {/* Tags */}

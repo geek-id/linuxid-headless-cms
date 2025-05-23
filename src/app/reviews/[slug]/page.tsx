@@ -1,11 +1,11 @@
-import { getContentBySlug, getAllContent, markdownToHtml } from '@/lib/content/parser';
-import { getSiteConfig } from '@/lib/config/file-storage';
+import { getAllContent, getContentBySlug } from '@/lib/content/parser';
 import { Review } from '@/types/content';
-import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatDistanceToNow, format } from 'date-fns';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { siteConfig } from '@/lib/config/site';
 
 interface PageProps {
   params: { slug: string };
@@ -28,8 +28,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: 'Review Not Found',
     };
   }
-
-  const siteConfig = getSiteConfig();
 
   return {
     title: review.seo.title || review.title,
@@ -61,9 +59,6 @@ export default async function ReviewPage({ params }: PageProps) {
     notFound();
   }
 
-  const siteConfig = getSiteConfig();
-  const html = await markdownToHtml(review.content);
-  
   // Get related reviews
   const allReviews = getAllContent('review') as Review[];
   const relatedReviews = allReviews
@@ -87,9 +82,6 @@ export default async function ReviewPage({ params }: PageProps) {
             <div className="flex items-center space-x-4">
               <Link href="/reviews" className="text-gray-600 hover:text-blue-600 font-medium">
                 ← Back to Reviews
-              </Link>
-              <Link href="/admin" className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">
-                Admin
               </Link>
             </div>
           </div>
@@ -201,8 +193,9 @@ export default async function ReviewPage({ params }: PageProps) {
         {/* Review Content */}
         <div 
           className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 prose-strong:text-gray-900 prose-code:text-pink-600 prose-pre:bg-gray-900 prose-img:rounded-lg"
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
+        >
+          {review.content}
+        </div>
 
         {/* Tags */}
         {review.tags && review.tags.length > 0 && (

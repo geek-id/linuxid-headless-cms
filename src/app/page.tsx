@@ -1,18 +1,16 @@
 import { getAllContent } from '@/lib/content/parser';
-import { getSiteConfig } from '@/lib/config/file-storage';
-import { ContentType, BlogPost } from '@/types/content';
+import { ContentType, BlogPost, Review, Page } from '@/types/content';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatDistanceToNow } from 'date-fns';
+import HomePageSearch from '@/components/HomePageSearch';
+import { siteConfig } from '@/lib/config/site';
 
 export default async function HomePage() {
-  // Get site configuration
-  const siteConfig = getSiteConfig();
-  
   // Get latest content
   const allPosts = getAllContent('post') as BlogPost[];
-  const allPages = getAllContent('page');
-  const allReviews = getAllContent('review');
+  const allPages = getAllContent('page') as Page[];
+  const allReviews = getAllContent('review') as Review[];
   
   // Filter published content
   const publishedPosts = allPosts.filter(post => post.published);
@@ -42,12 +40,6 @@ export default async function HomePage() {
                 <Link href="/reviews" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                   Reviews
                 </Link>
-                <Link href="/dashboard" className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Dashboard
-                </Link>
-                <Link href="/admin" className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                  Admin
-                </Link>
               </div>
             </div>
           </div>
@@ -66,6 +58,16 @@ export default async function HomePage() {
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             {siteConfig.description}
           </p>
+          
+          {/* Search Box */}
+          <div className="mb-8">
+            <HomePageSearch 
+              posts={allPosts}
+              reviews={allReviews}
+              pages={allPages}
+            />
+          </div>
+          
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/posts"
@@ -74,10 +76,10 @@ export default async function HomePage() {
               Read Our Blog
             </Link>
             <Link
-              href="/dashboard"
+              href="/reviews"
               className="border border-gray-300 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
             >
-              View Dashboard
+              Browse Reviews
             </Link>
           </div>
         </div>
@@ -245,7 +247,7 @@ export default async function HomePage() {
       <footer className="bg-white border-t border-gray-200 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-gray-600">
-            © 2024 {siteConfig.siteName}. Built with Next.js and powered by LinuxID Headless CMS.
+            © 2024 {siteConfig.siteName}. Built with Next.js.
           </p>
         </div>
       </footer>
