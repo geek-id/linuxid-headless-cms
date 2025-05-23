@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "linuxid-headless-cms",
   "version": "1.0.0",
   "description": "A modern, SEO-optimized headless CMS built with Next.js that reads content from markdown files with cloud storage integration",
@@ -62,26 +61,10 @@
     "@aws-sdk/s3-request-presigner": "^3.470.0",
     "sharp": "^0.32.6",
     "uuid": "^9.0.1"
-=======
-  "name": "headless-cms",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.1.8"
->>>>>>> e788a90 (Initial commit from Create Next App)
   },
   "devDependencies": {
     "typescript": "^5",
     "@types/node": "^20",
-<<<<<<< HEAD
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/uuid": "^9.0.7",
@@ -89,14 +72,5 @@
     "tailwindcss": "^3.3.0",
     "eslint": "^8",
     "eslint-config-next": "14.0.4"
-=======
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-    "eslint": "^9",
-    "eslint-config-next": "15.1.8",
-    "@eslint/eslintrc": "^3"
->>>>>>> e788a90 (Initial commit from Create Next App)
   }
 }
