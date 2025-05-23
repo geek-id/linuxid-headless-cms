@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Deploy LinuxID Headless CMS to Cloudflare Pages
 
 on:
   push:
@@ -23,44 +23,57 @@ jobs:
       - name: Install dependencies
         run: npm ci
         
+      - name: Run linting
+        run: npm run lint --if-present
+        
+      - name: Run type checking
+        run: npm run type-check --if-present
+        
       - name: Run tests
         run: npm run test --if-present
+        
+      - name: Initialize file-based configuration
+        run: |
+          mkdir -p .config
+          echo '{"siteName":"LinuxID Headless CMS","siteUrl":"${{ secrets.SITE_URL || 'https://your-domain.com' }}","description":"A modern headless CMS built with Next.js","defaultSEO":{"title":"LinuxID Headless CMS","description":"Modern, SEO-optimized headless CMS with cloud storage","keywords":["cms","headless","nextjs","markdown","seo"]},"adminEmails":["${{ secrets.ADMIN_EMAILS }}"],"theme":{"primaryColor":"#3b82f6"},"features":{"enableComments":false,"enableAnalytics":false,"enableSearch":true}}' > .config/site.json
+          echo '{"uploadSettings":{"maxFileSize":10485760,"allowedImageTypes":["image/jpeg","image/png","image/webp","image/gif"],"imageQuality":85},"contentSettings":{"defaultContentType":"post","enableDrafts":true,"autoSave":true},"seoSettings":{"enableSitemap":true,"enableRobots":true,"enableAnalytics":false}}' > .config/admin.json
         
       - name: Build application
         run: npm run build
         env:
-          # Authentication
+          # Authentication - Required for OAuth
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           GITHUB_ID: ${{ secrets.GITHUB_ID }}
           GITHUB_SECRET: ${{ secrets.GITHUB_SECRET }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          
+          # Admin Configuration - File-based system
           ADMIN_EMAILS: ${{ secrets.ADMIN_EMAILS }}
           
-          # Site Configuration
-          SITE_NAME: ${{ secrets.SITE_NAME }}
+          # Site Configuration - For public website
+          SITE_NAME: ${{ secrets.SITE_NAME || 'LinuxID Headless CMS' }}
           SITE_URL: ${{ secrets.SITE_URL }}
           
-          # Cloud Storage Configuration
-          STORAGE_PROVIDER: ${{ secrets.STORAGE_PROVIDER }}
+          # Cloud Storage Configuration - Choose ONE provider
+          STORAGE_PROVIDER: ${{ secrets.STORAGE_PROVIDER || 'cloudflare_r2' }}
           
-          # Cloudflare R2
+          # Cloudflare R2 (Recommended - Zero egress fees)
           CLOUDFLARE_R2_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_R2_ACCOUNT_ID }}
           CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
           CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
           CLOUDFLARE_R2_BUCKET_NAME: ${{ secrets.CLOUDFLARE_R2_BUCKET_NAME }}
           CLOUDFLARE_R2_PUBLIC_URL: ${{ secrets.CLOUDFLARE_R2_PUBLIC_URL }}
           
-          # AWS S3
+          # AWS S3 (Alternative option)
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
           AWS_S3_PUBLIC_URL: ${{ secrets.AWS_S3_PUBLIC_URL }}
           
-          # S3-Compatible Storage
+          # S3-Compatible Storage (DigitalOcean, Linode, etc.)
           S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
           S3_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
           S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
@@ -68,17 +81,67 @@ jobs:
           S3_PUBLIC_URL: ${{ secrets.S3_PUBLIC_URL }}
           S3_REGION: ${{ secrets.S3_REGION }}
           
-          # Image Processing
-          MAX_IMAGE_SIZE: ${{ secrets.MAX_IMAGE_SIZE }}
-          ALLOWED_IMAGE_TYPES: ${{ secrets.ALLOWED_IMAGE_TYPES }}
-          IMAGE_QUALITY: ${{ secrets.IMAGE_QUALITY }}
+          # Image Processing Configuration
+          MAX_IMAGE_SIZE: ${{ secrets.MAX_IMAGE_SIZE || '10485760' }}
+          ALLOWED_IMAGE_TYPES: ${{ secrets.ALLOWED_IMAGE_TYPES || 'image/jpeg,image/png,image/webp,image/gif' }}
+          IMAGE_QUALITY: ${{ secrets.IMAGE_QUALITY || '85' }}
+          
+          # Performance Optimization
+          NODE_ENV: production
+          
+      - name: Generate sitemap (if enabled)
+        run: |
+          if [ -f "scripts/generate-sitemap.js" ]; then
+            node scripts/generate-sitemap.js
+          fi
+        continue-on-error: true
+        
+      - name: Verify build output
+        run: |
+          echo "✅ Build completed successfully"
+          echo "📁 Build output directory:"
+          ls -la out/
+          echo "📄 Key files:"
+          ls -la out/*.html || true
+          echo "📊 Build size:"
+          du -sh out/
           
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: headless-cms
+          projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME || 'linuxid-headless-cms' }}
           directory: out
           # Optional: Use a custom domain
-          # customDomain: your-domain.com 
+          # customDomain: ${{ secrets.CUSTOM_DOMAIN }}
+          
+      - name: Post-deployment verification
+        run: |
+          echo "🚀 Deployment completed!"
+          echo "🌐 Your website should be available at: ${{ secrets.SITE_URL }}"
+          echo "📊 Dashboard: ${{ secrets.SITE_URL }}/dashboard"
+          echo "⚙️ Admin Panel: ${{ secrets.SITE_URL }}/admin"
+          echo "📝 Blog: ${{ secrets.SITE_URL }}/posts"
+          echo "⭐ Reviews: ${{ secrets.SITE_URL }}/reviews"
+
+  # Optional: Run lighthouse performance audit
+  lighthouse-audit:
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            ${{ secrets.SITE_URL }}
+            ${{ secrets.SITE_URL }}/posts
+            ${{ secrets.SITE_URL }}/dashboard
+          configPath: './.lighthouserc.json'
+          temporaryPublicStorage: true
+        continue-on-error: true 
