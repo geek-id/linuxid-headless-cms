@@ -1,8 +1,12 @@
 ---
 title: "CloudVPS Review: The Best VPS Hosting for 2024"
+slug: "cloudvps-review-the-best-vps-hosting-for-2024"
 date: "2024-01-25"
+published: true
+featured: true
+rating: 5
 author: "Jane Doe"
-featuredImage: "https://your-bucket.your-domain.com/images/2024-01-25/cloudvps-featured.jpg"
+featuredImage: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop&crop=center"
 excerpt: "Discover why CloudVPS is the top choice for VPS hosting in 2024 with its unmatched performance, reliability, and customer support."
 category: "Review"
 tags: ["VPS Hosting", "CloudVPS", "2024 Reviews"]
@@ -51,6 +55,6 @@ CloudVPS provides competitive pricing plans to suit different needs and budgets.
 
 CloudVPS is the best VPS hosting provider for 2024, offering a perfect blend of performance, reliability, and support. Whether you're a small business or a large enterprise, CloudVPS has the solutions to power your online presence.
 
-![CloudVPS Dashboard](https://your-bucket.your-domain.com/images/2024-01-25/cloudvps-dashboard.jpg)
+![CloudVPS Dashboard](https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop&crop=center)
 
 For more information, visit [CloudVPS](https://cloudvps.example.com) and experience the best in VPS hosting today!
