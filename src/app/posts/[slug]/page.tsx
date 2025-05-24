@@ -6,7 +6,7 @@ import { formatDistanceToNow, format } from 'date-fns';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { siteConfig } from '@/lib/config/site';
-import ThemeToggle from '@/components/ThemeToggle';
+import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import TableOfContents from '@/components/TableOfContents';
 
@@ -72,21 +72,7 @@ export default async function PostPage({ params }: Props) {
   return (
     <div>
       {/* Header */}
-      <header className="header">
-        <nav className="nav container">
-          <Link href="/" className="logo">
-            {siteConfig.siteName}
-          </Link>
-          <ul className="nav-menu">
-            <li><Link href="/" className="nav-link">Home</Link></li>
-            <li><Link href="/posts" className="nav-link active">Blog</Link></li>
-            <li><Link href="/reviews" className="nav-link">Reviews</Link></li>
-            <li><Link href="/about" className="nav-link">About</Link></li>
-          </ul>
-          <ThemeToggle />
-          <button className="mobile-menu-btn">☰</button>
-        </nav>
-      </header>
+      <Header />
 
       {/* Article Header */}
       <header className="article-header">
@@ -184,7 +170,7 @@ export default async function PostPage({ params }: Props) {
                       src={post.featuredImage.url}
                       alt={post.featuredImage.alt || post.title}
                       fill
-                      className="object-cover"
+                      style={{ objectFit: 'cover' }}
                       priority
                     />
                   </div>
@@ -296,16 +282,6 @@ export default async function PostPage({ params }: Props) {
             }}>
               {relatedPosts.map((relatedPost) => (
                 <article key={relatedPost.id} className="post-card">
-                  {relatedPost.featuredImage && (
-                    <div className="post-image">
-                      <Image
-                        src={relatedPost.featuredImage.url}
-                        alt={relatedPost.featuredImage.alt || relatedPost.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
                   <div className="post-content">
                     <div className="post-meta">
                       <span>{formatDistanceToNow(relatedPost.publishedAt || relatedPost.createdAt)} ago</span>

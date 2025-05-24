@@ -4,8 +4,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { formatDistanceToNow } from 'date-fns';
 import { siteConfig } from '@/lib/config/site';
-import ThemeToggle from '@/components/ThemeToggle';
+import Header from '@/components/Header';
 import HomePageSearch from '@/components/HomePageSearch';
+import HomeContentSection from '@/components/HomeContentSection';
 import Footer from '@/components/Footer';
 import { Search, ArrowRight, Calendar, Tag } from 'lucide-react';
 
@@ -17,8 +18,9 @@ export default async function HomePage() {
   
   // Filter published content
   const publishedPosts = allPosts.filter(post => post.published);
+  const publishedReviews = allReviews.filter(review => review.published);
   const latestPosts = publishedPosts.slice(0, 6);
-  const latestReviews = allReviews.filter(review => review.published).slice(0, 5);
+  const latestReviews = publishedReviews.slice(0, 5);
 
   // Get all unique tags for trending tags
   const allTags = [...allPosts, ...allReviews, ...allPages]
@@ -36,21 +38,7 @@ export default async function HomePage() {
   return (
     <div>
       {/* Header */}
-      <header className="header">
-        <nav className="nav container">
-          <Link href="/" className="logo">
-            {siteConfig.siteName}
-          </Link>
-          <ul className="nav-menu">
-            <li><Link href="/" className="nav-link active">Home</Link></li>
-            <li><Link href="/posts" className="nav-link">Blog</Link></li>
-            <li><Link href="/reviews" className="nav-link">Reviews</Link></li>
-            <li><Link href="/about" className="nav-link">About</Link></li>
-          </ul>
-          <ThemeToggle />
-          <button className="mobile-menu-btn">☰</button>
-        </nav>
-      </header>
+      <Header />
 
       {/* Hero Section */}
       <section className="hero">
@@ -72,59 +60,10 @@ export default async function HomePage() {
             <section className="posts-section">
               <h2>Latest Solutions & Insights</h2>
               
-              {latestPosts.map((post) => (
-                <article key={post.id} className="post-card">
-                  <div className="post-image">
-                    {post.featuredImage ? (
-                      <Image
-                        src={post.featuredImage.url}
-                        alt={post.featuredImage.alt || post.title}
-                        width={800}
-                        height={200}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover'
-                        }}
-                      />
-                    ) : (
-                      <Image
-                        src="/static/img/default-post.svg"
-                        alt="Default post image"
-                        width={800}
-                        height={200}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover'
-                        }}
-                      />
-                    )}
-                  </div>
-                  <div className="post-content">
-                    <div className="post-meta">
-                      <span>{formatDistanceToNow(post.publishedAt || post.createdAt)} ago</span>
-                      {post.category && (
-                        <span className="post-tag">{post.category}</span>
-                      )}
-                      {post.tags && post.tags.slice(0, 2).map(tag => (
-                        <span key={tag} className="post-tag">{tag}</span>
-                      ))}
-                    </div>
-                    <h3 className="post-title">
-                      <Link href={`/posts/${post.slug}`}>
-                        {post.title}
-                      </Link>
-                    </h3>
-                    <p className="post-excerpt">
-                      {post.excerpt}
-                    </p>
-                    <Link href={`/posts/${post.slug}`} className="read-more">
-                      Read solution <ArrowRight className="inline w-3 h-3 ml-1" />
-                    </Link>
-                  </div>
-                </article>
-              ))}
+              <HomeContentSection 
+                posts={publishedPosts}
+                reviews={publishedReviews}
+              />
             </section>
 
             <aside className="sidebar">
@@ -132,7 +71,7 @@ export default async function HomePage() {
                 <h3><Search className="inline w-4 h-4 mr-2" />Search Content</h3>
                 <HomePageSearch 
                   posts={publishedPosts}
-                  reviews={allReviews.filter(review => review.published)}
+                  reviews={publishedReviews}
                   pages={allPages.filter(page => page.published)}
                 />
               </div>
@@ -175,7 +114,7 @@ export default async function HomePage() {
                             </span>
                           )}
                         </Link>
-          </li>
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -194,7 +133,7 @@ export default async function HomePage() {
       <Footer 
         latestPosts={latestPosts.map(post => ({ title: post.title, slug: post.slug }))}
         popularTags={trendingTags}
-          />
+      />
     </div>
   );
 }

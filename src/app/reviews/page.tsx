@@ -6,7 +6,8 @@ import { formatDistanceToNow, format } from 'date-fns';
 import { Metadata } from 'next';
 import SearchBox from '@/components/SearchBox';
 import { siteConfig } from '@/lib/config/site';
-import ThemeToggle from '@/components/ThemeToggle';
+import Header from '@/components/Header';
+import ReviewsGrid from '@/components/ReviewsGrid';
 import Footer from '@/components/Footer';
 import { Star, Search, BarChart3, CheckCircle, Trophy, Edit, Target, Gem, Calendar } from 'lucide-react';
 
@@ -17,14 +18,14 @@ export const metadata: Metadata = {
 
 // Color schemes for review cards
 const reviewCardColors = [
-  { bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', icon: '⭐' }, // Purple gradient
-  { bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', icon: '🔍' }, // Pink gradient  
-  { bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', icon: '📊' }, // Blue gradient
-  { bg: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', icon: '✅' }, // Green gradient
-  { bg: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', icon: '🏆' }, // Orange gradient
-  { bg: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', icon: '📝' }, // Light gradient
-  { bg: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)', icon: '🎯' }, // Soft pink
-  { bg: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', icon: '💎' }, // Peach
+  { bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }, // Purple gradient
+  { bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' }, // Pink gradient  
+  { bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' }, // Blue gradient
+  { bg: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' }, // Green gradient
+  { bg: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' }, // Orange gradient
+  { bg: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)' }, // Light gradient
+  { bg: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)' }, // Soft pink
+  { bg: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)' }, // Peach
 ];
 
 function getReviewCardStyle(index: number) {
@@ -60,26 +61,18 @@ export default async function ReviewsPage() {
 
   // Separate featured and regular reviews
   const featuredReviews = publishedReviews.filter(review => review.featured);
-  const regularReviews = publishedReviews.filter(review => !review.featured);
+
+  // Sort all reviews by date for pagination
+  const sortedReviews = publishedReviews.sort((a, b) => {
+    const dateA = new Date(a.publishedAt || a.createdAt);
+    const dateB = new Date(b.publishedAt || b.createdAt);
+    return dateB.getTime() - dateA.getTime(); // Latest published first (descending order)
+  });
 
   return (
     <div>
       {/* Header */}
-      <header className="header">
-        <nav className="nav container">
-          <Link href="/" className="logo">
-            {siteConfig.siteName}
-          </Link>
-          <ul className="nav-menu">
-            <li><Link href="/" className="nav-link">Home</Link></li>
-            <li><Link href="/posts" className="nav-link">Blog</Link></li>
-            <li><Link href="/reviews" className="nav-link active">Reviews</Link></li>
-            <li><Link href="/about" className="nav-link">About</Link></li>
-          </ul>
-          <ThemeToggle />
-          <button className="mobile-menu-btn">☰</button>
-        </nav>
-      </header>
+      <Header />
 
       {/* Page Header */}
       <section style={{ 
@@ -186,18 +179,59 @@ export default async function ReviewsPage() {
                         '--card-bg': cardStyle.bg 
                       } as React.CSSProperties}
                     >
-                      {/* Icon */}
-                      <div style={{ 
-                        fontSize: '3rem', 
-                        textAlign: 'center',
-                        marginBottom: '1rem',
-                        opacity: '0.9'
-                      }}>
-                        {cardStyle.icon}
-                      </div>
+                      {/* Featured Image */}
+                      {review.featuredImage ? (
+                        <div style={{ 
+                          width: 'calc(100% + 4rem)',
+                          height: '250px',
+                          borderRadius: '1rem 1rem 0 0',
+                          overflow: 'hidden',
+                          marginBottom: '0',
+                          position: 'relative',
+                          marginTop: '-2rem',
+                          marginLeft: '-2rem',
+                          marginRight: '-2rem'
+                        }}>
+                          <Image
+                            src={review.featuredImage.url}
+                            alt={review.featuredImage.alt || review.title}
+                            width={800}
+                            height={250}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover'
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <div style={{ 
+                          width: 'calc(100% + 4rem)',
+                          height: '250px',
+                          borderRadius: '1rem 1rem 0 0',
+                          overflow: 'hidden',
+                          marginBottom: '0',
+                          position: 'relative',
+                          marginTop: '-2rem',
+                          marginLeft: '-2rem',
+                          marginRight: '-2rem'
+                        }}>
+                          <Image
+                            src="/static/img/default-review.svg"
+                            alt="Default review image"
+                            width={800}
+                            height={250}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover'
+                            }}
+                          />
+                        </div>
+                      )}
                       
                       {/* Content */}
-                      <div>
+                      <div style={{ marginTop: '2rem' }}>
                         <div style={{ 
                           fontSize: '0.875rem', 
                           opacity: '0.9', 
@@ -249,7 +283,7 @@ export default async function ReviewsPage() {
             </section>
           )}
 
-          {/* All Reviews Grid */}
+          {/* All Reviews Grid with Pagination */}
           <section>
             <h2 style={{ 
               fontSize: '1.75rem', 
@@ -260,107 +294,7 @@ export default async function ReviewsPage() {
               All Reviews
             </h2>
             
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
-              gap: '1.5rem'
-            }}>
-              {regularReviews.map((review, index) => {
-                const cardStyle = getReviewCardStyle(index + featuredReviews.length);
-                const rating = 'rating' in review ? (review as any).rating : 0;
-                return (
-                  <Link 
-                    key={review.id} 
-                    href={`/reviews/${review.slug}`}
-                    className="regular-card"
-                    style={{ 
-                      '--card-bg': cardStyle.bg 
-                    } as React.CSSProperties}
-                  >
-                    {/* Icon */}
-                    <div style={{ 
-                      fontSize: '2.5rem', 
-                      textAlign: 'center',
-                      marginBottom: '1rem',
-                      opacity: '0.9'
-                    }}>
-                      {cardStyle.icon}
-                    </div>
-                    
-                    {/* Content */}
-                    <div>
-                      <div style={{ 
-                        fontSize: '0.8rem', 
-                        opacity: '0.9', 
-                        marginBottom: '0.75rem',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between'
-                      }}>
-                        <span>{format(review.publishedAt || review.createdAt, 'MMM d, yyyy')}</span>
-                        {rating > 0 && (
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                            <span style={{ fontSize: '1rem' }}>⭐</span>
-                            <span style={{ fontWeight: '600', fontSize: '0.85rem' }}>{rating}/5</span>
-                          </div>
-                        )}
-                      </div>
-                      
-                      <h3 style={{ 
-                        fontSize: '1.25rem', 
-                        fontWeight: '600', 
-                        marginBottom: '0.75rem',
-                        lineHeight: '1.3'
-                      }}>
-                        {review.title}
-                      </h3>
-                      
-                      <p style={{ 
-                        opacity: '0.9', 
-                        fontSize: '0.9rem',
-                        lineHeight: '1.5',
-                        marginBottom: '1rem'
-                      }}>
-                        {review.excerpt}
-                      </p>
-                      
-                      {/* Tags */}
-                      {review.tags && review.tags.length > 0 && (
-                        <div style={{ 
-                          display: 'flex', 
-                          flexWrap: 'wrap', 
-                          gap: '0.5rem',
-                          marginBottom: '1rem'
-                        }}>
-                          {review.tags.slice(0, 3).map(tag => (
-                            <span key={tag} style={{ 
-                              background: 'rgba(255,255,255,0.2)', 
-                              padding: '0.25rem 0.5rem',
-                              borderRadius: '0.25rem',
-                              fontSize: '0.75rem',
-                              fontWeight: '500'
-                            }}>
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Author */}
-                      {review.author && (
-                        <div style={{ 
-                          fontSize: '0.8rem', 
-                          opacity: '0.8',
-                          fontStyle: 'italic'
-                        }}>
-                          Reviewed by {review.author.name}
-                        </div>
-                      )}
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
+            <ReviewsGrid reviews={sortedReviews} />
 
             {/* Empty State */}
             {publishedReviews.length === 0 && (

@@ -70,6 +70,7 @@ function parseImageMetadata(imageData: string | ImageMetadata | undefined): Imag
     return {
       url: imageData,
       key: extractKeyFromUrl(imageData),
+      alt: '', // Provide default alt text
     };
   }
   

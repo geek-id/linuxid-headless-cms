@@ -6,7 +6,7 @@ import { formatDistanceToNow, format } from 'date-fns';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { siteConfig } from '@/lib/config/site';
-import ThemeToggle from '@/components/ThemeToggle';
+import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import TableOfContents from '@/components/TableOfContents';
 
@@ -92,21 +92,7 @@ export default async function ReviewPage({ params }: Props) {
   return (
     <div>
       {/* Header */}
-      <header className="header">
-        <nav className="nav container">
-          <Link href="/" className="logo">
-            {siteConfig.siteName}
-          </Link>
-          <ul className="nav-menu">
-            <li><Link href="/" className="nav-link">Home</Link></li>
-            <li><Link href="/posts" className="nav-link">Blog</Link></li>
-            <li><Link href="/reviews" className="nav-link active">Reviews</Link></li>
-            <li><Link href="/about" className="nav-link">About</Link></li>
-          </ul>
-          <ThemeToggle />
-          <button className="mobile-menu-btn">☰</button>
-        </nav>
-      </header>
+      <Header />
 
       {/* Article Header */}
       <header className="article-header">
@@ -219,7 +205,7 @@ export default async function ReviewPage({ params }: Props) {
                       src={review.featuredImage.url}
                       alt={review.featuredImage.alt || review.title}
                       fill
-                      className="object-cover"
+                      style={{ objectFit: 'cover' }}
                       priority
                     />
                   </div>
@@ -379,16 +365,6 @@ export default async function ReviewPage({ params }: Props) {
                 const relatedRating = 'rating' in relatedReview ? (relatedReview as any).rating : 0;
                 return (
                   <article key={relatedReview.id} className="post-card">
-                    {relatedReview.featuredImage && (
-                      <div className="post-image">
-                        <Image
-                          src={relatedReview.featuredImage.url}
-                          alt={relatedReview.featuredImage.alt || relatedReview.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    )}
                     <div className="post-content">
                       <div className="post-meta">
                         <span>{formatDistanceToNow(relatedReview.publishedAt || relatedReview.createdAt)} ago</span>

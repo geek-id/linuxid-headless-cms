@@ -6,7 +6,7 @@ import { formatDistanceToNow, format } from 'date-fns';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { siteConfig } from '@/lib/config/site';
-import ThemeToggle from '@/components/ThemeToggle';
+import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 type Props = {
@@ -59,21 +59,7 @@ export default async function PageRoute({ params }: Props) {
   return (
     <div>
       {/* Header */}
-      <header className="header">
-        <nav className="nav container">
-          <Link href="/" className="logo">
-            {siteConfig.siteName}
-          </Link>
-          <ul className="nav-menu">
-            <li><Link href="/" className="nav-link">Home</Link></li>
-            <li><Link href="/posts" className="nav-link">Blog</Link></li>
-            <li><Link href="/reviews" className="nav-link">Reviews</Link></li>
-            <li><Link href="/about" className={`nav-link ${params.slug === 'about' ? 'active' : ''}`}>About</Link></li>
-          </ul>
-          <ThemeToggle />
-          <button className="mobile-menu-btn">☰</button>
-        </nav>
-      </header>
+      <Header />
 
       {/* Article Header */}
       <header className="article-header">
@@ -104,7 +90,7 @@ export default async function PageRoute({ params }: Props) {
                   src={page.featuredImage.url}
                   alt={page.featuredImage.alt || page.title}
                   fill
-                  className="object-cover"
+                  style={{ objectFit: 'cover' }}
                   priority
                 />
               </div>
