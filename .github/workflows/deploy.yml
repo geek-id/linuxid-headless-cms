@@ -107,7 +107,7 @@ jobs:
           projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME || 'linuxid-static-site' }}
           directory: out
           # Optional: Use a custom domain
-          # customDomain: ${{ secrets.CUSTOM_DOMAIN }}
+          customDomain: ${{ secrets.CUSTOM_DOMAIN }}
           
       - name: Post-deployment verification
         run: |
