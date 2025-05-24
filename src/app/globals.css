@@ -989,5 +989,201 @@ body {
 }
 
 .article-content .language-env {
-    color: var(--accent);
+    background: #2d3748;
+    color: #e2e8f0;
+}
+
+/* Table of Contents Functionality */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+}
+
+/* TOC Heading Anchors */
+.article-content h1[id],
+.article-content h2[id],
+.article-content h3[id],
+.article-content h4[id],
+.article-content h5[id],
+.article-content h6[id] {
+    scroll-margin-top: 6rem;
+    position: relative;
+}
+
+.article-content h1[id]:hover::before,
+.article-content h2[id]:hover::before,
+.article-content h3[id]:hover::before,
+.article-content h4[id]:hover::before,
+.article-content h5[id]:hover::before,
+.article-content h6[id]:hover::before {
+    content: '#';
+    position: absolute;
+    left: -2rem;
+    color: var(--primary);
+    font-weight: 400;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+/* TOC Specific Responsive Design */
+@media (max-width: 1024px) {
+    .toc-sidebar {
+        position: static !important;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .toc-sidebar {
+        padding: 1rem !important;
+    }
+    
+    .toc-sidebar .share-buttons {
+        flex-direction: column;
+    }
+    
+    .toc-sidebar .share-button {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+/* Table of Contents Component Styles */
+.toc-sidebar {
+    position: sticky;
+    top: 2rem;
+    background: var(--bg-secondary);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+}
+
+.toc-section {
+    margin-bottom: 2rem;
+}
+
+.toc-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.toc-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.toc-item {
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.2s ease;
+    line-height: 1.4;
+}
+
+.toc-item:hover {
+    color: var(--primary);
+}
+
+.toc-item.active {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.share-section {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.share-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.share-button {
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.share-button:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+
+/* TOC Scrollbar styling */
+.toc-sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.toc-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.toc-sidebar::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 2px;
+}
+
+.toc-sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* Post Layout Styles */
+.post-layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 3rem;
+    align-items: start;
+}
+
+.post-main {
+    min-width: 0; /* Prevent grid overflow */
+}
+
+.post-sidebar {
+    min-width: 0; /* Prevent grid overflow */
+}
+
+/* Post Layout Responsive */
+@media (max-width: 1024px) {
+    .post-layout {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+    
+    .post-sidebar {
+        order: -1; /* Move sidebar above content on mobile */
+    }
 }

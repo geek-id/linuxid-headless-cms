@@ -8,6 +8,7 @@ import { notFound } from 'next/navigation';
 import { siteConfig } from '@/lib/config/site';
 import ThemeToggle from '@/components/ThemeToggle';
 import Footer from '@/components/Footer';
+import TableOfContents from '@/components/TableOfContents';
 
 type Props = {
   params: { slug: string };
@@ -65,6 +66,8 @@ export default async function PostPage({ params }: Props) {
       (p.category === post.category || p.tags?.some(tag => post.tags?.includes(tag)))
     )
     .slice(0, 3);
+
+  const postUrl = `${siteConfig.siteUrl}/posts/${post.slug}`;
 
   return (
     <div>
@@ -161,127 +164,108 @@ export default async function PostPage({ params }: Props) {
         </div>
       </header>
 
-      {/* Main Content */}
+      {/* Main Content with Sidebar */}
       <main className="main">
         <div className="container">
-          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-            {/* Featured Image */}
-            {post.featuredImage && (
-              <div style={{ marginBottom: '3rem' }}>
-                <div style={{ 
-                  aspectRatio: '16/9', 
-                  position: 'relative', 
-                  borderRadius: '0.5rem', 
-                  overflow: 'hidden',
-                  boxShadow: 'var(--shadow-lg)'
-                }}>
-                  <Image
-                    src={post.featuredImage.url}
-                    alt={post.featuredImage.alt || post.title}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                </div>
-                {post.featuredImage.caption && (
-                  <p style={{ 
-                    textAlign: 'center', 
-                    marginTop: '0.5rem', 
-                    fontSize: '0.9rem', 
-                    color: 'var(--text-muted)', 
-                    fontStyle: 'italic' 
+          <div className="post-layout">
+            {/* Main Article Content */}
+            <div className="post-main">
+              {/* Featured Image */}
+              {post.featuredImage && (
+                <div style={{ marginBottom: '3rem' }}>
+                  <div style={{ 
+                    aspectRatio: '16/9', 
+                    position: 'relative', 
+                    borderRadius: '0.5rem', 
+                    overflow: 'hidden',
+                    boxShadow: 'var(--shadow-lg)'
                   }}>
-                    {post.featuredImage.caption}
-                  </p>
-                )}
-              </div>
-            )}
+                    <Image
+                      src={post.featuredImage.url}
+                      alt={post.featuredImage.alt || post.title}
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                  {post.featuredImage.caption && (
+                    <p style={{ 
+                      textAlign: 'center', 
+                      marginTop: '0.5rem', 
+                      fontSize: '0.9rem', 
+                      color: 'var(--text-muted)', 
+                      fontStyle: 'italic' 
+                    }}>
+                      {post.featuredImage.caption}
+                    </p>
+                  )}
+                </div>
+              )}
 
-            {/* Article Content */}
-            <article className="article-content">
-              <div dangerouslySetInnerHTML={{ __html: post.content }} />
-            </article>
+              {/* Article Content */}
+              <article className="article-content">
+                <div dangerouslySetInnerHTML={{ __html: post.content }} />
+              </article>
 
-            {/* Tags */}
-            {post.tags && post.tags.length > 0 && (
+              {/* Tags */}
+              {post.tags && post.tags.length > 0 && (
+                <div style={{ 
+                  marginTop: '3rem', 
+                  paddingTop: '2rem', 
+                  borderTop: '1px solid var(--border)' 
+                }}>
+                  <h3 style={{ 
+                    fontSize: '1.1rem', 
+                    fontWeight: '600', 
+                    marginBottom: '1rem', 
+                    color: 'var(--text-primary)' 
+                  }}>
+                    Tags:
+                  </h3>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                    {post.tags.map((tag) => (
+                      <span key={tag} className="post-tag">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Navigation */}
               <div style={{ 
                 marginTop: '3rem', 
                 paddingTop: '2rem', 
-                borderTop: '1px solid var(--border)' 
+                borderTop: '1px solid var(--border)',
+                display: 'flex',
+                justifyContent: 'center'
               }}>
-                <h3 style={{ 
-                  fontSize: '1.1rem', 
-                  fontWeight: '600', 
-                  marginBottom: '1rem', 
-                  color: 'var(--text-primary)' 
-                }}>
-                  Tags:
-                </h3>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                  {post.tags.map((tag) => (
-                    <span key={tag} className="post-tag">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                <Link
+                  href="/posts"
+                  className="cta-button"
+                  style={{ 
+                    background: 'var(--primary)',
+                    color: 'white',
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '0.5rem',
+                    textDecoration: 'none',
+                    fontWeight: '600',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  📖 More Posts
+                </Link>
               </div>
-            )}
-
-            {/* Share Section */}
-            <div style={{ 
-              marginTop: '3rem', 
-              paddingTop: '2rem', 
-              borderTop: '1px solid var(--border)',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '1rem'
-            }}>
-              <div>
-                <h3 style={{ 
-                  fontSize: '1.1rem', 
-                  fontWeight: '600', 
-                  marginBottom: '1rem', 
-                  color: 'var(--text-primary)' 
-                }}>
-                  Share this post:
-                </h3>
-                <div style={{ display: 'flex', gap: '1rem' }}>
-                  <a
-                    href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(siteConfig.siteUrl + '/posts/' + post.slug)}&text=${encodeURIComponent(post.title)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="share-link"
-                  >
-                    🐦 Twitter
-                  </a>
-                  <a
-                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(siteConfig.siteUrl + '/posts/' + post.slug)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="share-link"
-                  >
-                    💼 LinkedIn
-                  </a>
-                </div>
-              </div>
-              <Link
-                href="/posts"
-                className="cta-button"
-                style={{ 
-                  background: 'var(--primary)',
-                  color: 'white',
-                  padding: '0.75rem 1.5rem',
-                  borderRadius: '0.5rem',
-                  textDecoration: 'none',
-                  fontWeight: '600',
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                📖 More Posts
-              </Link>
             </div>
+
+            {/* Table of Contents Sidebar */}
+            <aside className="post-sidebar">
+              <TableOfContents 
+                content={post.content} 
+                postTitle={post.title}
+                postUrl={postUrl}
+              />
+            </aside>
           </div>
         </div>
       </main>
