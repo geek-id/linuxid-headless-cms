@@ -5,7 +5,7 @@ excerpt: "Learn how to use this powerful headless CMS built with Next.js and mar
 featured: true
 published: true
 publishedAt: "2024-01-15T10:00:00Z"
-author: "Admin"
+author: "Coba"
 category: "Tutorial"
 tags: ["headless-cms", "nextjs", "markdown", "tutorial"]
 seo:

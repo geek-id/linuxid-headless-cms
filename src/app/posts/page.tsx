@@ -2,15 +2,32 @@ import { getAllContent } from '@/lib/content/parser';
 import { BlogPost } from '@/types/content';
 import Link from 'next/link';
 import Image from 'next/image';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow, format } from 'date-fns';
 import { Metadata } from 'next';
 import SearchBox from '@/components/SearchBox';
 import { siteConfig } from '@/lib/config/site';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export const metadata: Metadata = {
   title: 'Blog Posts',
   description: 'Browse all our blog posts and articles',
 };
+
+// Color schemes for cards
+const cardColors = [
+  { bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', icon: '🐧' }, // Purple gradient
+  { bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', icon: '🔧' }, // Pink gradient  
+  { bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', icon: '⚙️' }, // Blue gradient
+  { bg: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', icon: '🛠️' }, // Green gradient
+  { bg: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', icon: '📦' }, // Orange gradient
+  { bg: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', icon: '🔒' }, // Light gradient
+  { bg: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)', icon: '📊' }, // Soft pink
+  { bg: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', icon: '🌐' }, // Peach
+];
+
+function getCardStyle(index: number) {
+  return cardColors[index % cardColors.length];
+}
 
 export default async function PostsPage() {
   const allPosts = getAllContent('post') as BlogPost[];
@@ -45,235 +62,263 @@ export default async function PostsPage() {
   const regularPosts = publishedPosts.filter(post => !post.featured);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Navigation */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="text-2xl font-bold text-gray-900">
-              {siteConfig.siteName}
-            </Link>
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="text-gray-600 hover:text-blue-600 font-medium">
-                ← Home
-              </Link>
-              <Link href="/reviews" className="text-gray-600 hover:text-blue-600 font-medium">
-                Reviews
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
-
+    <div>
       {/* Header */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Our Blog
+      <header className="header">
+        <nav className="nav container">
+          <Link href="/" className="logo">
+            {siteConfig.siteName}
+          </Link>
+          <ul className="nav-menu">
+            <li><Link href="/" className="nav-link">Home</Link></li>
+            <li><Link href="/posts" className="nav-link active">Blog</Link></li>
+            <li><Link href="/reviews" className="nav-link">Reviews</Link></li>
+            <li><Link href="/about" className="nav-link">About</Link></li>
+          </ul>
+          <ThemeToggle />
+          <button className="mobile-menu-btn">☰</button>
+        </nav>
+      </header>
+
+      {/* Page Header */}
+      <section style={{ 
+        padding: '3rem 0 2rem', 
+        background: 'var(--bg-secondary)',
+        borderBottom: '1px solid var(--border)'
+      }}>
+        <div className="container">
+          <h1 style={{ 
+            fontSize: '2.5rem', 
+            fontWeight: '700', 
+            color: 'var(--text-primary)',
+            marginBottom: '0.5rem'
+          }}>
+            Latest Tutorials & Guides
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Discover insights, tutorials, and stories from our team
+          <p style={{ 
+            fontSize: '1.1rem', 
+            color: 'var(--text-secondary)',
+            maxWidth: '600px'
+          }}>
+            Practical Linux system administration, DevOps solutions, and step-by-step tutorials tested in production environments.
           </p>
-          <div className="max-w-md mx-auto">
-            <SearchBox
-              content={searchContent}
-              placeholder="🔍 Search blog posts..."
-              className="w-full"
-            />
-          </div>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar */}
-          <aside className="lg:w-1/4">
-            <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Stats</h3>
-              <div className="space-y-4 mb-6">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Total Posts</span>
-                  <span className="font-medium text-blue-600">{publishedPosts.length}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Featured</span>
-                  <span className="font-medium text-green-600">{featuredPosts.length}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Categories</span>
-                  <span className="font-medium text-purple-600">{categories.length}</span>
-                </div>
-              </div>
-
-              {/* Categories */}
-              {categories.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Categories</h3>
-                  <div className="space-y-2">
-                    {categories.map((category) => {
-                      const count = publishedPosts.filter(post => post.category === category).length;
-                      return (
-                        <div key={category} className="flex justify-between items-center">
-                          <span className="text-gray-700 hover:text-blue-600 cursor-pointer transition-colors">
-                            {category}
-                          </span>
-                          <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                            {count}
-                          </span>
+      {/* Main Content */}
+      <main className="main">
+        <div className="container">
+          
+          {/* Featured Posts */}
+          {featuredPosts.length > 0 && (
+            <section style={{ marginBottom: '4rem' }}>
+              <h2 style={{ 
+                fontSize: '1.75rem', 
+                fontWeight: '600', 
+                marginBottom: '2rem',
+                color: 'var(--text-primary)'
+              }}>
+                Featured Tutorials
+              </h2>
+              
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', 
+                gap: '2rem',
+                marginBottom: '3rem'
+              }}>
+                {featuredPosts.slice(0, 2).map((post, index) => {
+                  const cardStyle = getCardStyle(index);
+                  return (
+                    <Link 
+                      key={post.id} 
+                      href={`/posts/${post.slug}`}
+                      className="featured-card"
+                      style={{ 
+                        '--card-bg': cardStyle.bg 
+                      } as React.CSSProperties}
+                    >
+                      {/* Icon */}
+                      <div style={{ 
+                        fontSize: '3rem', 
+                        textAlign: 'center',
+                        marginBottom: '1rem',
+                        opacity: '0.9'
+                      }}>
+                        {cardStyle.icon}
+                      </div>
+                      
+                      {/* Content */}
+                      <div>
+                        <div style={{ 
+                          fontSize: '0.875rem', 
+                          opacity: '0.9', 
+                          marginBottom: '1rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem'
+                        }}>
+                          <span>⏰ {format(post.publishedAt || post.createdAt, 'MMM d, yyyy')}</span>
                         </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {/* Popular Tags */}
-              {popularTags.length > 0 && (
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Popular Tags</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {popularTags.map(({ tag, count }) => (
-                      <span
-                        key={tag}
-                        className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-full hover:bg-blue-100 cursor-pointer transition-colors"
-                      >
-                        {tag} ({count})
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </aside>
-
-          {/* Main Content */}
-          <main className="lg:w-3/4">
-            {/* Featured Posts */}
-            {featuredPosts.length > 0 && (
-              <section className="mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Featured Posts</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {featuredPosts.slice(0, 2).map((post) => (
-                    <article key={post.id} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow overflow-hidden">
-                      {post.featuredImage && (
-                        <div className="aspect-video relative">
-                          <Image
-                            src={post.featuredImage.url}
-                            alt={post.featuredImage.alt || post.title}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                      )}
-                      <div className="p-6">
-                        <div className="flex items-center mb-3">
-                          <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                            Featured
-                          </span>
-                          {post.category && (
-                            <span className="ml-2 text-gray-500 text-sm">{post.category}</span>
-                          )}
-                        </div>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                          <Link href={`/posts/${post.slug}`} className="hover:text-blue-600 transition-colors">
-                            {post.title}
-                          </Link>
+                        
+                        <h3 style={{ 
+                          fontSize: '1.5rem', 
+                          fontWeight: '700', 
+                          marginBottom: '1rem',
+                          lineHeight: '1.3'
+                        }}>
+                          {post.title}
                         </h3>
-                        <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
-                        <div className="flex items-center justify-between text-sm text-gray-500">
-                          <span>{formatDistanceToNow(post.publishedAt || post.createdAt)} ago</span>
-                          {post.readingTime && <span>{post.readingTime} min read</span>}
+                        
+                        <p style={{ 
+                          opacity: '0.9', 
+                          lineHeight: '1.6',
+                          marginBottom: '1.5rem'
+                        }}>
+                          {post.excerpt}
+                        </p>
+                        
+                        <div style={{ 
+                          display: 'inline-flex', 
+                          alignItems: 'center', 
+                          gap: '0.5rem',
+                          fontWeight: '600',
+                          fontSize: '0.9rem'
+                        }}>
+                          Read more →
                         </div>
                       </div>
-                    </article>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* All Posts */}
-            <section>
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">All Posts</h2>
-                <div className="flex items-center space-x-4">
-                  <select className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-blue-500 focus:border-blue-500">
-                    <option value="newest">Newest First</option>
-                    <option value="oldest">Oldest First</option>
-                    <option value="popular">Most Popular</option>
-                  </select>
-                </div>
+                    </Link>
+                  );
+                })}
               </div>
-
-              <div className="grid grid-cols-1 gap-6">
-                {regularPosts.map((post) => (
-                  <article key={post.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-                    <div className="md:flex">
-                      {post.featuredImage && (
-                        <div className="md:w-1/3">
-                          <div className="aspect-video md:aspect-square relative">
-                            <Image
-                              src={post.featuredImage.url}
-                              alt={post.featuredImage.alt || post.title}
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                        </div>
-                      )}
-                      <div className={`p-6 ${post.featuredImage ? 'md:w-2/3' : 'w-full'}`}>
-                        <div className="flex items-center mb-3">
-                          {post.category && (
-                            <span className="bg-gray-100 text-gray-700 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                              {post.category}
-                            </span>
-                          )}
-                          <span className="ml-auto text-gray-500 text-sm">
-                            {formatDistanceToNow(post.publishedAt || post.createdAt)} ago
-                          </span>
-                        </div>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                          <Link href={`/posts/${post.slug}`} className="hover:text-blue-600 transition-colors">
-                            {post.title}
-                          </Link>
-                        </h3>
-                        <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
-                        <div className="flex items-center justify-between">
-                          <div className="flex flex-wrap gap-1">
-                            {post.tags && post.tags.slice(0, 3).map((tag) => (
-                              <span key={tag} className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                          {post.readingTime && (
-                            <span className="text-gray-500 text-sm">{post.readingTime} min read</span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
-
-              {/* Load More */}
-              {publishedPosts.length > 10 && (
-                <div className="text-center mt-12">
-                  <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-                    Load More Posts
-                  </button>
-                </div>
-              )}
             </section>
-          </main>
+          )}
+
+          {/* All Posts Grid */}
+          <section>
+            <h2 style={{ 
+              fontSize: '1.75rem', 
+              fontWeight: '600', 
+              marginBottom: '2rem',
+              color: 'var(--text-primary)'
+            }}>
+              All Tutorials
+            </h2>
+            
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
+              gap: '1.5rem'
+            }}>
+              {regularPosts.map((post, index) => {
+                const cardStyle = getCardStyle(index + featuredPosts.length);
+                return (
+                  <Link 
+                    key={post.id} 
+                    href={`/posts/${post.slug}`}
+                    className="regular-card"
+                    style={{ 
+                      '--card-bg': cardStyle.bg 
+                    } as React.CSSProperties}
+                  >
+                    {/* Icon */}
+                    <div style={{ 
+                      fontSize: '2.5rem', 
+                      textAlign: 'center',
+                      marginBottom: '1rem',
+                      opacity: '0.9'
+                    }}>
+                      {cardStyle.icon}
+                    </div>
+                    
+                    {/* Content */}
+                    <div>
+                      <div style={{ 
+                        fontSize: '0.8rem', 
+                        opacity: '0.9', 
+                        marginBottom: '0.75rem'
+                      }}>
+                        {format(post.publishedAt || post.createdAt, 'MMM d, yyyy')}
+                      </div>
+                      
+                      <h3 style={{ 
+                        fontSize: '1.25rem', 
+                        fontWeight: '600', 
+                        marginBottom: '0.75rem',
+                        lineHeight: '1.3'
+                      }}>
+                        {post.title}
+                      </h3>
+                      
+                      <p style={{ 
+                        opacity: '0.9', 
+                        fontSize: '0.9rem',
+                        lineHeight: '1.5',
+                        marginBottom: '1rem'
+                      }}>
+                        {post.excerpt}
+                      </p>
+                      
+                      {/* Tags */}
+                      {post.tags && post.tags.length > 0 && (
+                        <div style={{ 
+                          display: 'flex', 
+                          flexWrap: 'wrap', 
+                          gap: '0.5rem',
+                          marginBottom: '1rem'
+                        }}>
+                          {post.tags.slice(0, 3).map(tag => (
+                            <span key={tag} style={{ 
+                              background: 'rgba(255,255,255,0.2)', 
+                              padding: '0.25rem 0.5rem',
+                              borderRadius: '0.25rem',
+                              fontSize: '0.75rem',
+                              fontWeight: '500'
+                            }}>
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
         </div>
-      </div>
+      </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-gray-600">
-            © 2024 {siteConfig.siteName}. Built with Next.js and powered by LinuxID Headless CMS.
-          </p>
+      <footer className="footer">
+        <div className="container">
+          <div className="footer-content">
+            <div className="footer-section">
+              <h4>{siteConfig.siteName}</h4>
+              <p>{siteConfig.description}</p>
+            </div>
+            <div className="footer-section">
+              <h4>Quick Links</h4>
+              <ul>
+                <li><Link href="/posts">Blog</Link></li>
+                <li><Link href="/reviews">Reviews</Link></li>
+                <li><Link href="/about">About</Link></li>
+              </ul>
+            </div>
+            <div className="footer-section">
+              <h4>Categories</h4>
+              <ul>
+                <li><a href="#">System Admin</a></li>
+                <li><a href="#">DevOps</a></li>
+                <li><a href="#">SRE</a></li>
+                <li><a href="#">VPS Reviews</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p>© 2024 {siteConfig.siteName}. Built with Next.js and ❤️</p>
+          </div>
         </div>
       </footer>
     </div>

@@ -6,6 +6,7 @@ import { formatDistanceToNow, format } from 'date-fns';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { siteConfig } from '@/lib/config/site';
+import ThemeToggle from '@/components/ThemeToggle';
 
 type Props = {
   params: { slug: string };
@@ -65,171 +66,253 @@ export default async function PostPage({ params }: Props) {
     .slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Navigation */}
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="text-2xl font-bold text-gray-900">
-              {siteConfig.siteName}
-            </Link>
-            <div className="flex items-center space-x-4">
-              <Link href="/posts" className="text-gray-600 hover:text-blue-600 font-medium">
-                ← All Posts
-              </Link>
-              <Link href="/" className="text-gray-600 hover:text-blue-600 font-medium">
-                Home
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div>
+      {/* Header */}
+      <header className="header">
+        <nav className="nav container">
+          <Link href="/" className="logo">
+            {siteConfig.siteName}
+          </Link>
+          <ul className="nav-menu">
+            <li><Link href="/" className="nav-link">Home</Link></li>
+            <li><Link href="/posts" className="nav-link active">Blog</Link></li>
+            <li><Link href="/reviews" className="nav-link">Reviews</Link></li>
+            <li><Link href="/about" className="nav-link">About</Link></li>
+          </ul>
+          <ThemeToggle />
+          <button className="mobile-menu-btn">☰</button>
+        </nav>
+      </header>
 
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Article Header */}
-        <header className="mb-8">
-          {/* Category and Date */}
-          <div className="flex items-center space-x-4 mb-4">
+      {/* Article Header */}
+      <header className="article-header">
+        <div className="container">
+          {/* Breadcrumb */}
+          <div style={{ 
+            marginBottom: '1rem', 
+            fontSize: '0.9rem',
+            color: 'var(--text-muted)'
+          }}>
+            <Link href="/" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Home</Link>
+            <span style={{ margin: '0 0.5rem' }}>→</span>
+            <Link href="/posts" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Blog</Link>
+            <span style={{ margin: '0 0.5rem' }}>→</span>
+            <span>{post.title}</span>
+          </div>
+
+          {/* Category and Meta */}
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '1rem', 
+            marginBottom: '1rem',
+            flexWrap: 'wrap'
+          }}>
             {post.category && (
-              <span className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
+              <span className="post-tag" style={{ 
+                background: 'var(--primary)', 
+                color: 'white',
+                fontSize: '0.8rem'
+              }}>
                 {post.category}
               </span>
             )}
-            <time className="text-gray-500 text-sm">
-              {format(post.publishedAt || post.createdAt, 'MMMM d, yyyy')}
-            </time>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+              📅 {format(post.publishedAt || post.createdAt, 'MMMM d, yyyy')}
+            </span>
             {post.readingTime && (
-              <span className="text-gray-500 text-sm">{post.readingTime} min read</span>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                ⏱️ {post.readingTime} min read
+              </span>
             )}
           </div>
 
-          {/* Title */}
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
-            {post.title}
-          </h1>
+          <h1 className="article-title">{post.title}</h1>
 
           {/* Excerpt */}
           {post.excerpt && (
-            <p className="text-xl text-gray-600 mb-6 leading-relaxed">
+            <p style={{ 
+              fontSize: '1.2rem', 
+              color: 'var(--text-secondary)',
+              lineHeight: '1.6',
+              marginBottom: '1.5rem',
+              fontStyle: 'italic'
+            }}>
               {post.excerpt}
             </p>
           )}
 
-          {/* Author and Meta */}
-          <div className="flex items-center justify-between border-t border-b border-gray-200 py-4">
-            <div className="flex items-center">
-              {post.author && (
-                <div className="flex items-center">
-                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
-                    {post.author.name.charAt(0)}
-                  </div>
-                  <div className="ml-3">
-                    <p className="text-sm font-medium text-gray-900">{post.author.name}</p>
-                    <p className="text-xs text-gray-500">
-                      Published {formatDistanceToNow(post.publishedAt || post.createdAt)} ago
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-            
-            {/* Series Info */}
+          <div className="article-meta">
+            {post.author && (
+              <>
+                <span>👤 Author: {post.author.name}</span>
+                <span>•</span>
+              </>
+            )}
+            <span>🔄 Updated: {formatDistanceToNow(post.updatedAt || post.createdAt)} ago</span>
             {post.series && (
-              <div className="text-right">
-                <p className="text-sm text-gray-600">Part of series:</p>
-                <p className="text-sm font-medium text-blue-600">{post.series}</p>
-              </div>
+              <>
+                <span>•</span>
+                <span>📚 Series: {post.series}</span>
+              </>
             )}
-          </div>
-        </header>
-
-        {/* Featured Image */}
-        {post.featuredImage && (
-          <div className="mb-8">
-            <div className="aspect-video relative rounded-lg overflow-hidden">
-              <Image
-                src={post.featuredImage.url}
-                alt={post.featuredImage.alt || post.title}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-            {post.featuredImage.caption && (
-              <p className="text-sm text-gray-500 text-center mt-2 italic">
-                {post.featuredImage.caption}
-              </p>
-            )}
-          </div>
-        )}
-
-        {/* Article Content */}
-        <div 
-          className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 prose-strong:text-gray-900 prose-code:text-pink-600 prose-pre:bg-gray-900 prose-img:rounded-lg"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
-
-        {/* Tags */}
-        {post.tags && post.tags.length > 0 && (
-          <div className="mt-8 pt-8 border-t border-gray-200">
-            <h3 className="text-sm font-medium text-gray-900 mb-3">Tags:</h3>
-            <div className="flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="bg-gray-100 text-gray-800 text-sm px-3 py-1 rounded-full hover:bg-gray-200 transition-colors"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Share Section */}
-        <div className="mt-8 pt-8 border-t border-gray-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Share this post</h3>
-              <div className="flex space-x-4">
-                <a
-                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(siteConfig.siteUrl + '/posts/' + post.slug)}&text=${encodeURIComponent(post.title)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-600 text-sm font-medium"
-                >
-                  Twitter
-                </a>
-                <a
-                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(siteConfig.siteUrl + '/posts/' + post.slug)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-700 hover:text-blue-800 text-sm font-medium"
-                >
-                  LinkedIn
-                </a>
-              </div>
-            </div>
-            <Link
-              href="/posts"
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
-            >
-              More Posts
-            </Link>
           </div>
         </div>
-      </article>
+      </header>
+
+      {/* Main Content */}
+      <main className="main">
+        <div className="container">
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+            {/* Featured Image */}
+            {post.featuredImage && (
+              <div style={{ marginBottom: '3rem' }}>
+                <div style={{ 
+                  aspectRatio: '16/9', 
+                  position: 'relative', 
+                  borderRadius: '0.5rem', 
+                  overflow: 'hidden',
+                  boxShadow: 'var(--shadow-lg)'
+                }}>
+                  <Image
+                    src={post.featuredImage.url}
+                    alt={post.featuredImage.alt || post.title}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+                {post.featuredImage.caption && (
+                  <p style={{ 
+                    textAlign: 'center', 
+                    marginTop: '0.5rem', 
+                    fontSize: '0.9rem', 
+                    color: 'var(--text-muted)', 
+                    fontStyle: 'italic' 
+                  }}>
+                    {post.featuredImage.caption}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Article Content */}
+            <article className="article-content">
+              <div dangerouslySetInnerHTML={{ __html: post.content }} />
+            </article>
+
+            {/* Tags */}
+            {post.tags && post.tags.length > 0 && (
+              <div style={{ 
+                marginTop: '3rem', 
+                paddingTop: '2rem', 
+                borderTop: '1px solid var(--border)' 
+              }}>
+                <h3 style={{ 
+                  fontSize: '1.1rem', 
+                  fontWeight: '600', 
+                  marginBottom: '1rem', 
+                  color: 'var(--text-primary)' 
+                }}>
+                  Tags:
+                </h3>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  {post.tags.map((tag) => (
+                    <span key={tag} className="post-tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Share Section */}
+            <div style={{ 
+              marginTop: '3rem', 
+              paddingTop: '2rem', 
+              borderTop: '1px solid var(--border)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '1rem'
+            }}>
+              <div>
+                <h3 style={{ 
+                  fontSize: '1.1rem', 
+                  fontWeight: '600', 
+                  marginBottom: '1rem', 
+                  color: 'var(--text-primary)' 
+                }}>
+                  Share this post:
+                </h3>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <a
+                    href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(siteConfig.siteUrl + '/posts/' + post.slug)}&text=${encodeURIComponent(post.title)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="share-link"
+                  >
+                    🐦 Twitter
+                  </a>
+                  <a
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(siteConfig.siteUrl + '/posts/' + post.slug)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="share-link"
+                  >
+                    💼 LinkedIn
+                  </a>
+                </div>
+              </div>
+              <Link
+                href="/posts"
+                className="cta-button"
+                style={{ 
+                  background: 'var(--primary)',
+                  color: 'white',
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '0.5rem',
+                  textDecoration: 'none',
+                  fontWeight: '600',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                📖 More Posts
+              </Link>
+            </div>
+          </div>
+        </div>
+      </main>
 
       {/* Related Posts */}
       {relatedPosts.length > 0 && (
-        <section className="bg-gray-50 py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Related Posts</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <section style={{ 
+          background: 'var(--bg-secondary)', 
+          padding: '4rem 0',
+          marginTop: '4rem'
+        }}>
+          <div className="container">
+            <h2 style={{ 
+              fontSize: '2rem', 
+              fontWeight: '700', 
+              color: 'var(--text-primary)',
+              textAlign: 'center',
+              marginBottom: '3rem'
+            }}>
+              Related Posts
+            </h2>
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+              gap: '2rem',
+              maxWidth: '1000px',
+              margin: '0 auto'
+            }}>
               {relatedPosts.map((relatedPost) => (
-                <article key={relatedPost.id} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+                <article key={relatedPost.id} className="post-card">
                   {relatedPost.featuredImage && (
-                    <div className="aspect-video relative">
+                    <div className="post-image">
                       <Image
                         src={relatedPost.featuredImage.url}
                         alt={relatedPost.featuredImage.alt || relatedPost.title}
@@ -238,23 +321,22 @@ export default async function PostPage({ params }: Props) {
                       />
                     </div>
                   )}
-                  <div className="p-6">
-                    <div className="flex items-center mb-3">
+                  <div className="post-content">
+                    <div className="post-meta">
+                      <span>{formatDistanceToNow(relatedPost.publishedAt || relatedPost.createdAt)} ago</span>
                       {relatedPost.category && (
-                        <span className="bg-gray-200 text-gray-700 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                          {relatedPost.category}
-                        </span>
+                        <span className="post-tag">{relatedPost.category}</span>
                       )}
-                      <span className="ml-auto text-gray-500 text-sm">
-                        {formatDistanceToNow(relatedPost.publishedAt || relatedPost.createdAt)} ago
-                      </span>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
-                      <Link href={`/posts/${relatedPost.slug}`} className="hover:text-blue-600 transition-colors">
+                    <h3 className="post-title">
+                      <Link href={`/posts/${relatedPost.slug}`}>
                         {relatedPost.title}
                       </Link>
                     </h3>
-                    <p className="text-gray-600 text-sm line-clamp-2">{relatedPost.excerpt}</p>
+                    <p className="post-excerpt">{relatedPost.excerpt}</p>
+                    <Link href={`/posts/${relatedPost.slug}`} className="read-more">
+                      Read more →
+                    </Link>
                   </div>
                 </article>
               ))}
@@ -264,11 +346,34 @@ export default async function PostPage({ params }: Props) {
       )}
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-gray-600">
-            © 2024 {siteConfig.siteName}. Built with Next.js and powered by LinuxID Headless CMS.
-          </p>
+      <footer className="footer">
+        <div className="container">
+          <div className="footer-content">
+            <div className="footer-section">
+              <h4>{siteConfig.siteName}</h4>
+              <p>{siteConfig.description}</p>
+            </div>
+            <div className="footer-section">
+              <h4>Quick Links</h4>
+              <ul>
+                <li><Link href="/posts">Blog</Link></li>
+                <li><Link href="/reviews">Reviews</Link></li>
+                <li><Link href="/about">About</Link></li>
+              </ul>
+            </div>
+            <div className="footer-section">
+              <h4>Categories</h4>
+              <ul>
+                <li><a href="#">System Admin</a></li>
+                <li><a href="#">DevOps</a></li>
+                <li><a href="#">SRE</a></li>
+                <li><a href="#">VPS Reviews</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p>© 2024 {siteConfig.siteName}. Built with Next.js and ❤️</p>
+          </div>
         </div>
       </footer>
     </div>

@@ -6,22 +6,23 @@ import { formatDistanceToNow, format } from 'date-fns';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { siteConfig } from '@/lib/config/site';
+import ThemeToggle from '@/components/ThemeToggle';
 
-interface PageProps {
+type Props = {
   params: { slug: string };
-}
+};
 
 export async function generateStaticParams() {
   const reviews = getAllContent('review') as Review[];
   return reviews
     .filter(review => review.published)
-    .map((review) => ({
+    .map(review => ({
       slug: review.slug,
     }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const review = getContentBySlug('review', params.slug) as Review;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const review = getContentBySlug('review', params.slug) as Review | null;
   
   if (!review || !review.published) {
     return {
@@ -30,325 +31,435 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: review.seo.title || review.title,
-    description: review.seo.description || review.excerpt,
-    keywords: review.seo.keywords,
-    authors: review.author ? [{ name: review.author.name }] : undefined,
+    title: review.seo?.title || review.title,
+    description: review.seo?.description || review.excerpt,
+    keywords: review.seo?.keywords?.join(', ') || review.tags?.join(', '),
     openGraph: {
-      title: review.seo.ogTitle || review.title,
-      description: review.seo.ogDescription || review.excerpt,
-      type: 'article',
-      publishedTime: review.publishedAt?.toISOString(),
-      modifiedTime: review.updatedAt.toISOString(),
-      images: review.featuredImage ? [review.featuredImage.url] : undefined,
-      siteName: siteConfig.siteName,
+      title: review.seo?.ogTitle || review.title,
+      description: review.seo?.ogDescription || review.excerpt,
+      images: review.featuredImage ? [review.featuredImage.url] : [],
     },
     twitter: {
       card: 'summary_large_image',
-      title: review.seo.twitterTitle || review.title,
-      description: review.seo.twitterDescription || review.excerpt,
-      images: review.featuredImage ? [review.featuredImage.url] : undefined,
+      title: review.seo?.twitterTitle || review.title,
+      description: review.seo?.twitterDescription || review.excerpt,
+      images: review.featuredImage ? [review.featuredImage.url] : [],
     },
   };
 }
 
-export default async function ReviewPage({ params }: PageProps) {
-  const review = getContentBySlug('review', params.slug) as Review;
+function renderStars(rating: number) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      {[1, 2, 3, 4, 5].map((star) => (
+        <span
+          key={star}
+          style={{
+            fontSize: '1.2rem',
+            color: star <= rating ? '#fbbf24' : 'var(--text-muted)'
+          }}
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  );
+}
+
+export default async function ReviewPage({ params }: Props) {
+  const review = getContentBySlug('review', params.slug) as Review | null;
   
   if (!review || !review.published) {
     notFound();
   }
 
+  const rating = 'rating' in review ? (review as any).rating : 0;
+
   // Get related reviews
   const allReviews = getAllContent('review') as Review[];
   const relatedReviews = allReviews
-    .filter(r => r.published && r.id !== review.id && (
-      r.category === review.category || 
-      r.tags?.some(tag => review.tags?.includes(tag))
-    ))
+    .filter(r => 
+      r.published && 
+      r.id !== review.id && 
+      (r.category === review.category || r.tags?.some(tag => review.tags?.includes(tag)))
+    )
     .slice(0, 3);
 
-  const hasRating = 'rating' in review && review.rating;
-
   return (
-    <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="text-2xl font-bold text-gray-900">
-              {siteConfig.siteName}
-            </Link>
-            <div className="flex items-center space-x-4">
-              <Link href="/reviews" className="text-gray-600 hover:text-blue-600 font-medium">
-                ← Back to Reviews
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div>
+      {/* Header */}
+      <header className="header">
+        <nav className="nav container">
+          <Link href="/" className="logo">
+            {siteConfig.siteName}
+          </Link>
+          <ul className="nav-menu">
+            <li><Link href="/" className="nav-link">Home</Link></li>
+            <li><Link href="/posts" className="nav-link">Blog</Link></li>
+            <li><Link href="/reviews" className="nav-link active">Reviews</Link></li>
+            <li><Link href="/about" className="nav-link">About</Link></li>
+          </ul>
+          <ThemeToggle />
+          <button className="mobile-menu-btn">☰</button>
+        </nav>
+      </header>
 
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Article Header */}
-        <header className="mb-8">
-          {/* Category and Date */}
-          <div className="flex items-center space-x-4 mb-4">
+      {/* Article Header */}
+      <header className="article-header">
+        <div className="container">
+          {/* Breadcrumb */}
+          <div style={{ 
+            marginBottom: '1rem', 
+            fontSize: '0.9rem',
+            color: 'var(--text-muted)'
+          }}>
+            <Link href="/" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Home</Link>
+            <span style={{ margin: '0 0.5rem' }}>→</span>
+            <Link href="/reviews" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Reviews</Link>
+            <span style={{ margin: '0 0.5rem' }}>→</span>
+            <span>{review.title}</span>
+          </div>
+
+          {/* Category and Meta */}
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '1rem', 
+            marginBottom: '1rem',
+            flexWrap: 'wrap'
+          }}>
             {review.category && (
-              <span className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
+              <span className="post-tag" style={{ 
+                background: 'var(--accent)', 
+                color: 'white',
+                fontSize: '0.8rem'
+              }}>
                 {review.category}
               </span>
             )}
-            <time className="text-gray-500 text-sm">
-              {format(review.publishedAt || review.createdAt, 'MMMM d, yyyy')}
-            </time>
-          </div>
-
-          {/* Title */}
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
-            {review.title}
-          </h1>
-
-          {/* Rating */}
-          {hasRating && (
-            <div className="mb-6">
-              <div className="flex items-center space-x-3">
-                <div className="flex">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <span
-                      key={star}
-                      className={`text-2xl ${
-                        star <= (review as any).rating ? 'text-yellow-400' : 'text-gray-300'
-                      }`}
-                    >
-                      ★
-                    </span>
-                  ))}
-                </div>
-                <span className="text-xl font-semibold text-gray-900">
-                  {(review as any).rating}/5
-                </span>
-                <span className="text-gray-600">
-                  ({(review as any).rating === 5 ? 'Excellent' : 
-                    (review as any).rating === 4 ? 'Very Good' : 
-                    (review as any).rating === 3 ? 'Good' : 
-                    (review as any).rating === 2 ? 'Fair' : 'Poor'})
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+              📅 {format(review.publishedAt || review.createdAt, 'MMMM d, yyyy')}
+            </span>
+            {rating > 0 && (
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '0.5rem',
+                background: 'var(--bg-primary)',
+                padding: '0.5rem 1rem',
+                borderRadius: '0.5rem',
+                border: '2px solid var(--accent)'
+              }}>
+                {renderStars(rating)}
+                <span style={{ 
+                  fontWeight: '700', 
+                  color: 'var(--accent)',
+                  fontSize: '1rem'
+                }}>
+                  {rating}/5
                 </span>
               </div>
-            </div>
-          )}
+            )}
+          </div>
+
+          <h1 className="article-title">{review.title}</h1>
 
           {/* Excerpt */}
           {review.excerpt && (
-            <p className="text-xl text-gray-600 mb-6 leading-relaxed">
+            <p style={{ 
+              fontSize: '1.2rem', 
+              color: 'var(--text-secondary)',
+              lineHeight: '1.6',
+              marginBottom: '1.5rem',
+              fontStyle: 'italic'
+            }}>
               {review.excerpt}
             </p>
           )}
 
-          {/* Author and Meta */}
-          <div className="flex items-center justify-between border-t border-b border-gray-200 py-4">
-            <div className="flex items-center">
-              {review.author && (
-                <div className="flex items-center">
-                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
-                    {review.author.name.charAt(0)}
-                  </div>
-                  <div className="ml-3">
-                    <p className="text-sm font-medium text-gray-900">{review.author.name}</p>
-                    <p className="text-xs text-gray-500">
-                      Reviewed {formatDistanceToNow(review.publishedAt || review.createdAt)} ago
+          <div className="article-meta">
+            {review.author && (
+              <>
+                <span>👤 Reviewed by: {review.author.name}</span>
+                <span>•</span>
+              </>
+            )}
+            <span>🔄 Updated: {formatDistanceToNow(review.updatedAt || review.createdAt)} ago</span>
+            {rating > 0 && (
+              <>
+                <span>•</span>
+                <span>⭐ Rating: {rating}/5 stars</span>
+              </>
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="main">
+        <div className="container">
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+            {/* Featured Image */}
+            {review.featuredImage && (
+              <div style={{ marginBottom: '3rem' }}>
+                <div style={{ 
+                  aspectRatio: '16/9', 
+                  position: 'relative', 
+                  borderRadius: '0.5rem', 
+                  overflow: 'hidden',
+                  boxShadow: 'var(--shadow-lg)'
+                }}>
+                  <Image
+                    src={review.featuredImage.url}
+                    alt={review.featuredImage.alt || review.title}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+                {review.featuredImage.caption && (
+                  <p style={{ 
+                    textAlign: 'center', 
+                    marginTop: '0.5rem', 
+                    fontSize: '0.9rem', 
+                    color: 'var(--text-muted)', 
+                    fontStyle: 'italic' 
+                  }}>
+                    {review.featuredImage.caption}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Rating Summary */}
+            {rating > 0 && (
+              <div style={{ 
+                background: 'var(--bg-secondary)',
+                border: '1px solid var(--border)',
+                borderRadius: '1rem',
+                padding: '1.5rem',
+                marginBottom: '3rem',
+                textAlign: 'center'
+              }}>
+                <h2 style={{ 
+                  fontSize: '1.2rem', 
+                  fontWeight: '600', 
+                  marginBottom: '1rem',
+                  color: 'var(--text-primary)'
+                }}>
+                  Overall Rating
+                </h2>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'center', 
+                  alignItems: 'center', 
+                  gap: '1rem',
+                  marginBottom: '0.5rem'
+                }}>
+                  <span style={{ 
+                    fontSize: '3rem', 
+                    fontWeight: '700', 
+                    color: 'var(--accent)'
+                  }}>
+                    {rating}
+                  </span>
+                  <div>
+                    {renderStars(rating)}
+                    <p style={{ 
+                      color: 'var(--text-secondary)', 
+                      fontSize: '0.9rem',
+                      marginTop: '0.25rem'
+                    }}>
+                      out of 5 stars
                     </p>
                   </div>
                 </div>
-              )}
-            </div>
-            
-            {/* Review Summary */}
-            <div className="text-right">
-              <p className="text-sm text-gray-600">Review Type:</p>
-              <p className="text-sm font-medium text-blue-600 capitalize">{review.type}</p>
-            </div>
-          </div>
-        </header>
-
-        {/* Featured Image */}
-        {review.featuredImage && (
-          <div className="mb-8">
-            <div className="aspect-video relative rounded-lg overflow-hidden">
-              <Image
-                src={review.featuredImage.url}
-                alt={review.featuredImage.alt || review.title}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-            {review.featuredImage.caption && (
-              <p className="text-sm text-gray-500 text-center mt-2 italic">
-                {review.featuredImage.caption}
-              </p>
+              </div>
             )}
-          </div>
-        )}
 
-        {/* Review Content */}
-        <div 
-          className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 prose-strong:text-gray-900 prose-code:text-pink-600 prose-pre:bg-gray-900 prose-img:rounded-lg"
-        >
-          {review.content}
-        </div>
+            {/* Article Content */}
+            <article className="article-content">
+              <div dangerouslySetInnerHTML={{ __html: review.content }} />
+            </article>
 
-        {/* Tags */}
-        {review.tags && review.tags.length > 0 && (
-          <div className="mt-8 pt-8 border-t border-gray-200">
-            <h3 className="text-sm font-medium text-gray-900 mb-3">Tags:</h3>
-            <div className="flex flex-wrap gap-2">
-              {review.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="bg-gray-100 text-gray-800 text-sm px-3 py-1 rounded-full hover:bg-gray-200 transition-colors"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Rating Summary */}
-        {hasRating && (
-          <div className="mt-8 pt-8 border-t border-gray-200">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Review Summary</h3>
-            <div className="bg-gray-50 rounded-lg p-6">
-              <div className="flex items-center justify-between">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-gray-900 mb-1">
-                    {(review as any).rating}
-                  </div>
-                  <div className="flex mb-2">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <span
-                        key={star}
-                        className={`text-lg ${
-                          star <= (review as any).rating ? 'text-yellow-400' : 'text-gray-300'
-                        }`}
-                      >
-                        ★
-                      </span>
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-600">Overall Rating</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-lg font-semibold text-gray-900">
-                    {(review as any).rating >= 4 ? 'Recommended' : 
-                     (review as any).rating >= 3 ? 'Consider' : 'Not Recommended'}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Based on detailed review
-                  </p>
+            {/* Tags */}
+            {review.tags && review.tags.length > 0 && (
+              <div style={{ 
+                marginTop: '3rem', 
+                paddingTop: '2rem', 
+                borderTop: '1px solid var(--border)' 
+              }}>
+                <h3 style={{ 
+                  fontSize: '1.1rem', 
+                  fontWeight: '600', 
+                  marginBottom: '1rem', 
+                  color: 'var(--text-primary)' 
+                }}>
+                  Tags:
+                </h3>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  {review.tags.map((tag) => (
+                    <span key={tag} className="post-tag">
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               </div>
-            </div>
-          </div>
-        )}
+            )}
 
-        {/* Share Section */}
-        <div className="mt-8 pt-8 border-t border-gray-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Share this review</h3>
-              <div className="flex space-x-4">
-                <a
-                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(siteConfig.siteUrl + '/reviews/' + review.slug)}&text=${encodeURIComponent(review.title)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-600 text-sm font-medium"
-                >
-                  Twitter
-                </a>
-                <a
-                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(siteConfig.siteUrl + '/reviews/' + review.slug)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-700 hover:text-blue-800 text-sm font-medium"
-                >
-                  LinkedIn
-                </a>
+            {/* Share Section */}
+            <div style={{ 
+              marginTop: '3rem', 
+              paddingTop: '2rem', 
+              borderTop: '1px solid var(--border)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '1rem'
+            }}>
+              <div>
+                <h3 style={{ 
+                  fontSize: '1.1rem', 
+                  fontWeight: '600', 
+                  marginBottom: '1rem', 
+                  color: 'var(--text-primary)' 
+                }}>
+                  Share this review:
+                </h3>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <a
+                    href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(siteConfig.siteUrl + '/reviews/' + review.slug)}&text=${encodeURIComponent(review.title)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="share-link"
+                  >
+                    🐦 Twitter
+                  </a>
+                  <a
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(siteConfig.siteUrl + '/reviews/' + review.slug)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="share-link"
+                  >
+                    💼 LinkedIn
+                  </a>
+                </div>
               </div>
+              <Link
+                href="/reviews"
+                className="cta-button"
+                style={{ 
+                  background: 'var(--accent)',
+                  color: 'white',
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '0.5rem',
+                  textDecoration: 'none',
+                  fontWeight: '600',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                ⭐ More Reviews
+              </Link>
             </div>
-            <Link
-              href="/reviews"
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
-            >
-              More Reviews
-            </Link>
           </div>
         </div>
-      </article>
+      </main>
 
       {/* Related Reviews */}
       {relatedReviews.length > 0 && (
-        <section className="bg-gray-50 py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Related Reviews</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {relatedReviews.map((relatedReview) => (
-                <article key={relatedReview.id} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-                  {relatedReview.featuredImage && (
-                    <div className="aspect-video relative">
-                      <Image
-                        src={relatedReview.featuredImage.url}
-                        alt={relatedReview.featuredImage.alt || relatedReview.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-3">
-                      {'rating' in relatedReview && relatedReview.rating && (
-                        <div className="flex items-center space-x-1">
-                          <div className="flex">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <span
-                                key={star}
-                                className={`text-sm ${
-                                  star <= (relatedReview as any).rating ? 'text-yellow-400' : 'text-gray-300'
-                                }`}
-                              >
-                                ★
-                              </span>
-                            ))}
-                          </div>
-                          <span className="text-xs font-medium text-gray-900">
-                            {(relatedReview as any).rating}/5
+        <section style={{ 
+          background: 'var(--bg-secondary)', 
+          padding: '4rem 0',
+          marginTop: '4rem'
+        }}>
+          <div className="container">
+            <h2 style={{ 
+              fontSize: '2rem', 
+              fontWeight: '700', 
+              color: 'var(--text-primary)',
+              textAlign: 'center',
+              marginBottom: '3rem'
+            }}>
+              Related Reviews
+            </h2>
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+              gap: '2rem',
+              maxWidth: '1000px',
+              margin: '0 auto'
+            }}>
+              {relatedReviews.map((relatedReview) => {
+                const relatedRating = 'rating' in relatedReview ? (relatedReview as any).rating : 0;
+                return (
+                  <article key={relatedReview.id} className="post-card">
+                    {relatedReview.featuredImage && (
+                      <div className="post-image">
+                        <Image
+                          src={relatedReview.featuredImage.url}
+                          alt={relatedReview.featuredImage.alt || relatedReview.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+                    <div className="post-content">
+                      <div className="post-meta">
+                        <span>{formatDistanceToNow(relatedReview.publishedAt || relatedReview.createdAt)} ago</span>
+                        {relatedRating > 0 && (
+                          <span className="post-tag" style={{ background: 'var(--accent)', color: 'white' }}>
+                            ⭐ {relatedRating}/5
                           </span>
-                        </div>
-                      )}
-                      <span className="text-gray-500 text-sm">
-                        {formatDistanceToNow(relatedReview.publishedAt || relatedReview.createdAt)} ago
-                      </span>
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
-                      <Link href={`/reviews/${relatedReview.slug}`} className="hover:text-blue-600 transition-colors">
-                        {relatedReview.title}
+                        )}
+                      </div>
+                      <h3 className="post-title">
+                        <Link href={`/reviews/${relatedReview.slug}`}>
+                          {relatedReview.title}
+                        </Link>
+                      </h3>
+                      <p className="post-excerpt">{relatedReview.excerpt}</p>
+                      <Link href={`/reviews/${relatedReview.slug}`} className="read-more">
+                        Read review →
                       </Link>
-                    </h3>
-                    <p className="text-gray-600 text-sm line-clamp-2">{relatedReview.excerpt}</p>
-                  </div>
-                </article>
-              ))}
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>
       )}
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-gray-600">
-            © 2024 {siteConfig.siteName}. Built with Next.js and powered by LinuxID Headless CMS.
-          </p>
+      <footer className="footer">
+        <div className="container">
+          <div className="footer-content">
+            <div className="footer-section">
+              <h4>{siteConfig.siteName}</h4>
+              <p>{siteConfig.description}</p>
+            </div>
+            <div className="footer-section">
+              <h4>Quick Links</h4>
+              <ul>
+                <li><Link href="/posts">Blog</Link></li>
+                <li><Link href="/reviews">Reviews</Link></li>
+                <li><Link href="/about">About</Link></li>
+              </ul>
+            </div>
+            <div className="footer-section">
+              <h4>Categories</h4>
+              <ul>
+                <li><a href="#">VPS Reviews</a></li>
+                <li><a href="#">Hosting Services</a></li>
+                <li><a href="#">Development Tools</a></li>
+                <li><a href="#">Tech Products</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p>© 2024 {siteConfig.siteName}. Built with Next.js and ❤️</p>
+          </div>
         </div>
       </footer>
     </div>

@@ -2,36 +2,52 @@ import { getAllContent } from '@/lib/content/parser';
 import { Review } from '@/types/content';
 import Link from 'next/link';
 import Image from 'next/image';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow, format } from 'date-fns';
 import { Metadata } from 'next';
-import SearchBox from '@/components/SearchBox';
 import { siteConfig } from '@/lib/config/site';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export const metadata: Metadata = {
   title: 'Reviews',
   description: 'Browse all our product reviews and ratings',
 };
 
+// Color schemes for review cards
+const reviewCardColors = [
+  { bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', icon: '⭐' }, // Purple gradient
+  { bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', icon: '🔍' }, // Pink gradient  
+  { bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', icon: '📊' }, // Blue gradient
+  { bg: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', icon: '✅' }, // Green gradient
+  { bg: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', icon: '🏆' }, // Orange gradient
+  { bg: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', icon: '📝' }, // Light gradient
+  { bg: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)', icon: '🎯' }, // Soft pink
+  { bg: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', icon: '💎' }, // Peach
+];
+
+function getReviewCardStyle(index: number) {
+  return reviewCardColors[index % reviewCardColors.length];
+}
+
+function renderStars(rating: number) {
+  return (
+    <div className="flex items-center">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <span
+          key={star}
+          className={`text-lg ${
+            star <= rating ? 'text-yellow-300' : 'text-white/30'
+          }`}
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export default async function ReviewsPage() {
   const allReviews = getAllContent('review') as Review[];
   const publishedReviews = allReviews.filter(review => review.published);
-
-  // Transform reviews for search
-  const searchContent = publishedReviews.map(review => ({
-    id: review.id,
-    title: review.title,
-    excerpt: review.excerpt || '',
-    slug: review.slug,
-    type: 'review' as const,
-    category: review.category,
-    tags: review.tags,
-    publishedAt: new Date(review.publishedAt || review.createdAt),
-    featuredImage: review.featuredImage ? {
-      url: review.featuredImage.url,
-      alt: review.featuredImage.alt || review.title,
-    } : undefined,
-    rating: 'rating' in review ? review.rating : undefined,
-  }));
 
   // Calculate average rating
   const reviewsWithRating = publishedReviews.filter(review => 'rating' in review && review.rating);
@@ -39,76 +55,93 @@ export default async function ReviewsPage() {
     ? reviewsWithRating.reduce((sum, review) => sum + (review as any).rating, 0) / reviewsWithRating.length 
     : 0;
 
-  // Group by rating
-  const ratingGroups = {
-    5: publishedReviews.filter(review => 'rating' in review && (review as any).rating === 5),
-    4: publishedReviews.filter(review => 'rating' in review && (review as any).rating === 4),
-    3: publishedReviews.filter(review => 'rating' in review && (review as any).rating === 3),
-    2: publishedReviews.filter(review => 'rating' in review && (review as any).rating === 2),
-    1: publishedReviews.filter(review => 'rating' in review && (review as any).rating === 1),
-  };
+  // Separate featured and regular reviews
+  const featuredReviews = publishedReviews.filter(review => review.featured);
+  const regularReviews = publishedReviews.filter(review => !review.featured);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Navigation */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="text-2xl font-bold text-gray-900">
-              {siteConfig.siteName}
-            </Link>
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="text-gray-600 hover:text-blue-600 font-medium">
-                ← Home
-              </Link>
-              <Link href="/posts" className="text-gray-600 hover:text-blue-600 font-medium">
-                Blog
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
-
+    <div>
       {/* Header */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Reviews
+      <header className="header">
+        <nav className="nav container">
+          <Link href="/" className="logo">
+            {siteConfig.siteName}
+          </Link>
+          <ul className="nav-menu">
+            <li><Link href="/" className="nav-link">Home</Link></li>
+            <li><Link href="/posts" className="nav-link">Blog</Link></li>
+            <li><Link href="/reviews" className="nav-link active">Reviews</Link></li>
+            <li><Link href="/about" className="nav-link">About</Link></li>
+          </ul>
+          <ThemeToggle />
+          <button className="mobile-menu-btn">☰</button>
+        </nav>
+      </header>
+
+      {/* Page Header */}
+      <section style={{ 
+        padding: '3rem 0 2rem', 
+        background: 'var(--bg-secondary)',
+        borderBottom: '1px solid var(--border)'
+      }}>
+        <div className="container">
+          <h1 style={{ 
+            fontSize: '2.5rem', 
+            fontWeight: '700', 
+            color: 'var(--text-primary)',
+            marginBottom: '0.5rem'
+          }}>
+            Product Reviews & Ratings
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Honest reviews and ratings of products and services
+          <p style={{ 
+            fontSize: '1.1rem', 
+            color: 'var(--text-secondary)',
+            maxWidth: '600px',
+            marginBottom: '2rem'
+          }}>
+            Honest, in-depth reviews of VPS providers, hosting services, development tools, and tech products from real-world usage.
           </p>
-          
-          {/* Search Box */}
-          <div className="max-w-md mx-auto mb-8">
-            <SearchBox
-              content={searchContent}
-              placeholder="⭐ Search reviews..."
-              className="w-full"
-            />
-          </div>
-          
+
           {/* Rating Summary */}
           {reviewsWithRating.length > 0 && (
-            <div className="bg-white rounded-lg shadow-sm p-6 max-w-md mx-auto">
-              <div className="flex items-center justify-center space-x-2 mb-2">
-                <span className="text-3xl font-bold text-gray-900">
+            <div style={{
+              background: 'var(--bg-primary)',
+              border: '1px solid var(--border)',
+              borderRadius: '1rem',
+              padding: '1.5rem',
+              maxWidth: '400px',
+              textAlign: 'center',
+              boxShadow: 'var(--shadow)'
+            }}>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                gap: '1rem',
+                marginBottom: '0.5rem'
+              }}>
+                <span style={{ 
+                  fontSize: '2rem', 
+                  fontWeight: '700', 
+                  color: 'var(--text-primary)'
+                }}>
                   {averageRating.toFixed(1)}
                 </span>
-                <div className="flex">
+                <div style={{ display: 'flex' }}>
                   {[1, 2, 3, 4, 5].map((star) => (
                     <span
                       key={star}
-                      className={`text-xl ${
-                        star <= Math.round(averageRating) ? 'text-yellow-400' : 'text-gray-300'
-                      }`}
+                      style={{
+                        fontSize: '1.25rem',
+                        color: star <= Math.round(averageRating) ? '#fbbf24' : 'var(--text-muted)'
+                      }}
                     >
                       ★
                     </span>
                   ))}
                 </div>
               </div>
-              <p className="text-gray-600">
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
                 Based on {reviewsWithRating.length} review{reviewsWithRating.length !== 1 ? 's' : ''}
               </p>
             </div>
@@ -116,161 +149,268 @@ export default async function ReviewsPage() {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar */}
-          <aside className="lg:w-1/4">
-            <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Filter by Rating</h3>
-              <div className="space-y-3">
-                {[5, 4, 3, 2, 1].map((rating) => (
-                  <div key={rating} className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <div className="flex">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <span
-                            key={star}
-                            className={`text-sm ${
-                              star <= rating ? 'text-yellow-400' : 'text-gray-300'
-                            }`}
-                          >
-                            ★
-                          </span>
-                        ))}
+      {/* Main Content */}
+      <main className="main">
+        <div className="container">
+          
+          {/* Featured Reviews */}
+          {featuredReviews.length > 0 && (
+            <section style={{ marginBottom: '4rem' }}>
+              <h2 style={{ 
+                fontSize: '1.75rem', 
+                fontWeight: '600', 
+                marginBottom: '2rem',
+                color: 'var(--text-primary)'
+              }}>
+                Featured Reviews
+              </h2>
+              
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', 
+                gap: '2rem',
+                marginBottom: '3rem'
+              }}>
+                {featuredReviews.slice(0, 2).map((review, index) => {
+                  const cardStyle = getReviewCardStyle(index);
+                  const rating = 'rating' in review ? (review as any).rating : 0;
+                  return (
+                    <Link 
+                      key={review.id} 
+                      href={`/reviews/${review.slug}`}
+                      className="featured-card"
+                      style={{ 
+                        '--card-bg': cardStyle.bg 
+                      } as React.CSSProperties}
+                    >
+                      {/* Icon */}
+                      <div style={{ 
+                        fontSize: '3rem', 
+                        textAlign: 'center',
+                        marginBottom: '1rem',
+                        opacity: '0.9'
+                      }}>
+                        {cardStyle.icon}
                       </div>
-                      <span className="text-sm text-gray-600">({rating})</span>
-                    </div>
-                    <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                      {ratingGroups[rating as keyof typeof ratingGroups].length}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Stats</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Total Reviews</span>
-                    <span className="font-medium text-blue-600">{publishedReviews.length}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Average Rating</span>
-                    <span className="font-medium text-green-600">
-                      {averageRating > 0 ? averageRating.toFixed(1) : 'N/A'}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </aside>
-
-          {/* Main Content */}
-          <main className="lg:w-3/4">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">All Reviews</h2>
-              <select className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-blue-500 focus:border-blue-500">
-                <option value="newest">Newest First</option>
-                <option value="rating-high">Highest Rated</option>
-                <option value="rating-low">Lowest Rated</option>
-                <option value="oldest">Oldest First</option>
-              </select>
-            </div>
-
-            <div className="grid grid-cols-1 gap-6">
-              {publishedReviews.map((review) => (
-                <article key={review.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-                  <div className="md:flex">
-                    {review.featuredImage && (
-                      <div className="md:w-1/3">
-                        <div className="aspect-video md:aspect-square relative">
-                          <Image
-                            src={review.featuredImage.url}
-                            alt={review.featuredImage.alt || review.title}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                      </div>
-                    )}
-                    <div className={`p-6 ${review.featuredImage ? 'md:w-2/3' : 'w-full'}`}>
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center space-x-3">
-                          {'rating' in review && review.rating && (
-                            <div className="flex items-center space-x-1">
-                              <div className="flex">
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                  <span
-                                    key={star}
-                                    className={`text-lg ${
-                                      star <= (review as any).rating ? 'text-yellow-400' : 'text-gray-300'
-                                    }`}
-                                  >
-                                    ★
-                                  </span>
-                                ))}
-                              </div>
-                              <span className="text-sm font-medium text-gray-900">
-                                {(review as any).rating}/5
-                              </span>
+                      
+                      {/* Content */}
+                      <div>
+                        <div style={{ 
+                          fontSize: '0.875rem', 
+                          opacity: '0.9', 
+                          marginBottom: '1rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between'
+                        }}>
+                          <span>📅 {format(review.publishedAt || review.createdAt, 'MMM d, yyyy')}</span>
+                          {rating > 0 && (
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                              {renderStars(rating)}
+                              <span style={{ fontWeight: '600' }}>{rating}/5</span>
                             </div>
                           )}
                         </div>
-                        <span className="text-gray-500 text-sm">
-                          {formatDistanceToNow(review.publishedAt || review.createdAt)} ago
-                        </span>
+                        
+                        <h3 style={{ 
+                          fontSize: '1.5rem', 
+                          fontWeight: '700', 
+                          marginBottom: '1rem',
+                          lineHeight: '1.3'
+                        }}>
+                          {review.title}
+                        </h3>
+                        
+                        <p style={{ 
+                          opacity: '0.9', 
+                          lineHeight: '1.6',
+                          marginBottom: '1.5rem'
+                        }}>
+                          {review.excerpt}
+                        </p>
+                        
+                        <div style={{ 
+                          display: 'inline-flex', 
+                          alignItems: 'center', 
+                          gap: '0.5rem',
+                          fontWeight: '600',
+                          fontSize: '0.9rem'
+                        }}>
+                          Read review →
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
+          {/* All Reviews Grid */}
+          <section>
+            <h2 style={{ 
+              fontSize: '1.75rem', 
+              fontWeight: '600', 
+              marginBottom: '2rem',
+              color: 'var(--text-primary)'
+            }}>
+              All Reviews
+            </h2>
+            
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
+              gap: '1.5rem'
+            }}>
+              {regularReviews.map((review, index) => {
+                const cardStyle = getReviewCardStyle(index + featuredReviews.length);
+                const rating = 'rating' in review ? (review as any).rating : 0;
+                return (
+                  <Link 
+                    key={review.id} 
+                    href={`/reviews/${review.slug}`}
+                    className="regular-card"
+                    style={{ 
+                      '--card-bg': cardStyle.bg 
+                    } as React.CSSProperties}
+                  >
+                    {/* Icon */}
+                    <div style={{ 
+                      fontSize: '2.5rem', 
+                      textAlign: 'center',
+                      marginBottom: '1rem',
+                      opacity: '0.9'
+                    }}>
+                      {cardStyle.icon}
+                    </div>
+                    
+                    {/* Content */}
+                    <div>
+                      <div style={{ 
+                        fontSize: '0.8rem', 
+                        opacity: '0.9', 
+                        marginBottom: '0.75rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                      }}>
+                        <span>{format(review.publishedAt || review.createdAt, 'MMM d, yyyy')}</span>
+                        {rating > 0 && (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                            <span style={{ fontSize: '1rem' }}>⭐</span>
+                            <span style={{ fontWeight: '600', fontSize: '0.85rem' }}>{rating}/5</span>
+                          </div>
+                        )}
                       </div>
                       
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                        <Link href={`/reviews/${review.slug}`} className="hover:text-blue-600 transition-colors">
-                          {review.title}
-                        </Link>
+                      <h3 style={{ 
+                        fontSize: '1.25rem', 
+                        fontWeight: '600', 
+                        marginBottom: '0.75rem',
+                        lineHeight: '1.3'
+                      }}>
+                        {review.title}
                       </h3>
                       
-                      <p className="text-gray-600 mb-4 line-clamp-3">{review.excerpt}</p>
+                      <p style={{ 
+                        opacity: '0.9', 
+                        fontSize: '0.9rem',
+                        lineHeight: '1.5',
+                        marginBottom: '1rem'
+                      }}>
+                        {review.excerpt}
+                      </p>
                       
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4 text-sm text-gray-500">
-                          {review.author && (
-                            <span>By {review.author.name}</span>
-                          )}
-                          {review.category && (
-                            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">
-                              {review.category}
+                      {/* Tags */}
+                      {review.tags && review.tags.length > 0 && (
+                        <div style={{ 
+                          display: 'flex', 
+                          flexWrap: 'wrap', 
+                          gap: '0.5rem',
+                          marginBottom: '1rem'
+                        }}>
+                          {review.tags.slice(0, 3).map(tag => (
+                            <span key={tag} style={{ 
+                              background: 'rgba(255,255,255,0.2)', 
+                              padding: '0.25rem 0.5rem',
+                              borderRadius: '0.25rem',
+                              fontSize: '0.75rem',
+                              fontWeight: '500'
+                            }}>
+                              {tag}
                             </span>
-                          )}
+                          ))}
                         </div>
-                        <Link
-                          href={`/reviews/${review.slug}`}
-                          className="text-blue-600 hover:text-blue-700 font-medium text-sm"
-                        >
-                          Read Review →
-                        </Link>
-                      </div>
+                      )}
+
+                      {/* Author */}
+                      {review.author && (
+                        <div style={{ 
+                          fontSize: '0.8rem', 
+                          opacity: '0.8',
+                          fontStyle: 'italic'
+                        }}>
+                          Reviewed by {review.author.name}
+                        </div>
+                      )}
                     </div>
-                  </div>
-                </article>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
 
             {/* Empty State */}
             {publishedReviews.length === 0 && (
-              <div className="text-center py-12">
-                <div className="text-6xl mb-4">📝</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">No reviews yet</h3>
-                <p className="text-gray-600 mb-6">Be the first to share your review!</p>
+              <div style={{ 
+                textAlign: 'center', 
+                padding: '3rem 0',
+                color: 'var(--text-secondary)'
+              }}>
+                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>📝</div>
+                <h3 style={{ 
+                  fontSize: '1.25rem', 
+                  fontWeight: '600', 
+                  color: 'var(--text-primary)',
+                  marginBottom: '0.5rem'
+                }}>
+                  No reviews yet
+                </h3>
+                <p>Be the first to share your review!</p>
               </div>
             )}
-          </main>
+          </section>
         </div>
-      </div>
+      </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-gray-600">
-            © 2024 {siteConfig.siteName}. Built with Next.js and powered by LinuxID Headless CMS.
-          </p>
+      <footer className="footer">
+        <div className="container">
+          <div className="footer-content">
+            <div className="footer-section">
+              <h4>{siteConfig.siteName}</h4>
+              <p>{siteConfig.description}</p>
+            </div>
+            <div className="footer-section">
+              <h4>Quick Links</h4>
+              <ul>
+                <li><Link href="/posts">Blog</Link></li>
+                <li><Link href="/reviews">Reviews</Link></li>
+                <li><Link href="/about">About</Link></li>
+              </ul>
+            </div>
+            <div className="footer-section">
+              <h4>Categories</h4>
+              <ul>
+                <li><a href="#">VPS Reviews</a></li>
+                <li><a href="#">Hosting Services</a></li>
+                <li><a href="#">Development Tools</a></li>
+                <li><a href="#">Tech Products</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p>© 2024 {siteConfig.siteName}. Built with Next.js and ❤️</p>
+          </div>
         </div>
       </footer>
     </div>
