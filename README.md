@@ -1,100 +1,51 @@
-# 🚀 LinuxID Pure Static Site Generator
+# 🐧 LinuxID - Modern Static Site Generator
 
-A **pure static site generator** built with Next.js that transforms markdown content into beautiful, fast, SEO-optimized websites. **Zero APIs, zero database, zero server-side code**—just pure static HTML/CSS/JS with instant client-side search.
+A **professional static site generator** built with Next.js that transforms markdown content into beautiful, fast, SEO-optimized websites. Features modern UI design with Lucide React icons, full-width featured images, and consistent styling throughout.
 
 [![Next.js](https://img.shields.io/badge/Next.js-14.0.4-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3-38B2AC)](https://tailwindcss.com/)
+[![Lucide React](https://img.shields.io/badge/Icons-Lucide_React-orange)](https://lucide.dev/)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
 ## ✨ **Key Features**
 
-🔍 **Instant Client-Side Search** - Real-time search across all content types  
-📝 **Pure Markdown Content** - Blog posts, pages, reviews with frontmatter  
-🌐 **Beautiful Static Website** - Responsive design with modern UI components  
-🎨 **Glass-morphism Design** - Modern navigation, smooth animations, professional typography  
-🖼️ **File-Based Images** - Simple static images in `/public/static/img/`  
-⚡ **Zero Configuration** - No database, no APIs, no authentication, no server required  
-🎯 **SEO Optimized** - Built-in meta tags, Open Graph, structured data  
-🚀 **Pure Static Export** - Generates pure HTML/CSS/JS for any CDN or static host  
-📦 **Lightweight** - Minimal dependencies, fast builds, tiny bundle size  
+🎨 **Modern Design System** - Lucide React icons, glass-morphism UI, professional typography  
+📝 **Markdown-Based Content** - Blog posts, pages, reviews with frontmatter metadata  
+🖼️ **Full-Width Featured Images** - Edge-to-edge image display with SVG fallbacks  
+🎯 **Consistent Styling** - Unified design across featured and regular content sections  
+🔄 **Random Featured Content** - Dynamic featured post selection for each visitor  
+🌈 **Color-Coded Sections** - Distinct visual themes for different content types  
+⚡ **Static Export** - Pure HTML/CSS/JS for any CDN or static hosting  
+🔍 **Client-Side Search** - Real-time search across all content types  
+📱 **Fully Responsive** - Mobile-first design with adaptive layouts  
+🚀 **Zero Configuration** - No database, no APIs, no server required  
 
-## 🔍 **Advanced Search Features**
+## 🎨 **Modern UI Features**
 
-### **Multi-Location Search**
-- **Homepage Search** - Central search box in hero section (searches all content)
-- **Blog Search** - Dedicated search on `/posts` page (posts only)
-- **Review Search** - Specialized search on `/reviews` page (reviews with ratings)
+### **Professional Icon System**
+- **Lucide React Icons** - Consistent, scalable icons throughout
+- **Semantic Usage** - Search, calendar, navigation, social media icons
+- **Perfect Alignment** - Proper sizing (16px navigation, 14px content, 12px small)
+- **Accessibility** - Screen reader friendly icons with proper labels
 
-### **Smart Search Capabilities**
-- **Real-time Results** - Shows results as you type (2+ characters)
-- **Multi-Content Search** - Posts (📝), Reviews (⭐), Pages (📄)
-- **Smart Filtering** - Searches titles, excerpts, categories, and tags
-- **Visual Indicators** - Content type icons and category badges
-- **Rating Display** - Star ratings for reviews in search results
-- **Instant Navigation** - Click result to go directly to content
-- **Responsive UI** - Perfect on mobile and desktop
+### **Featured Images System**
+- **Full-Width Display** - Edge-to-edge images spanning complete card width
+- **Smart Fallbacks** - Custom SVG default image for posts without featured images
+- **Optimized Loading** - Next.js Image component with explicit dimensions
+- **Responsive Design** - Images adapt to all screen sizes
 
-### **Search Technology**
-- **Pure Client-Side** - No API calls, instant performance
-- **JavaScript Filtering** - Sub-millisecond search results
-- **Dropdown Interface** - Clean, modern search UI
-- **Result Limiting** - Top 10 most relevant results
-- **Clear Function** - Easy reset with (✕) button
-
-## 🔥 **Pure Static Benefits**
-
-### **🚀 Maximum Performance**
-- **Zero server-side processing** - Everything pre-rendered at build time
-- **No cold starts** - Instant loading from CDN edge
-- **Minimal JavaScript** - Only essential client-side code + search
-- **Perfect Lighthouse scores** - 100/100 performance out of the box
-
-### **💰 Zero Hosting Costs**
-- **No server required** - Works on any static host
-- **No database fees** - Everything is file-based
-- **CDN optimized** - Perfect for Cloudflare Pages, Vercel, Netlify
-- **Unlimited scaling** - Static files scale infinitely
-
-### **🔒 Maximum Security**
-- **No attack surface** - Static files can't be hacked
-- **No vulnerabilities** - No server-side code to exploit
-- **Version control** - Everything tracked in Git
-- **Backup friendly** - Just copy files
-
-## 🌐 **What You Get**
-
-### **Beautiful Static Website with Search**
-
-**Homepage (`/`)**
-- Modern hero section with **central search box**
-- Search across all content types (posts, reviews, pages)
-- Featured posts showcase with hover effects
-- Latest posts grid with responsive cards
-- Latest reviews with star ratings
-- Content statistics and professional footer
-
-**Blog System (`/posts/` + `/posts/[slug]/`)**
-- **Dedicated blog search** with instant filtering
-- Advanced blog listing with category filtering
-- Individual post pages with full SEO optimization
-- Reading time calculation and publication dates
-- Author information and tag navigation
-- Related posts suggestions
-
-**Reviews System (`/reviews/` + `/reviews/[slug]/`)**
-- **Review-specific search** with rating displays
-- Star rating displays with visual feedback
-- Review filtering by rating (1-5 stars)
-- Individual review pages with detailed breakdowns
-- Related reviews and recommendations
+### **Content Sections**
+- **Featured Tutorials** - Highlighted content with #F38181 coral background
+- **All Solutions & Insights** - Regular content with teal-to-dark gradient
+- **Random Selection** - Featured posts randomly selected per visitor
+- **Consistent Layout** - Same grid system and typography across sections
 
 ## 🚀 **Quick Start**
 
 ### 1. **Clone & Install**
 ```bash
-git clone https://github.com/geek-id/linuxid-static-site.git
-cd linuxid-static-site
+git clone https://github.com/geek-id/linuxid-project.git
+cd linuxid-project/headless-cms
 npm install
 ```
 
@@ -104,148 +55,151 @@ npm install
 cp env.example .env.local
 
 # Edit with your site details
-nano .env.local  # or your preferred editor
+nano .env.local
 ```
 
 ### 3. **Start Development**
 ```bash
 npm run dev
 # Visit http://localhost:3000
-# Test search functionality on homepage, /posts, and /reviews
 ```
 
 ### 4. **Add Your Content**
 Create `.md` files in `content/` directories:
 ```bash
 content/
-├── posts/          # Blog posts (searchable)
-├── pages/          # Static pages (searchable)
-└── reviews/        # Product reviews (searchable with ratings)
+├── posts/          # Blog posts with featured image support
+├── pages/          # Static pages 
+└── reviews/        # Product reviews with ratings
 ```
 
-### 5. **Build for Production**
+### 5. **Add Images**
+```bash
+public/static/img/  # Place your images here
+├── featured/       # Featured images for posts
+├── gallery/        # Gallery images
+└── default-post.svg # Automatic fallback image
+```
+
+### 6. **Build for Production**
 ```bash
 npm run build
 # Static site generated in 'out/' directory
-# Search functionality included in static bundle
 ```
-
-### 6. **Deploy Anywhere**
-Upload the `out/` folder to any static host!
 
 ## 📝 **Content Management**
 
-### **Content Structure with Search**
+### **Post Structure with Featured Images**
 ```yaml
 ---
-title: "Your Post Title"              # 🔍 Searchable
-slug: "auto-generated-from-title"
-excerpt: "Brief description for SEO"  # 🔍 Searchable
-featured: true
+title: "Complete Guide to Linux System Administration"
+slug: "linux-system-admin-guide"
+excerpt: "Comprehensive guide covering essential Linux administration skills"
+featured: true                    # Shows in Featured Tutorials
 published: true
-publishedAt: "2024-01-15T10:00:00Z"
+publishedAt: "2024-05-24T10:00:00Z"
 author: 
-  name: "Author Name"
-  email: "author@example.com"
-category: "Tutorial"                  # 🔍 Searchable
-tags: ["nextjs", "static-site"]       # 🔍 Searchable
+  name: "LinuxID Team"
+  email: "team@linux-id.net"
+category: "System Administration"
+tags: ["linux", "sysadmin", "tutorials"]
+
+# Featured Image (optional)
+featuredImage:
+  url: "/static/img/featured/linux-admin.jpg"
+  alt: "Linux system administration dashboard"
 
 # SEO Configuration
 seo:
-  title: "Custom SEO title"
-  description: "SEO meta description"
-  keywords: ["keyword1", "keyword2"]
-
-# Static Images
-featuredImage:
-  url: "/static/img/featured.jpg"
-  alt: "Image description"
+  title: "Linux System Administration Guide | LinuxID"
+  description: "Learn essential Linux system administration skills"
+  keywords: ["linux", "system administration", "devops"]
 ---
 
 # Your Markdown Content
 
 Write your content here with full markdown support.
-Content is automatically indexed for search!
+Images automatically display edge-to-edge with fallback support.
 
-![Images](/static/img/example.jpg)
+![Example Image](/static/img/example.jpg)
 ```
 
 ### **Content Types**
 
-**Blog Posts** (`content/posts/`)
-```yaml
-# Additional fields for posts
-readingTime: 5  # Minutes (auto-calculated if not provided)
-series: "Tutorial Series"
-seriesOrder: 1
-```
+**📝 Blog Posts** (`content/posts/`)
+- Full-width featured images or SVG fallback
+- Random featured post selection
+- Category and tag organization
+- Reading time calculation
 
-**Reviews** (`content/reviews/`)
-```yaml
-# Additional fields for reviews
-rating: 4.5  # Out of 5 stars (appears in search results)
-productName: "Product Name"
-pros: ["Great performance", "Easy to use"]
-cons: ["Expensive", "Limited features"]
-verdict: "Overall recommendation"
-```
+**⭐ Reviews** (`content/reviews/`)
+- Star ratings (1-5) with visual display
+- Product evaluation with pros/cons
+- Featured image support
+- Detailed review structure
 
-**Pages** (`content/pages/`)
-```yaml
-# Simple pages with custom layout options
-layout: "default"  # or "full-width", "minimal"
-```
+**📄 Pages** (`content/pages/`)
+- Static content pages
+- Custom layouts
+- Featured image support
 
-## 🖼️ **Static Images**
+## 🎨 **Design System**
 
-### **Simple File Management**
+### **Color Schemes**
+- **Featured Tutorials**: Solid #F38181 (coral) background
+- **All Solutions & Insights**: Teal-to-dark gradient (#08D9D6 to #252A34)
+- **Footer Tags**: Light hover effects with proper font weight changes
+
+### **Typography**
+- **Primary Font**: Inter (300, 400, 500, 600, 700 weights)
+- **Code Font**: JetBrains Mono (400, 500 weights)
+- **Responsive Scaling**: Mobile-first approach with proper hierarchy
+
+### **Icons**
+- **Icon Library**: Lucide React
+- **Usage**: Navigation, content types, social media, actions
+- **Sizing**: Consistent scaling across all components
+- **Accessibility**: Proper alt text and semantic usage
+
+## 🖼️ **Image Management**
+
+### **Featured Images**
 ```bash
-# Place images in public/static/img/
-public/
-└── static/
-    └── img/
-        ├── featured-image.jpg
-        ├── blog-image-1.jpg
-        └── gallery/
-            ├── photo1.jpg
-            └── photo2.jpg
+# Recommended structure
+public/static/img/
+├── featured/              # Post featured images
+│   ├── linux-guide.jpg
+│   └── docker-tutorial.jpg
+├── gallery/               # Content images
+│   ├── screenshots/
+│   └── diagrams/
+└── default-post.svg       # Automatic fallback
 ```
 
-### **Reference in Content**
-```markdown
-# In markdown content
-![Alt text](/static/img/example.jpg)
-
-# In frontmatter
-featuredImage:
-  url: "/static/img/featured.jpg"
-  alt: "Description"
-```
-
-### **Automatic Optimization**
-All images are automatically optimized for:
-- **Lazy loading** - Better performance
-- **Responsive sizing** - Adapts to screen sizes  
-- **SEO optimization** - Proper alt tags
-- **Cache headers** - Long-term browser caching
+### **Image Optimization**
+- **Format Support**: JPG, PNG, WebP, SVG
+- **Automatic Optimization**: Next.js Image component
+- **Responsive Sizing**: Adapts to container width
+- **Lazy Loading**: Performance optimization
+- **SVG Fallback**: Custom Linux-themed default image
 
 ## 🚀 **Deployment**
 
-### **Static Export Process**
+### **Build Process**
 ```bash
 npm run build
-# Generates static files in 'out/' directory:
+# Generates optimized static files:
 # - HTML pages for all content
-# - Optimized CSS and JavaScript (including search)
+# - Optimized CSS with design system
+# - JavaScript with Lucide icons
 # - Static assets and images
 # - SEO files (sitemap, robots.txt)
 ```
 
-### **Deployment Options**
+### **Hosting Options**
 
-**🔥 Cloudflare Pages (Recommended)**
+**🔥 Recommended: Cloudflare Pages**
 ```bash
-# Connect GitHub repo to Cloudflare Pages
 # Build settings:
 # - Build command: npm run build
 # - Output directory: out
@@ -254,205 +208,119 @@ npm run build
 
 **⚡ Vercel**
 ```bash
-# Deploy with one command
 npx vercel --prod
 ```
 
 **🌐 Netlify**
 ```bash
-# Drag & drop the 'out' folder to Netlify
-# Or connect GitHub repo with same build settings
+# Drag & drop 'out' folder or connect GitHub
 ```
 
 **📄 GitHub Pages**
 ```bash
-# Push 'out' contents to gh-pages branch
 git subtree push --prefix out origin gh-pages
-```
-
-**☁️ AWS S3 + CloudFront**
-```bash
-# Sync to S3 bucket
-aws s3 sync out/ s3://your-bucket-name --delete
-```
-
-**🏠 Self-Hosted**
-```bash
-# Copy 'out' folder to any web server
-cp -r out/* /var/www/html/
 ```
 
 ## 🛠️ **Development**
 
 ### **Project Structure**
 ```
-linuxid-static-site/
+headless-cms/
 ├── src/
 │   ├── app/
-│   │   ├── page.tsx           # Homepage (with search)
-│   │   ├── posts/             # Blog pages (with search)
-│   │   ├── reviews/           # Review pages (with search)
-│   │   └── layout.tsx         # Root layout
+│   │   ├── page.tsx              # Homepage with featured content
+│   │   ├── posts/page.tsx        # Blog listing with search
+│   │   ├── reviews/page.tsx      # Reviews with ratings
+│   │   └── globals.css           # Design system & styling
 │   ├── components/
-│   │   ├── SearchBox.tsx      # 🔍 Main search component
-│   │   └── HomePageSearch.tsx # Homepage search wrapper
+│   │   ├── Footer.tsx            # Footer with Lucide icons
+│   │   ├── ThemeToggle.tsx       # Dark/light mode
+│   │   └── SearchBox.tsx         # Client-side search
 │   ├── lib/
-│   │   ├── content/           # Markdown parsing
-│   │   └── utils/             # Utility functions
-│   ├── types/                 # TypeScript definitions
-│   └── components/            # Reusable components
-├── content/                   # Markdown content
-│   ├── posts/                 # Blog posts (searchable)
-│   ├── pages/                 # Static pages (searchable)
-│   └── reviews/               # Product reviews (searchable)
+│   │   ├── content/parser.ts     # Markdown processing
+│   │   └── config/site.ts        # Site configuration
+│   └── types/content.ts          # TypeScript definitions
+├── content/                      # Markdown content
+│   ├── posts/                    # Blog posts
+│   ├── pages/                    # Static pages
+│   └── reviews/                  # Product reviews
 ├── public/
-│   ├── static/
-│   │   └── img/               # Static images
-│   ├── favicon.ico
-│   └── robots.txt
-└── out/                       # Generated static site (after build)
+│   ├── static/img/               # Images & assets
+│   │   └── default-post.svg      # Fallback image
+│   └── favicon.ico
+└── out/                          # Generated static site
 ```
 
 ### **Available Scripts**
 ```bash
-npm run dev          # Development server with hot reload + search
-npm run build        # Generate static site in 'out' directory
-npm run start        # Preview production build locally
-npm run lint         # ESLint code quality check
+npm run dev          # Development server with hot reload
+npm run build        # Generate static site
+npm run start        # Preview production build
+npm run lint         # Code quality check
 npm run type-check   # TypeScript validation
-npm run clean        # Clean build cache
 ```
 
-### **Adding Content Workflow**
-1. **Create markdown file** in appropriate `content/` directory
-2. **Add frontmatter** with title, excerpt, metadata
-3. **Write content** in markdown below frontmatter
-4. **Add images** to `public/static/img/` if needed
-5. **Test search** - content appears automatically in search results
-6. **Run build** - content appears automatically in static site
+## 📊 **Performance Features**
 
-## 🎨 **Customization**
-
-### **Site Configuration**
-```typescript
-// Edit src/app/page.tsx
-const siteConfig = {
-  siteName: 'Your Site Name',
-  description: 'Your site description'
-};
-```
-
-### **Styling & Theme**
-```typescript
-// Edit tailwind.config.ts
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        primary: '#your-brand-color',
-        secondary: '#your-secondary-color',
-      },
-      fontFamily: {
-        sans: ['Your-Font', 'sans-serif'],
-      },
-    },
-  },
-};
-```
-
-### **Layout Customization**
-```typescript
-// Edit src/app/layout.tsx for global changes
-// Edit individual page files for specific layouts
-// Edit src/components/SearchBox.tsx for search styling
-```
-
-## 📊 **Performance & Features**
-
-### **Performance Metrics**
-- ⚡ **Build time**: ~30 seconds for 100 posts
-- 🚀 **Page load**: ~200ms (cached)
-- 📦 **Bundle size**: ~180KB (gzipped) with search
-- 🎯 **Lighthouse**: 100/100 performance score
-- 🔍 **Search speed**: Sub-millisecond results
-- 💾 **Memory usage**: Minimal (static files)
+### **Optimization**
+- **Static Generation**: All pages pre-rendered at build time
+- **Image Optimization**: Automatic Next.js image processing
+- **Code Splitting**: Minimal JavaScript bundles
+- **CSS Optimization**: Tailwind CSS purging
+- **Icon Tree-Shaking**: Only used Lucide icons included
 
 ### **SEO Features**
-- ✅ **Meta tags** for every page
-- ✅ **Open Graph** and Twitter Cards
-- ✅ **Structured data** (JSON-LD schema)
-- ✅ **Semantic HTML** with proper headings
-- ✅ **Canonical URLs** and proper linking
-- ✅ **Sitemap.xml** generation
-- ✅ **Robots.txt** configuration
+- **Meta Tags**: Automatic generation for all pages
+- **Open Graph**: Social media sharing optimization
+- **Structured Data**: JSON-LD schema markup
+- **Sitemap**: Automatic XML sitemap generation
+- **Canonical URLs**: Proper URL structure
 
-### **Modern Web Standards**
-- ✅ **Responsive design** (mobile-first)
-- ✅ **Progressive enhancement** 
-- ✅ **Accessibility** (WCAG 2.1 AA)
-- ✅ **Core Web Vitals** optimization
-- ✅ **Modern CSS** (Grid, Flexbox, CSS Variables)
-- ✅ **TypeScript** for type safety
-- ✅ **Client-side interactivity** (search only)
+### **Performance Metrics**
+- ⚡ **Build Time**: ~30 seconds for typical content
+- 📦 **Bundle Size**: ~180KB (gzipped) with icons
+- 🚀 **Page Load**: ~200ms from CDN
+- 🎯 **Lighthouse**: 100/100 performance potential
+- 🔍 **Search**: Sub-millisecond client-side filtering
 
-## 🔧 **Technical Details**
+## 🎯 **Current Features**
 
-### **Build Process**
-1. **Markdown parsing** - Gray-matter + Marked.js
-2. **Static generation** - Next.js App Router
-3. **Search indexing** - Content transformation for client-side search
-4. **Asset optimization** - Automatic CSS/JS minification
-5. **Image optimization** - Next.js Image component
-6. **SEO generation** - Automatic meta tags and structured data
+### **✅ Implemented**
+- Modern UI with Lucide React icons
+- Full-width featured images with SVG fallbacks
+- Consistent styling across all sections
+- Random featured post selection
+- Color-coded content sections
+- Responsive design with mobile-first approach
+- Footer with proper hover effects
+- Client-side search functionality
+- Static site generation with Next.js
+- Markdown content management
+- TypeScript for type safety
 
-### **Browser Support**
-- ✅ **Modern browsers** (ES2020+)
-- ✅ **Mobile browsers** (iOS Safari, Chrome Mobile)
-- ✅ **Progressive enhancement** for older browsers
-- ✅ **JavaScript disabled** - Content still accessible (search disabled)
-
-### **Content Processing**
-- **Markdown rendering** - GitHub Flavored Markdown
-- **Syntax highlighting** - Built-in code block styling
-- **Auto-linking** - URLs and email addresses
-- **Table support** - Markdown tables rendered beautifully
-- **Search indexing** - Automatic content extraction for search
+### **🎨 Design Highlights**
+- Professional icon system throughout
+- Edge-to-edge featured images
+- Smooth hover effects and transitions
+- Consistent typography and spacing
+- Modern glass-morphism navigation
+- Accessible color schemes
+- Mobile-optimized touch interfaces
 
 ## 📚 **Documentation**
 
-- **[Quick Reference](docs/QUICK-REFERENCE.md)** - Commands, syntax, and search guide
-- **[Configuration Guide](docs/CONFIGURATION.md)** - Environment variables and site settings
-- **[CSS Customization Guide](docs/CSS-CUSTOMIZATION.md)** - Complete styling and design customization
-- **[Deployment Guide](docs/DEPLOYMENT.md)** - CI/CD setup and hosting platforms
-- **[Changelog](CHANGELOG.md)** - Version history and feature updates
-
-## ❓ **FAQ**
-
-**Q: How does the search work without a database?**
-A: Search is purely client-side JavaScript that filters pre-built content arrays. It's instant and works offline!
-
-**Q: Can I add dynamic features later?**
-A: Yes! You can always add API routes or server-side features by changing the Next.js config.
-
-**Q: How do I handle forms (contact, comments)?**
-A: Use services like Netlify Forms, Formspree, or Vercel Forms for static form handling.
-
-**Q: Can I use a CMS with this?**
-A: Yes! You can integrate with headless CMSs like Contentful, Strapi, or Sanity.
-
-**Q: How do I customize the search functionality?**
-A: Edit `src/components/SearchBox.tsx` for search logic and UI. It's fully customizable.
-
-**Q: Can I migrate from WordPress?**
-A: Yes! Export your WordPress content to markdown and place in the content directories.
+- **[Environment Setup](env.example)** - Configuration template
+- **[Content Guide](#content-management)** - Markdown structure
+- **[Design System](#design-system)** - Colors, typography, icons
+- **[Deployment](#deployment)** - Hosting options and CI/CD
+- **[Changelog](CHANGELOG.md)** - Version history and updates
 
 ## 🤝 **Contributing**
 
 1. **Fork** the repository
 2. **Create** feature branch: `git checkout -b feature/amazing-feature`
-3. **Commit** changes: `git commit -m 'Add amazing feature'`
-4. **Push** to branch: `git push origin feature/amazing-feature`
-5. **Open** Pull Request
+3. **Test** with `npm run build`
+4. **Submit** Pull Request
 
 ## 📄 **License**
 
@@ -460,11 +328,11 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-**🚀 Built with Next.js 14, TypeScript, and Tailwind CSS**  
-⚡ **Pure static generation with instant client-side search**  
-🌐 **Deploy anywhere - CDN-optimized, infinitely scalable**  
-🎯 **Perfect for blogs, portfolios, documentation, and marketing sites**  
-🔍 **Advanced search without APIs or databases**
+**🐧 Built for Linux enthusiasts with Next.js 14, TypeScript, and Lucide React**  
+⚡ **Modern static generation with professional design**  
+🎨 **Full-width images, consistent styling, beautiful icons**  
+🚀 **Deploy anywhere - CDN-optimized and infinitely scalable**  
+🔍 **Instant search without servers or databases**
 
 ## ⚙️ **Environment Configuration**
 
