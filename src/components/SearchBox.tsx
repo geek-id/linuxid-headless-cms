@@ -75,31 +75,67 @@ export default function SearchBox({ content, placeholder = "Search content...", 
     switch (type) {
       case 'post': return '/posts';
       case 'review': return '/reviews';
-      case 'page': return '/pages';
+      case 'page': return '';
       default: return '/posts';
     }
   };
 
   return (
-    <div className={`relative ${className}`}>
-      <div className="relative">
+    <div style={{ position: 'relative' }} className={className}>
+      <div style={{ position: 'relative' }}>
         <input
           type="text"
           value={query}
           onChange={handleSearch}
           placeholder={placeholder}
-          className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+          style={{
+            width: '100%',
+            padding: '0.75rem 2.5rem 0.75rem 1rem',
+            border: '1px solid var(--border)',
+            borderRadius: '0.5rem',
+            background: 'var(--bg-primary)',
+            color: 'var(--text-primary)',
+            fontSize: '0.9rem',
+            outline: 'none',
+            transition: 'all 0.3s ease'
+          }}
+          onFocus={(e) => {
+            e.target.style.borderColor = 'var(--primary)';
+            e.target.style.boxShadow = '0 0 0 2px rgba(13, 148, 136, 0.1)';
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = 'var(--border)';
+            e.target.style.boxShadow = 'none';
+          }}
         />
         {query && (
           <button
             onClick={clearSearch}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            style={{
+              position: 'absolute',
+              right: '0.75rem',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'none',
+              border: 'none',
+              color: 'var(--text-muted)',
+              cursor: 'pointer',
+              fontSize: '0.9rem',
+              padding: '0.25rem'
+            }}
           >
             ✕
           </button>
         )}
         {!query && (
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+          <div style={{
+            position: 'absolute',
+            right: '0.75rem',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            color: 'var(--text-muted)',
+            fontSize: '0.9rem'
+          }}>
             🔍
           </div>
         )}
@@ -107,11 +143,27 @@ export default function SearchBox({ content, placeholder = "Search content...", 
 
       {/* Search Results Dropdown */}
       {isOpen && results.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
-          <div className="p-3 border-b border-gray-200">
-            <p className="text-sm text-gray-600">
-              Found {results.length} result{results.length !== 1 ? 's' : ''} for "{query}"
-            </p>
+        <div style={{
+          position: 'absolute',
+          top: '100%',
+          left: '0',
+          right: '0',
+          marginTop: '0.5rem',
+          background: 'var(--bg-primary)',
+          border: '1px solid var(--border)',
+          borderRadius: '0.5rem',
+          boxShadow: 'var(--shadow-lg)',
+          zIndex: 50,
+          maxHeight: '24rem',
+          overflowY: 'auto'
+        }}>
+          <div style={{
+            padding: '0.75rem',
+            borderBottom: '1px solid var(--border)',
+            fontSize: '0.8rem',
+            color: 'var(--text-secondary)'
+          }}>
+            Found {results.length} result{results.length !== 1 ? 's' : ''} for "{query}"
           </div>
           
           {results.map((result) => (
@@ -119,33 +171,73 @@ export default function SearchBox({ content, placeholder = "Search content...", 
               key={result.id}
               href={`${getTypePath(result.type)}/${result.slug}`}
               onClick={clearSearch}
-              className="block p-4 hover:bg-gray-50 border-b border-gray-100 last:border-b-0 transition-colors"
+              style={{
+                display: 'block',
+                padding: '1rem',
+                borderBottom: '1px solid var(--border)',
+                textDecoration: 'none',
+                color: 'inherit',
+                transition: 'background-color 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'var(--bg-secondary)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+              }}
             >
-              <div className="flex items-start space-x-3">
-                <span className="text-lg flex-shrink-0 mt-1">
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                <span style={{ fontSize: '1.1rem', marginTop: '0.1rem' }}>
                   {getTypeIcon(result.type)}
                 </span>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center space-x-2 mb-1">
-                    <h4 className="text-sm font-medium text-gray-900 truncate">
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                    <h4 style={{
+                      fontSize: '0.9rem',
+                      fontWeight: '500',
+                      color: 'var(--text-primary)',
+                      margin: 0,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap'
+                    }}>
                       {result.title}
                     </h4>
                     {result.rating && (
-                      <div className="flex items-center space-x-1">
-                        <span className="text-yellow-400 text-xs">★</span>
-                        <span className="text-xs text-gray-600">{result.rating}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        <span style={{ color: '#fbbf24', fontSize: '0.75rem' }}>★</span>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{result.rating}</span>
                       </div>
                     )}
                   </div>
-                  <p className="text-xs text-gray-600 line-clamp-2 mb-2">
+                  <p style={{
+                    fontSize: '0.8rem',
+                    color: 'var(--text-secondary)',
+                    margin: '0 0 0.5rem 0',
+                    overflow: 'hidden',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    lineHeight: '1.4'
+                  }}>
                     {result.excerpt}
                   </p>
-                  <div className="flex items-center space-x-2 text-xs text-gray-500">
-                    <span className="bg-gray-100 px-2 py-1 rounded-full capitalize">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                    <span style={{
+                      background: 'var(--bg-secondary)',
+                      padding: '0.25rem 0.5rem',
+                      borderRadius: '9999px',
+                      textTransform: 'capitalize'
+                    }}>
                       {result.type}
                     </span>
                     {result.category && (
-                      <span className="bg-blue-50 text-blue-600 px-2 py-1 rounded-full">
+                      <span style={{
+                        background: 'var(--secondary)',
+                        color: 'var(--primary)',
+                        padding: '0.25rem 0.5rem',
+                        borderRadius: '9999px'
+                      }}>
                         {result.category}
                       </span>
                     )}
@@ -159,10 +251,14 @@ export default function SearchBox({ content, placeholder = "Search content...", 
           ))}
           
           {results.length === 10 && (
-            <div className="p-3 text-center border-t border-gray-200">
-              <p className="text-xs text-gray-500">
-                Showing first 10 results. Try a more specific search.
-              </p>
+            <div style={{
+              padding: '0.75rem',
+              textAlign: 'center',
+              borderTop: '1px solid var(--border)',
+              fontSize: '0.75rem',
+              color: 'var(--text-muted)'
+            }}>
+              Showing first 10 results. Try a more specific search.
             </div>
           )}
         </div>
@@ -170,10 +266,34 @@ export default function SearchBox({ content, placeholder = "Search content...", 
 
       {/* No Results */}
       {isOpen && results.length === 0 && query.length >= 2 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 p-6 text-center">
-          <div className="text-4xl mb-3">🔍</div>
-          <h4 className="text-sm font-medium text-gray-900 mb-1">No results found</h4>
-          <p className="text-xs text-gray-600">
+        <div style={{
+          position: 'absolute',
+          top: '100%',
+          left: '0',
+          right: '0',
+          marginTop: '0.5rem',
+          background: 'var(--bg-primary)',
+          border: '1px solid var(--border)',
+          borderRadius: '0.5rem',
+          boxShadow: 'var(--shadow-lg)',
+          zIndex: 50,
+          padding: '1.5rem',
+          textAlign: 'center'
+        }}>
+          <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>🔍</div>
+          <h4 style={{
+            fontSize: '0.9rem',
+            fontWeight: '500',
+            color: 'var(--text-primary)',
+            margin: '0 0 0.25rem 0'
+          }}>
+            No results found
+          </h4>
+          <p style={{
+            fontSize: '0.8rem',
+            color: 'var(--text-secondary)',
+            margin: 0
+          }}>
             Try searching with different keywords or check your spelling.
           </p>
         </div>

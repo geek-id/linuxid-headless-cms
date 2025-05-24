@@ -7,6 +7,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { siteConfig } from '@/lib/config/site';
 import ThemeToggle from '@/components/ThemeToggle';
+import Footer from '@/components/Footer';
 
 type Props = {
   params: { slug: string };
@@ -116,9 +117,11 @@ export default async function PageRoute({ params }: Props) {
           )}
 
           {/* Page Content */}
-          <article className="article-content">
-            {page.content}
-          </article>
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+            <article className="article-content">
+              <div dangerouslySetInnerHTML={{ __html: page.content }} />
+            </article>
+          </div>
 
           {/* Tags */}
           {page.tags && page.tags.length > 0 && (
@@ -142,36 +145,7 @@ export default async function PageRoute({ params }: Props) {
       </main>
 
       {/* Footer */}
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-content">
-            <div className="footer-section">
-              <h4>{siteConfig.siteName}</h4>
-              <p>{siteConfig.description}</p>
-            </div>
-            <div className="footer-section">
-              <h4>Quick Links</h4>
-              <ul>
-                <li><Link href="/posts">Blog</Link></li>
-                <li><Link href="/reviews">Reviews</Link></li>
-                <li><Link href="/about">About</Link></li>
-              </ul>
-            </div>
-            <div className="footer-section">
-              <h4>Categories</h4>
-              <ul>
-                <li><a href="#">System Admin</a></li>
-                <li><a href="#">DevOps</a></li>
-                <li><a href="#">SRE</a></li>
-                <li><a href="#">VPS Reviews</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>© 2024 {siteConfig.siteName}. Built with Next.js and ❤️</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 } 

@@ -58,12 +58,9 @@ export default function HomePageSearch({ posts, reviews, pages }: HomePageSearch
   ];
 
   return (
-    <div className="w-full max-w-lg mx-auto">
-      <SearchBox
-        content={searchContent}
-        placeholder="🔍 Search posts, reviews, pages..."
-        className="w-full"
-      />
-    </div>
+    <SearchBox
+      content={searchContent}
+      placeholder="🔍 Search posts, reviews, pages..."
+    />
   );
 } 

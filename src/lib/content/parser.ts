@@ -6,6 +6,48 @@ import { ContentType, BlogPost, Page, Review, Frontmatter, ImageMetadata } from 
 
 const CONTENT_DIR = process.env.CONTENT_DIR || './content';
 
+// Configure marked options for better HTML output
+marked.setOptions({
+  breaks: true,
+  gfm: true
+});
+
+// Custom renderer for better HTML output
+const renderer = new marked.Renderer();
+
+// Enhanced code block rendering
+renderer.code = function(code, language) {
+  const validLanguage = language && language.trim() ? language.trim() : 'text';
+  return `<pre><code class="language-${validLanguage}">${code}</code></pre>`;
+};
+
+// Enhanced link rendering (add target="_blank" for external links)
+renderer.link = function(href, title, text) {
+  const isExternal = href.startsWith('http') && !href.includes(process.env.NEXT_PUBLIC_SITE_URL || 'localhost');
+  const target = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+  const titleAttr = title ? ` title="${title}"` : '';
+  return `<a href="${href}"${titleAttr}${target}>${text}</a>`;
+};
+
+// Enhanced image rendering with lazy loading and responsive attributes
+renderer.image = function(href, title, text) {
+  const titleAttr = title ? ` title="${title}"` : '';
+  const altAttr = text ? ` alt="${text}"` : ' alt=""';
+  return `<img src="${href}"${altAttr}${titleAttr} loading="lazy" style="max-width: 100%; height: auto;" />`;
+};
+
+// Enhanced blockquote rendering
+renderer.blockquote = function(quote) {
+  return `<blockquote>${quote}</blockquote>`;
+};
+
+// Enhanced table rendering
+renderer.table = function(header, body) {
+  return `<div class="table-wrapper"><table><thead>${header}</thead><tbody>${body}</tbody></table></div>`;
+};
+
+marked.use({ renderer });
+
 // Calculate reading time (average 200 words per minute)
 function calculateReadingTime(content: string): number {
   const words = content.split(/\s+/).length;
@@ -128,11 +170,14 @@ export function parseMarkdownFile(filePath: string, type: 'post' | 'page' | 'rev
       array.findIndex(img => img.url === image.url) === index
     );
 
+    // Convert markdown to HTML
+    const htmlContent = marked(processedContent);
+
     const baseContent = {
       id: fileName,
       slug: frontmatter.slug || generateSlug(frontmatter.title || fileName),
       title: frontmatter.title || fileName,
-      content: processedContent,
+      content: htmlContent, // Store as HTML instead of markdown
       excerpt: frontmatter.excerpt,
       featured: frontmatter.featured || false,
       published: frontmatter.published !== false, // default to true
