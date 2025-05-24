@@ -47,6 +47,33 @@ NEXT_PUBLIC_PLAUSIBLE_DOMAIN=yourdomain.com
 
 **📖 [Complete Configuration Guide →](CONFIGURATION.md)**
 
+## 🎨 **CSS Customization**
+
+### **Main CSS Files**
+- **`src/app/globals.css`** - Global styles, custom properties, component classes
+- **`tailwind.config.ts`** - Tailwind configuration for colors, fonts, animations
+- **Component files** - Individual component styling with Tailwind classes
+
+### **Quick Brand Color Change**
+```css
+/* Edit src/app/globals.css */
+:root {
+  --primary-color: #3b82f6;    /* Your main brand color */
+  --secondary-color: #64748b;   /* Your accent color */
+  --accent-color: #10b981;      /* Highlight color */
+}
+```
+
+### **Tailwind Color Customization**
+```typescript
+// Edit tailwind.config.ts
+primary: {
+  500: "#your-brand-color",   // Main primary color
+},
+```
+
+**📖 [Complete CSS Customization Guide →](CSS-CUSTOMIZATION.md)**
+
 ## 🔍 **Search Functionality**
 
 ### **Client-Side Search**
