@@ -7,6 +7,7 @@ import { siteConfig } from '@/lib/config/site';
 import ThemeToggle from '@/components/ThemeToggle';
 import HomePageSearch from '@/components/HomePageSearch';
 import Footer from '@/components/Footer';
+import { Search, ArrowRight, Calendar, Tag } from 'lucide-react';
 
 export default async function HomePage() {
   // Get latest content
@@ -58,7 +59,7 @@ export default async function HomePage() {
             <h1>System Administrator's Journey</h1>
             <p>Real-world Linux solutions, SRE best practices, DevOps insights, and honest VPS/Cloud provider reviews from the trenches of system administration.</p>
             <Link href="/posts" className="cta-button">
-              Explore Solutions →
+              Explore Solutions <ArrowRight className="inline w-4 h-4 ml-1" />
             </Link>
           </div>
         </div>
@@ -78,11 +79,26 @@ export default async function HomePage() {
                       <Image
                         src={post.featuredImage.url}
                         alt={post.featuredImage.alt || post.title}
-                        fill
-                        className="object-cover"
+                        width={800}
+                        height={200}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover'
+                        }}
                       />
                     ) : (
-                      <span>🛠️</span>
+                      <Image
+                        src="/static/img/default-post.svg"
+                        alt="Default post image"
+                        width={800}
+                        height={200}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover'
+                        }}
+                      />
                     )}
                   </div>
                   <div className="post-content">
@@ -104,7 +120,7 @@ export default async function HomePage() {
                       {post.excerpt}
                     </p>
                     <Link href={`/posts/${post.slug}`} className="read-more">
-                      Read solution →
+                      Read solution <ArrowRight className="inline w-3 h-3 ml-1" />
                     </Link>
                   </div>
                 </article>
@@ -113,7 +129,7 @@ export default async function HomePage() {
 
             <aside className="sidebar">
               <div className="widget">
-                <h3>🔍 Search Content</h3>
+                <h3><Search className="inline w-4 h-4 mr-2" />Search Content</h3>
                 <HomePageSearch 
                   posts={publishedPosts}
                   reviews={allReviews.filter(review => review.published)}
@@ -159,7 +175,7 @@ export default async function HomePage() {
                             </span>
                           )}
                         </Link>
-                      </li>
+          </li>
                     ))}
                   </ul>
                 </div>
@@ -178,7 +194,7 @@ export default async function HomePage() {
       <Footer 
         latestPosts={latestPosts.map(post => ({ title: post.title, slug: post.slug }))}
         popularTags={trendingTags}
-      />
+          />
     </div>
   );
 }

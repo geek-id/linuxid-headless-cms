@@ -819,12 +819,29 @@ body {
     text-decoration: none;
     transition: all 0.3s ease;
     border: 1px solid var(--border);
+    font-weight: 500;
+    display: inline-block;
 }
 
 .footer-tag:hover {
-    background: var(--primary);
-    color: white;
-    border-color: var(--primary);
+    background: var(--primary) !important;
+    color: white !important;
+    border-color: var(--primary) !important;
+    font-weight: 300 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-decoration: none !important;
+}
+
+/* Additional specificity for footer popular tags */
+.footer-section .footer-tag:hover {
+    background: var(--primary) !important;
+    color: white !important;
+    border-color: var(--primary) !important;
+    font-weight: 300 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    text-decoration: none !important;
 }
 
 /* Responsive */

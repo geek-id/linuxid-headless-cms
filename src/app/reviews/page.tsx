@@ -8,6 +8,7 @@ import SearchBox from '@/components/SearchBox';
 import { siteConfig } from '@/lib/config/site';
 import ThemeToggle from '@/components/ThemeToggle';
 import Footer from '@/components/Footer';
+import { Star, Search, BarChart3, CheckCircle, Trophy, Edit, Target, Gem, Calendar } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Reviews',

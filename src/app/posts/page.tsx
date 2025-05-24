@@ -8,6 +8,7 @@ import SearchBox from '@/components/SearchBox';
 import { siteConfig } from '@/lib/config/site';
 import ThemeToggle from '@/components/ThemeToggle';
 import Footer from '@/components/Footer';
+import { Calendar, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Blog Posts',
@@ -26,8 +27,40 @@ const cardColors = [
   { bg: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', icon: '🌐' }, // Peach
 ];
 
+// Featured posts color scheme - solid #F38181
+const featuredCardColors = [
+  { bg: '#F38181', icon: '⭐' },
+  { bg: '#F38181', icon: '🚀' },
+  { bg: '#F38181', icon: '💎' },
+  { bg: '#F38181', icon: '🔥' },
+  { bg: '#F38181', icon: '🐧' },
+  { bg: '#F38181', icon: '🔧' },
+  { bg: '#F38181', icon: '⚙️' },
+  { bg: '#F38181', icon: '🛠️' },
+];
+
+// All Solutions & Insights color scheme - teal to dark gray gradient only
+const solutionsCardColors = [
+  { bg: 'linear-gradient(135deg, #08D9D6 0%, #252A34 100%)', icon: '🐧' },
+  { bg: 'linear-gradient(135deg, #08D9D6 0%, #252A34 100%)', icon: '🔧' },
+  { bg: 'linear-gradient(135deg, #08D9D6 0%, #252A34 100%)', icon: '⚙️' },
+  { bg: 'linear-gradient(135deg, #08D9D6 0%, #252A34 100%)', icon: '🛠️' },
+  { bg: 'linear-gradient(135deg, #08D9D6 0%, #252A34 100%)', icon: '📦' },
+  { bg: 'linear-gradient(135deg, #08D9D6 0%, #252A34 100%)', icon: '🔒' },
+  { bg: 'linear-gradient(135deg, #08D9D6 0%, #252A34 100%)', icon: '📊' },
+  { bg: 'linear-gradient(135deg, #08D9D6 0%, #252A34 100%)', icon: '🌐' },
+];
+
 function getCardStyle(index: number) {
   return cardColors[index % cardColors.length];
+}
+
+function getFeaturedCardStyle(index: number) {
+  return featuredCardColors[index % featuredCardColors.length];
+}
+
+function getSolutionsCardStyle(index: number) {
+  return solutionsCardColors[index % solutionsCardColors.length];
 }
 
 export default async function PostsPage() {
@@ -61,6 +94,13 @@ export default async function PostsPage() {
   // Featured posts
   const featuredPosts = publishedPosts.filter(post => post.featured);
   const regularPosts = publishedPosts.filter(post => !post.featured);
+
+  // Randomly select 2 featured posts for each visitor
+  const randomFeaturedPosts = featuredPosts.length > 0 
+    ? featuredPosts
+        .sort(() => Math.random() - 0.5) // Shuffle the array randomly
+        .slice(0, 2) // Take first 2 from shuffled array
+    : [];
 
   return (
     <div>
@@ -111,7 +151,7 @@ export default async function PostsPage() {
         <div className="container">
           
           {/* Featured Posts */}
-          {featuredPosts.length > 0 && (
+          {randomFeaturedPosts.length > 0 && (
             <section style={{ marginBottom: '4rem' }}>
               <h2 style={{ 
                 fontSize: '1.75rem', 
@@ -124,48 +164,90 @@ export default async function PostsPage() {
               
               <div style={{ 
                 display: 'grid', 
-                gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', 
-                gap: '2rem',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
+                gap: '1.5rem',
                 marginBottom: '3rem'
               }}>
-                {featuredPosts.slice(0, 2).map((post, index) => {
-                  const cardStyle = getCardStyle(index);
+                {randomFeaturedPosts.map((post, index) => {
+                  const cardStyle = getFeaturedCardStyle(index);
                   return (
                     <Link 
                       key={post.id} 
                       href={`/posts/${post.slug}`}
-                      className="featured-card"
+                      className="regular-card"
                       style={{ 
                         '--card-bg': cardStyle.bg 
                       } as React.CSSProperties}
                     >
-                      {/* Icon */}
-                      <div style={{ 
-                        fontSize: '3rem', 
-                        textAlign: 'center',
-                        marginBottom: '1rem',
-                        opacity: '0.9'
-                      }}>
-                        {cardStyle.icon}
-                      </div>
+                      {/* Featured Image */}
+                      {post.featuredImage ? (
+                        <div style={{ 
+                          width: 'calc(100% + 3rem)',
+                          height: '200px',
+                          borderRadius: '0.5rem 0.5rem 0 0',
+                          overflow: 'hidden',
+                          marginBottom: '0',
+                          position: 'relative',
+                          marginTop: '-1.5rem',
+                          marginLeft: '-1.5rem',
+                          marginRight: '-1.5rem'
+                        }}>
+                          <Image
+                            src={post.featuredImage.url}
+                            alt={post.featuredImage.alt || post.title}
+                            width={800}
+                            height={200}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover'
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <div style={{ 
+                          width: 'calc(100% + 3rem)',
+                          height: '200px',
+                          borderRadius: '0.5rem 0.5rem 0 0',
+                          overflow: 'hidden',
+                          marginBottom: '0',
+                          position: 'relative',
+                          marginTop: '-1.5rem',
+                          marginLeft: '-1.5rem',
+                          marginRight: '-1.5rem'
+                        }}>
+                          <Image
+                            src="/static/img/default-post.svg"
+                            alt="Default post image"
+                            width={800}
+                            height={200}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover'
+                            }}
+                          />
+                        </div>
+                      )}
                       
                       {/* Content */}
-                      <div>
+                      <div style={{ marginTop: '1.5rem' }}>
                         <div style={{ 
-                          fontSize: '0.875rem', 
+                          fontSize: '0.8rem', 
                           opacity: '0.9', 
-                          marginBottom: '1rem',
+                          marginBottom: '0.75rem',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '0.5rem'
                         }}>
-                          <span>⏰ {format(post.publishedAt || post.createdAt, 'MMM d, yyyy')}</span>
+                          <Calendar size={14} />
+                          {format(post.publishedAt || post.createdAt, 'MMM d, yyyy')}
                         </div>
                         
                         <h3 style={{ 
-                          fontSize: '1.5rem', 
-                          fontWeight: '700', 
-                          marginBottom: '1rem',
+                          fontSize: '1.25rem', 
+                          fontWeight: '600', 
+                          marginBottom: '0.75rem',
                           lineHeight: '1.3'
                         }}>
                           {post.title}
@@ -173,21 +255,34 @@ export default async function PostsPage() {
                         
                         <p style={{ 
                           opacity: '0.9', 
-                          lineHeight: '1.6',
-                          marginBottom: '1.5rem'
+                          fontSize: '0.9rem',
+                          lineHeight: '1.5',
+                          marginBottom: '1rem'
                         }}>
                           {post.excerpt}
                         </p>
                         
-                        <div style={{ 
-                          display: 'inline-flex', 
-                          alignItems: 'center', 
-                          gap: '0.5rem',
-                          fontWeight: '600',
-                          fontSize: '0.9rem'
-                        }}>
-                          Read more →
-                        </div>
+                        {/* Tags */}
+                        {post.tags && post.tags.length > 0 && (
+                          <div style={{ 
+                            display: 'flex', 
+                            flexWrap: 'wrap', 
+                            gap: '0.5rem',
+                            marginBottom: '1rem'
+                          }}>
+                            {post.tags.slice(0, 3).map(tag => (
+                              <span key={tag} style={{ 
+                                background: 'rgba(255,255,255,0.2)', 
+                                padding: '0.25rem 0.5rem',
+                                borderRadius: '0.25rem',
+                                fontSize: '0.75rem',
+                                fontWeight: '500'
+                              }}>
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </Link>
                   );
@@ -204,7 +299,7 @@ export default async function PostsPage() {
               marginBottom: '2rem',
               color: 'var(--text-primary)'
             }}>
-              All Tutorials
+              All Solutions & Insights
             </h2>
             
             <div style={{ 
@@ -212,8 +307,14 @@ export default async function PostsPage() {
               gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
               gap: '1.5rem'
             }}>
-              {regularPosts.map((post, index) => {
-                const cardStyle = getCardStyle(index + featuredPosts.length);
+              {publishedPosts
+                .sort((a, b) => {
+                  const dateA = new Date(a.publishedAt || a.createdAt);
+                  const dateB = new Date(b.publishedAt || b.createdAt);
+                  return dateB.getTime() - dateA.getTime(); // Latest published first (descending order)
+                })
+                .map((post, index) => {
+                const cardStyle = getSolutionsCardStyle(index);
                 return (
                   <Link 
                     key={post.id} 
@@ -223,18 +324,59 @@ export default async function PostsPage() {
                       '--card-bg': cardStyle.bg 
                     } as React.CSSProperties}
                   >
-                    {/* Icon */}
-                    <div style={{ 
-                      fontSize: '2.5rem', 
-                      textAlign: 'center',
-                      marginBottom: '1rem',
-                      opacity: '0.9'
-                    }}>
-                      {cardStyle.icon}
-                    </div>
+                    {/* Featured Image */}
+                    {post.featuredImage ? (
+                      <div style={{ 
+                        width: 'calc(100% + 3rem)',
+                        height: '200px',
+                        borderRadius: '0.5rem 0.5rem 0 0',
+                        overflow: 'hidden',
+                        marginBottom: '0',
+                        position: 'relative',
+                        marginTop: '-1.5rem',
+                        marginLeft: '-1.5rem',
+                        marginRight: '-1.5rem'
+                      }}>
+                        <Image
+                          src={post.featuredImage.url}
+                          alt={post.featuredImage.alt || post.title}
+                          width={800}
+                          height={200}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover'
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <div style={{ 
+                        width: 'calc(100% + 3rem)',
+                        height: '200px',
+                        borderRadius: '0.5rem 0.5rem 0 0',
+                        overflow: 'hidden',
+                        marginBottom: '0',
+                        position: 'relative',
+                        marginTop: '-1.5rem',
+                        marginLeft: '-1.5rem',
+                        marginRight: '-1.5rem'
+                      }}>
+                        <Image
+                          src="/static/img/default-post.svg"
+                          alt="Default post image"
+                          width={800}
+                          height={200}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover'
+                          }}
+                        />
+                      </div>
+                    )}
                     
                     {/* Content */}
-                    <div>
+                    <div style={{ marginTop: '1.5rem' }}>
                       <div style={{ 
                         fontSize: '0.8rem', 
                         opacity: '0.9', 
