@@ -1,0 +1,73 @@
+# Cloudflare Pages Headers Configuration
+# This file configures caching and security headers at the edge
+
+# Static Assets - Long Cache
+/static/*
+  Cache-Control: public, max-age=31536000, immutable
+  Vary: Accept-Encoding
+
+# Images - Long Cache
+*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+  Vary: Accept-Encoding
+
+*.jpeg
+  Cache-Control: public, max-age=31536000, immutable
+  Vary: Accept-Encoding
+
+*.png
+  Cache-Control: public, max-age=31536000, immutable
+  Vary: Accept-Encoding
+
+*.webp
+  Cache-Control: public, max-age=31536000, immutable
+  Vary: Accept-Encoding
+
+*.svg
+  Cache-Control: public, max-age=31536000, immutable
+  Vary: Accept-Encoding
+
+# CSS and JS - Long Cache with versioning
+*.css
+  Cache-Control: public, max-age=31536000, immutable
+  Vary: Accept-Encoding
+
+*.js
+  Cache-Control: public, max-age=31536000, immutable
+  Vary: Accept-Encoding
+
+# HTML Pages - Short Cache for Updates
+*.html
+  Cache-Control: public, max-age=3600, must-revalidate
+  Vary: Accept-Encoding
+
+# Root HTML
+/
+  Cache-Control: public, max-age=3600, must-revalidate
+  Vary: Accept-Encoding
+
+# Posts and Reviews - Medium Cache
+/posts/*
+  Cache-Control: public, max-age=7200, must-revalidate
+  Vary: Accept-Encoding
+
+/reviews/*
+  Cache-Control: public, max-age=7200, must-revalidate
+  Vary: Accept-Encoding
+
+# API-like files - Short Cache
+/sitemap.xml
+  Cache-Control: public, max-age=3600, must-revalidate
+  Content-Type: application/xml
+
+/rss.xml
+  Cache-Control: public, max-age=3600, must-revalidate
+  Content-Type: application/rss+xml
+
+# Security Headers for All Pages
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  X-XSS-Protection: 1; mode=block 
