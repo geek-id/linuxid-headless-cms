@@ -133,15 +133,11 @@ export default async function PostPage({ params }: Props) {
             {post.author && (
               <>
                 <span>👤 Author: {post.author.name}</span>
-                <span>•</span>
+                {post.series && <span>•</span>}
               </>
             )}
-            <span>🔄 Updated: {formatDistanceToNow(post.updatedAt || post.createdAt)} ago</span>
             {post.series && (
-              <>
-                <span>•</span>
-                <span>📚 Series: {post.series}</span>
-              </>
+              <span>📚 Series: {post.series}</span>
             )}
           </div>
         </div>

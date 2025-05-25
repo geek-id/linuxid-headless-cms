@@ -73,8 +73,6 @@ export default async function PageRoute({ params }: Props) {
                 <span>Author: {page.author.name}</span>
               </>
             )}
-            <span>•</span>
-            <span>Updated: {formatDistanceToNow(page.updatedAt)} ago</span>
           </div>
         </div>
       </header>

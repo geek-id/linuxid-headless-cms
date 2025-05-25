@@ -325,15 +325,11 @@ export default async function ReviewPage({ params }: Props) {
             {review.author && (
               <>
                 <span>👤 Reviewed by: {review.author.name}</span>
-                <span>•</span>
+                {rating > 0 && <span>•</span>}
               </>
             )}
-            <span>🔄 Updated: {formatDistanceToNow(review.updatedAt || review.createdAt)} ago</span>
             {rating > 0 && (
-              <>
-                <span>•</span>
-                <span>⭐ Rating: {rating}/5 stars</span>
-              </>
+              <span>⭐ Rating: {rating}/5 stars</span>
             )}
           </div>
         </div>
