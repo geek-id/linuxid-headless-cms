@@ -5,6 +5,7 @@ excerpt: "Master tmux with this comprehensive guide covering essential commands,
 published: true
 publishedAt: "2022-04-22T06:27:00Z"
 author: "Linux-ID Team"
+category: "Tools"
 template: "post"
 featured: false
 featuredImage: "https://unsplash.com/photos/NLSXFjl_nhc/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzM3ODIzMjcxfA&force=true&w=1920"
