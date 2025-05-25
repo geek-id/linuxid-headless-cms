@@ -86,7 +86,10 @@ export default async function HomePage() {
                 <text x="16" y="176" fill="#00ff00" fontSize="13" fontFamily="SF Mono, Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace">root@linuxserver:~#</text>
                 <text x="168" y="176" fill="#ffffff" fontSize="13" fontFamily="SF Mono, Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace">docker ps</text>
                 
-                <text x="16" y="196" fill="#00aaff" fontSize="12" fontFamily="SF Mono, Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace">CONTAINER ID   IMAGE         COMMAND                  CREATED       STATUS</text>
+                <text x="16" y="196" fill="#00aaff" font-size="12" font-family="SF Mono, Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace">CONTAINER ID   IMAGE</text>
+                <text x="202" y="196" fill="#00aaff" font-size="12" font-family="SF Mono, Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace">COMMAND</text>
+                <text x="368" y="196" fill="#00aaff" font-size="12" font-family="SF Mono, Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace">CREATED</text>
+                <text x="447" y="196" fill="#00aaff" font-size="12" font-family="SF Mono, Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace">STATUS</text>                
                 <text x="16" y="212" fill="#ffffff" fontSize="12" fontFamily="SF Mono, Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace">a1b2c3d4e5f6   nginx:latest  "/docker-entrypoint.…"   2 days ago    Up 2 days</text>
                 <text x="16" y="228" fill="#ffffff" fontSize="12" fontFamily="SF Mono, Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace">b7c8d9e0f1a2   redis:alpine  "docker-entrypoint.s…"   2 days ago    Up 2 days</text>
                 
