@@ -89,11 +89,6 @@ body {
     gap: 0.5rem;
 }
 
-.logo::before {
-    content: "🐧";
-    font-size: 1.25rem;
-}
-
 .nav-menu {
     display: flex;
     list-style: none;

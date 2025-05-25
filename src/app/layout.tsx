@@ -20,6 +20,15 @@ export const metadata: Metadata = {
   publisher: siteConfig.author,
   metadataBase: new URL(siteConfig.siteUrl),
   
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/static/img/favicon.ico', sizes: '32x32', type: 'image/x-icon' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: '/static/img/linux-id_logo.png',
+  },
+  
   openGraph: {
     title: siteConfig.siteName,
     description: siteConfig.description,

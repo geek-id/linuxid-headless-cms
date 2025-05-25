@@ -53,12 +53,6 @@ export default async function ReviewsPage() {
   const allReviews = getAllContent('review') as Review[];
   const publishedReviews = allReviews.filter(review => review.published);
 
-  // Calculate average rating
-  const reviewsWithRating = publishedReviews.filter(review => 'rating' in review && review.rating);
-  const averageRating = reviewsWithRating.length > 0 
-    ? reviewsWithRating.reduce((sum, review) => sum + (review as any).rating, 0) / reviewsWithRating.length 
-    : 0;
-
   // Separate featured and regular reviews
   const featuredReviews = publishedReviews.filter(review => review.featured);
 
@@ -92,56 +86,10 @@ export default async function ReviewsPage() {
           <p style={{ 
             fontSize: '1.1rem', 
             color: 'var(--text-secondary)',
-            maxWidth: '600px',
-            marginBottom: '2rem'
+            maxWidth: '600px'
           }}>
             Honest, in-depth reviews of VPS providers, hosting services, development tools, and tech products from real-world usage.
           </p>
-
-          {/* Rating Summary */}
-          {reviewsWithRating.length > 0 && (
-            <div style={{
-              background: 'var(--bg-primary)',
-              border: '1px solid var(--border)',
-              borderRadius: '1rem',
-              padding: '1.5rem',
-              maxWidth: '400px',
-              textAlign: 'center',
-              boxShadow: 'var(--shadow)'
-            }}>
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                gap: '1rem',
-                marginBottom: '0.5rem'
-              }}>
-                <span style={{ 
-                  fontSize: '2rem', 
-                  fontWeight: '700', 
-                  color: 'var(--text-primary)'
-                }}>
-                  {averageRating.toFixed(1)}
-                </span>
-                <div style={{ display: 'flex' }}>
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <span
-                      key={star}
-                      style={{
-                        fontSize: '1.25rem',
-                        color: star <= Math.round(averageRating) ? '#fbbf24' : 'var(--text-muted)'
-                      }}
-                    >
-                      ★
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                Based on {reviewsWithRating.length} review{reviewsWithRating.length !== 1 ? 's' : ''}
-              </p>
-            </div>
-          )}
         </div>
       </section>
 

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { siteConfig } from '@/lib/config/site';
 import ThemeToggle from './ThemeToggle';
@@ -33,6 +34,13 @@ export default function Header({ className = '' }: HeaderProps) {
     <header className={`header ${className}`}>
       <nav className="nav container">
         <Link href="/" className="logo" onClick={closeMobileMenu}>
+          <Image
+            src="/static/img/linux-id_logo.png"
+            alt={siteConfig.siteName}
+            width={78}
+            height={0}
+            style={{ height: 'auto' }}
+          />
           {siteConfig.siteName}
         </Link>
         
