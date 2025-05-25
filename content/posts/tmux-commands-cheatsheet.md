@@ -70,6 +70,8 @@ After installation, verify that tmux is properly installed and check the version
 tmux -V
 ```
 
+![tmux command](/static/img/tmux.svg)
+
 ## tmux Essential Commands and Cheatsheet
 
 Once tmux is installed, you can begin using its powerful features. Here's a comprehensive guide to the most important tmux commands and keyboard shortcuts.
