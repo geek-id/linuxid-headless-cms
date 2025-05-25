@@ -35,17 +35,16 @@ Linux-ID.net provides:
 - **Benchmarks and Data**: Performance testing results and comparison data
 - **Community Features**: Comments, discussions, and user interactions
 
-## 3. User Accounts and Registration
+## 3. User Interaction
 
-### Account Creation
-- You may create an account to access additional features
-- You must provide accurate and complete registration information
-- You are responsible for maintaining the security of your account credentials
+### Community Participation
+- Engage with our content through comments and discussions
+- Ensure respectful and constructive interactions with other users
+- Report any inappropriate or harmful content to us
 
-### Account Responsibilities
-- You are responsible for all activities that occur under your account
-- You must notify us immediately of any unauthorized use of your account
-- We reserve the right to suspend or terminate accounts for violations of these Terms
+### Content Responsibility
+- You are responsible for the content you share or comment on
+- Ensure your contributions do not violate third-party rights or our policies
 
 ## 4. Acceptable Use Policy
 
@@ -125,7 +124,6 @@ Our revenue comes from:
 - Affiliate commissions
 - Advertising partnerships
 - Sponsored content (clearly marked)
-- Premium services and consulting
 
 ## 10. Privacy and Data Protection
 
@@ -161,7 +159,6 @@ We reserve the right to update these Terms at any time. Changes will be effectiv
 
 ### Notification
 We will notify users of significant changes through:
-- Email notifications to registered users
 - Prominent notices on our website
 - Updates to the "Last Updated" date
 
