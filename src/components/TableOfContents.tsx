@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Twitter, Facebook, Mail } from 'lucide-react';
+import { Twitter, Facebook, Mail, Linkedin } from 'lucide-react';
 
 interface TOCItem {
   id: string;
@@ -92,6 +92,11 @@ export default function TableOfContents({ content, postTitle, postUrl }: TableOf
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
+  const shareOnLinkedIn = () => {
+    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   const shareViaEmail = () => {
     const subject = encodeURIComponent(`Check out: ${postTitle}`);
     const body = encodeURIComponent(`I thought you might find this interesting: ${postUrl}`);
@@ -140,6 +145,13 @@ export default function TableOfContents({ content, postTitle, postUrl }: TableOf
             title="Share on Facebook"
           >
             <Facebook size={20} />
+          </button>
+          <button
+            onClick={shareOnLinkedIn}
+            className="share-button"
+            title="Share on LinkedIn"
+          >
+            <Linkedin size={20} />
           </button>
           <button
             onClick={shareViaEmail}
