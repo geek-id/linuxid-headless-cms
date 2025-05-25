@@ -4,7 +4,7 @@ slug: "mongodb-sharding-guide"
 excerpt: "Implement MongoDB sharding for horizontal scaling and improved performance in large-scale applications."
 featured: false
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.791Z"
 author: "Diana Ross"
 category: "Database"
 tags: ["mongodb", "sharding", "scaling", "nosql", "performance"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=800&
 seo:
   title: "MongoDB Sharding for Horizontal Scaling - LinuxID Tutorial"
   description: "Implement MongoDB sharding for horizontal scaling and improved performance in large-scale applications."
-  keywords: ["mongodb", "sharding", "scaling", "nosql", "performance"]
+  keywords: ["mongodb", "sharding", "scaling", "nosql", "performance", "for", "horizontal", "implement"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/mongodb-sharding-guide"
 ---
+
+
 
 # MongoDB Sharding for Horizontal Scaling
 

@@ -13,8 +13,16 @@ featuredImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=8
 seo:
   title: "GitLab CI/CD: DevOps Platform Review - LinuxID Review"
   description: "Review of GitLab's integrated DevOps platform, focusing on CI/CD pipelines and project management."
-  keywords: ["gitlab", "ci-cd", "devops", "git", "project-management"]
+  keywords: ["gitlab", "ci-cd", "devops", "git", "project-management", "platform", "review", "integrated"]
+schema:
+  type: "Review"
+  datePublished: "2025-04-23T16:45:49Z"
+  readingTime: "3 minutes"
+  rating: 4
+readingTime: "3 minutes"
+canonical: "https://linux-id.net/reviews/gitlab-cicd-review"
 ---
+
 
 # GitLab CI/CD: DevOps Platform Review
 

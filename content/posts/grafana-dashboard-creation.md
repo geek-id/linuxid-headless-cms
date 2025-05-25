@@ -4,7 +4,7 @@ slug: "grafana-dashboard-creation"
 excerpt: "Design and build informative Grafana dashboards for monitoring infrastructure and application metrics."
 featured: false
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.785Z"
 author: "Ryan Cooper"
 category: "Visualization"
 tags: ["grafana", "dashboards", "monitoring", "visualization", "metrics"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=8
 seo:
   title: "Creating Effective Grafana Dashboards - LinuxID Tutorial"
   description: "Design and build informative Grafana dashboards for monitoring infrastructure and application metrics."
-  keywords: ["grafana", "dashboards", "monitoring", "visualization", "metrics"]
+  keywords: ["grafana", "dashboards", "monitoring", "visualization", "metrics", "creating", "effective", "design", "build", "informative"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/grafana-dashboard-creation"
 ---
+
+
 
 # Creating Effective Grafana Dashboards
 

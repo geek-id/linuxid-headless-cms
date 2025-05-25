@@ -8,31 +8,22 @@ publishedAt: "2024-01-20T12:00:00Z"
 author: "Admin"
 category: "Tutorial"
 tags: ["images", "cloud-storage", "optimization", "cms"]
-# featuredImage:
-#   url: "https://your-bucket.your-domain.com/images/2024-01-20/featured-image.jpg"
-#   key: "images/2024-01-20/featured-image.jpg"
-#   alt: "Cloud storage and image optimization illustration"
-#   caption: "Modern image handling with cloud storage"
-# images:
-#   - url: "https://your-bucket.your-domain.com/images/2024-01-20/upload-demo.jpg"
-#     key: "images/2024-01-20/upload-demo.jpg"
-#     alt: "Image upload interface"
-#     caption: "Easy image upload interface"
-#   - url: "https://your-bucket.your-domain.com/images/2024-01-20/optimization.jpg"
-#     key: "images/2024-01-20/optimization.jpg"
-#     alt: "Image optimization process"
-#     caption: "Automatic image optimization"
+featuredImage: "undefined"
 seo:
   title: "Complete Guide to Image Handling in Headless CMS - Cloud Storage & Optimization"
   description: "Learn how to upload, optimize, and manage images in your headless CMS with Cloudflare R2, AWS S3, and other cloud storage services."
-  keywords: ["image handling", "cloud storage", "cloudflare r2", "aws s3", "image optimization", "headless cms"]
-  ogTitle: "Complete Guide to Image Handling in Headless CMS"
-  ogDescription: "Master image management with cloud storage integration and automatic optimization"
-  ogImage: "https://your-bucket.your-domain.com/images/2024-01-20/featured-image.jpg"
-  ogType: "article"
-  twitterCard: "summary_large_image"
-  twitterImage: "https://your-bucket.your-domain.com/images/2024-01-20/featured-image.jpg"
+  keywords: ["images", "cloud-storage", "optimization", "cms", "complete", "guide", "image", "handling", "your", "headless", "learn", "upload"]
+schema:
+  type: "TechArticle"
+  datePublished: "2024-01-20T12:00:00Z"
+  readingTime: "6 minutes"
+  difficulty: "Intermediate"
+readingTime: "6 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/image-handling-guide"
 ---
+
+
 
 # Complete Guide to Image Handling in Your Headless CMS
 

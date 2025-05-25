@@ -4,7 +4,7 @@ slug: "mysql-replication-setup"
 excerpt: "Set up MySQL replication for high availability, load distribution, and disaster recovery."
 featured: false
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.791Z"
 author: "Sophie Turner"
 category: "Database"
 tags: ["mysql", "replication", "high-availability", "backup", "database"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=800&
 seo:
   title: "MySQL Master-Slave Replication Configuration - LinuxID Tutorial"
   description: "Set up MySQL replication for high availability, load distribution, and disaster recovery."
-  keywords: ["mysql", "replication", "high-availability", "backup", "database"]
+  keywords: ["mysql", "replication", "high-availability", "backup", "database", "master", "slave", "configuration", "high", "availability", "load"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/mysql-replication-setup"
 ---
+
+
 
 # MySQL Master-Slave Replication Configuration
 

@@ -4,7 +4,7 @@ slug: "python-web-scraping"
 excerpt: "Learn web scraping techniques using Python, Beautiful Soup, and Scrapy for data extraction."
 featured: false
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.794Z"
 author: "Michelle Adams"
 category: "Programming"
 tags: ["python", "web-scraping", "beautifulsoup", "scrapy", "data"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=8
 seo:
   title: "Python Web Scraping with Beautiful Soup and Scrapy - LinuxID Tutorial"
   description: "Learn web scraping techniques using Python, Beautiful Soup, and Scrapy for data extraction."
-  keywords: ["python", "web-scraping", "beautifulsoup", "scrapy", "data"]
+  keywords: ["python", "web-scraping", "beautifulsoup", "scrapy", "data", "web", "scraping", "with", "beautiful", "soup", "and", "learn"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/python-web-scraping"
 ---
+
+
 
 # Python Web Scraping with Beautiful Soup and Scrapy
 

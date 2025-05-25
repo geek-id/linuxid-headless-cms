@@ -4,7 +4,7 @@ slug: "linux-security-hardening"
 excerpt: "Essential security hardening steps for Linux servers including firewall configuration, user management, and system monitoring."
 featured: true
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.789Z"
 author: "Thomas Clark"
 category: "Security"
 tags: ["linux", "security", "hardening", "firewall", "monitoring"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&
 seo:
   title: "Linux Security Hardening Checklist - LinuxID Tutorial"
   description: "Essential security hardening steps for Linux servers including firewall configuration, user management, and system monitoring."
-  keywords: ["linux", "security", "hardening", "firewall", "monitoring"]
+  keywords: ["linux", "security", "hardening", "firewall", "monitoring", "checklist", "essential", "steps"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/linux-security-hardening"
 ---
+
+
 
 # Linux Security Hardening Checklist
 

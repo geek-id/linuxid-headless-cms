@@ -13,8 +13,16 @@ featuredImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&
 seo:
   title: "GitHub Actions: CI/CD Platform Review - LinuxID Review"
   description: "Comprehensive review of GitHub Actions for continuous integration and deployment workflows."
-  keywords: ["github-actions", "ci-cd", "automation", "workflows", "devops"]
+  keywords: ["github-actions", "ci-cd", "automation", "workflows", "devops", "github", "actions", "platform", "review", "comprehensive"]
+schema:
+  type: "Review"
+  datePublished: "2025-04-25T16:45:49Z"
+  readingTime: "3 minutes"
+  rating: 5
+readingTime: "3 minutes"
+canonical: "https://linux-id.net/reviews/github-actions-review"
 ---
+
 
 # GitHub Actions: CI/CD Platform Review
 

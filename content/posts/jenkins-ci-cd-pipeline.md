@@ -4,7 +4,7 @@ slug: "jenkins-ci-cd-pipeline"
 excerpt: "Build robust CI/CD pipelines with Jenkins including automated testing, deployment, and monitoring."
 featured: false
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.788Z"
 author: "Mark Thompson"
 category: "DevOps"
 tags: ["jenkins", "ci-cd", "pipeline", "automation", "testing"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=8
 seo:
   title: "Jenkins CI/CD Pipeline Best Practices - LinuxID Tutorial"
   description: "Build robust CI/CD pipelines with Jenkins including automated testing, deployment, and monitoring."
-  keywords: ["jenkins", "ci-cd", "pipeline", "automation", "testing"]
+  keywords: ["jenkins", "ci-cd", "pipeline", "automation", "testing", "best", "practices", "build", "robust", "pipelines", "with"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Advanced"
+readingTime: "2 minutes"
+difficulty: "Advanced"
+canonical: "https://linux-id.net/posts/jenkins-ci-cd-pipeline"
 ---
+
+
 
 # Jenkins CI/CD Pipeline Best Practices
 

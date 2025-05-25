@@ -4,7 +4,7 @@ slug: "redis-clustering-setup"
 excerpt: "Step-by-step guide to setting up Redis clusters for high availability and horizontal scaling."
 featured: false
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.794Z"
 author: "Jessica Liu"
 category: "Database"
 tags: ["redis", "clustering", "high-availability", "scaling", "database"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=8
 seo:
   title: "Redis Clustering Setup for High Availability - LinuxID Tutorial"
   description: "Step-by-step guide to setting up Redis clusters for high availability and horizontal scaling."
-  keywords: ["redis", "clustering", "high-availability", "scaling", "database"]
+  keywords: ["redis", "clustering", "high-availability", "scaling", "database", "setup", "for", "high", "availability", "step", "guide", "setting"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/redis-clustering-setup"
 ---
+
+
 
 # Redis Clustering Setup for High Availability
 

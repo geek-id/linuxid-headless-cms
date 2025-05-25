@@ -4,7 +4,7 @@ slug: "systemd-service-management"
 excerpt: "Complete guide to creating, managing, and troubleshooting systemd services on Linux systems."
 featured: false
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.795Z"
 author: "Laura Wilson"
 category: "System Administration"
 tags: ["systemd", "services", "linux", "administration", "management"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=8
 seo:
   title: "Systemd Service Management Tutorial - LinuxID Tutorial"
   description: "Complete guide to creating, managing, and troubleshooting systemd services on Linux systems."
-  keywords: ["systemd", "services", "linux", "administration", "management"]
+  keywords: ["systemd", "services", "linux", "administration", "management", "service", "tutorial", "complete", "guide", "creating", "managing", "troubleshooting"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/systemd-service-management"
 ---
+
+
 
 # Systemd Service Management Tutorial
 

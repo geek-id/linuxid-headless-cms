@@ -4,7 +4,7 @@ slug: "bash-scripting-automation"
 excerpt: "Master advanced Bash scripting techniques for system administration and automation tasks."
 featured: false
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.782Z"
 author: "Andrew Miller"
 category: "Scripting"
 tags: ["bash", "scripting", "automation", "linux", "shell"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=8
 seo:
   title: "Advanced Bash Scripting for System Automation - LinuxID Tutorial"
   description: "Master advanced Bash scripting techniques for system administration and automation tasks."
-  keywords: ["bash", "scripting", "automation", "linux", "shell"]
+  keywords: ["bash", "scripting", "automation", "linux", "shell", "advanced", "for", "system", "master", "techniques"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/bash-scripting-automation"
 ---
+
+
 
 # Advanced Bash Scripting for System Automation
 

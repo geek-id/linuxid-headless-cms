@@ -13,8 +13,16 @@ featuredImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&
 seo:
   title: "Hetzner Dedicated Servers: German Engineering Excellence - LinuxID Review"
   description: "Review of Hetzner's dedicated server offerings, focusing on performance, pricing, and European data centers."
-  keywords: ["hetzner", "dedicated-servers", "europe", "performance", "hosting"]
+  keywords: ["hetzner", "dedicated-servers", "europe", "performance", "hosting", "dedicated", "servers", "german", "engineering", "excellence"]
+schema:
+  type: "Review"
+  datePublished: "2025-05-19T16:45:48Z"
+  readingTime: "3 minutes"
+  rating: 4
+readingTime: "3 minutes"
+canonical: "https://linux-id.net/reviews/hetzner-dedicated-servers"
 ---
+
 
 # Hetzner Dedicated Servers: German Engineering Excellence
 

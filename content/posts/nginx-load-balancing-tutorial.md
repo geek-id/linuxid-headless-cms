@@ -4,7 +4,7 @@ slug: "nginx-load-balancing-tutorial"
 excerpt: "Configure NGINX as a high-performance load balancer with health checks, SSL termination, and failover."
 featured: false
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.792Z"
 author: "Emily Davis"
 category: "Tutorial"
 tags: ["nginx", "load-balancing", "high-availability", "ssl", "proxy"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&
 seo:
   title: "Advanced NGINX Load Balancing Configuration Tutorial - LinuxID Tutorial"
   description: "Configure NGINX as a high-performance load balancer with health checks, SSL termination, and failover."
-  keywords: ["nginx", "load-balancing", "high-availability", "ssl", "proxy"]
+  keywords: ["nginx", "load-balancing", "high-availability", "ssl", "proxy", "advanced", "load", "balancing", "configuration", "tutorial", "configure", "high"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/nginx-load-balancing-tutorial"
 ---
+
+
 
 # Advanced NGINX Load Balancing Configuration Tutorial
 

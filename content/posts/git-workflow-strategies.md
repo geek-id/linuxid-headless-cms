@@ -4,7 +4,7 @@ slug: "git-workflow-strategies"
 excerpt: "Master Git branching strategies, code review processes, and collaboration workflows for development teams."
 featured: false
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.784Z"
 author: "Rachel Green"
 category: "Development"
 tags: ["git", "workflow", "branching", "collaboration", "development"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=800&
 seo:
   title: "Advanced Git Workflow Strategies for Teams - LinuxID Tutorial"
   description: "Master Git branching strategies, code review processes, and collaboration workflows for development teams."
-  keywords: ["git", "workflow", "branching", "collaboration", "development"]
+  keywords: ["git", "workflow", "branching", "collaboration", "development", "advanced", "strategies", "for", "teams", "master", "code", "review"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/git-workflow-strategies"
 ---
+
+
 
 # Advanced Git Workflow Strategies for Teams
 

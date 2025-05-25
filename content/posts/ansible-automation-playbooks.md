@@ -4,7 +4,7 @@ slug: "ansible-automation-playbooks"
 excerpt: "Create robust Ansible playbooks for infrastructure automation, configuration management, and deployment."
 featured: true
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.777Z"
 author: "David Wilson"
 category: "Automation"
 tags: ["ansible", "automation", "infrastructure", "configuration", "devops"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=8
 seo:
   title: "Ansible Automation: Building Production-Ready Playbooks - LinuxID Tutorial"
   description: "Create robust Ansible playbooks for infrastructure automation, configuration management, and deployment."
-  keywords: ["ansible", "automation", "infrastructure", "configuration", "devops"]
+  keywords: ["ansible", "automation", "infrastructure", "configuration", "devops", "building", "production", "ready", "playbooks", "create", "robust"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/ansible-automation-playbooks"
 ---
+
+
 
 # Ansible Automation: Building Production-Ready Playbooks
 

@@ -4,7 +4,7 @@ slug: "aws-vpc-networking"
 excerpt: "Master AWS VPC networking including subnets, route tables, security groups, and network ACLs."
 featured: true
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.780Z"
 author: "John Parker"
 category: "Cloud"
 tags: ["aws", "vpc", "networking", "cloud", "security"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=8
 seo:
   title: "AWS VPC Networking Deep Dive - LinuxID Tutorial"
   description: "Master AWS VPC networking including subnets, route tables, security groups, and network ACLs."
-  keywords: ["aws", "vpc", "networking", "cloud", "security"]
+  keywords: ["aws", "vpc", "networking", "cloud", "security", "deep", "dive", "master", "including", "subnets", "route"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/aws-vpc-networking"
 ---
+
+
 
 # AWS VPC Networking Deep Dive
 

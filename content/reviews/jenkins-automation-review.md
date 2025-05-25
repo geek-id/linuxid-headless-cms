@@ -13,8 +13,16 @@ featuredImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&
 seo:
   title: "Jenkins: Open Source Automation Server Review - LinuxID Review"
   description: "Review of Jenkins automation server, plugin ecosystem, and CI/CD pipeline capabilities."
-  keywords: ["jenkins", "automation", "ci-cd", "open-source", "pipelines"]
+  keywords: ["jenkins", "automation", "ci-cd", "open-source", "pipelines", "open", "source", "server", "review", "plugin"]
+schema:
+  type: "Review"
+  datePublished: "2025-04-21T16:45:49Z"
+  readingTime: "3 minutes"
+  rating: 3
+readingTime: "3 minutes"
+canonical: "https://linux-id.net/reviews/jenkins-automation-review"
 ---
+
 
 # Jenkins: Open Source Automation Server Review
 

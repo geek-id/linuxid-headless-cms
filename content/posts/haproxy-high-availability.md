@@ -4,7 +4,7 @@ slug: "haproxy-high-availability"
 excerpt: "Configure HAProxy for high availability load balancing with health checks, SSL termination, and failover."
 featured: false
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.785Z"
 author: "Daniel Kim"
 category: "Load Balancing"
 tags: ["haproxy", "load-balancing", "high-availability", "ssl", "proxy"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&
 seo:
   title: "HAProxy High Availability Load Balancing - LinuxID Tutorial"
   description: "Configure HAProxy for high availability load balancing with health checks, SSL termination, and failover."
-  keywords: ["haproxy", "load-balancing", "high-availability", "ssl", "proxy"]
+  keywords: ["haproxy", "load-balancing", "high-availability", "ssl", "proxy", "high", "availability", "load", "balancing", "configure"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/haproxy-high-availability"
 ---
+
+
 
 # HAProxy High Availability Load Balancing
 

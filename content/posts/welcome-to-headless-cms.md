@@ -8,15 +8,22 @@ publishedAt: "2024-01-15T10:00:00Z"
 author: "Coba"
 category: "Tutorial"
 tags: ["headless-cms", "nextjs", "markdown", "tutorial"]
+featuredImage: "undefined"
 seo:
   title: "Welcome to Your Headless CMS - Getting Started Guide"
   description: "Complete guide to using your new headless CMS with markdown files, SEO optimization, and API endpoints."
-  keywords: ["headless cms", "markdown", "nextjs", "api", "seo"]
-  ogTitle: "Welcome to Your Headless CMS"
-  ogDescription: "Learn how to use this powerful headless CMS built with Next.js"
-  ogType: "article"
-  twitterCard: "summary_large_image"
+  keywords: ["headless-cms", "nextjs", "markdown", "tutorial", "welcome", "your", "headless", "cms", "learn", "this", "powerful", "built"]
+schema:
+  type: "TechArticle"
+  datePublished: "2024-01-15T10:00:00Z"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/welcome-to-headless-cms"
 ---
+
+
 
 # Welcome to Your Headless CMS
 

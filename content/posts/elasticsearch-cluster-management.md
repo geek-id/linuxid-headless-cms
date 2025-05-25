@@ -4,7 +4,7 @@ slug: "elasticsearch-cluster-management"
 excerpt: "Comprehensive guide to managing Elasticsearch clusters, including sharding, replication, and performance tuning."
 featured: false
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.783Z"
 author: "Chris Anderson"
 category: "Search"
 tags: ["elasticsearch", "cluster", "management", "search", "performance"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&
 seo:
   title: "Elasticsearch Cluster Management and Optimization - LinuxID Tutorial"
   description: "Comprehensive guide to managing Elasticsearch clusters, including sharding, replication, and performance tuning."
-  keywords: ["elasticsearch", "cluster", "management", "search", "performance"]
+  keywords: ["elasticsearch", "cluster", "management", "search", "performance", "and", "optimization", "comprehensive", "guide", "managing", "clusters"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/elasticsearch-cluster-management"
 ---
+
+
 
 # Elasticsearch Cluster Management and Optimization
 

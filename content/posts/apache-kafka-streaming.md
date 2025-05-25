@@ -4,7 +4,7 @@ slug: "apache-kafka-streaming"
 excerpt: "Build real-time data pipelines with Apache Kafka, including producers, consumers, and stream processing."
 featured: false
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.780Z"
 author: "Lisa Martinez"
 category: "Streaming"
 tags: ["kafka", "streaming", "data-pipeline", "real-time", "apache"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&
 seo:
   title: "Apache Kafka for Real-time Data Streaming - LinuxID Tutorial"
   description: "Build real-time data pipelines with Apache Kafka, including producers, consumers, and stream processing."
-  keywords: ["kafka", "streaming", "data-pipeline", "real-time", "apache"]
+  keywords: ["kafka", "streaming", "data-pipeline", "real-time", "apache", "for", "real", "time", "data", "build", "pipelines"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Advanced"
+readingTime: "2 minutes"
+difficulty: "Advanced"
+canonical: "https://linux-id.net/posts/apache-kafka-streaming"
 ---
+
+
 
 # Apache Kafka for Real-time Data Streaming
 

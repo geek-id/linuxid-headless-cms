@@ -4,7 +4,7 @@ slug: "prometheus-monitoring-setup"
 excerpt: "Complete guide to setting up Prometheus monitoring stack for microservices architecture."
 featured: true
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.793Z"
 author: "Kevin White"
 category: "Monitoring"
 tags: ["prometheus", "monitoring", "microservices", "alerting", "grafana"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=8
 seo:
   title: "Prometheus Monitoring Setup for Microservices - LinuxID Tutorial"
   description: "Complete guide to setting up Prometheus monitoring stack for microservices architecture."
-  keywords: ["prometheus", "monitoring", "microservices", "alerting", "grafana"]
+  keywords: ["prometheus", "monitoring", "microservices", "alerting", "grafana", "setup", "for", "complete", "guide", "setting"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/prometheus-monitoring-setup"
 ---
+
+
 
 # Prometheus Monitoring Setup for Microservices
 

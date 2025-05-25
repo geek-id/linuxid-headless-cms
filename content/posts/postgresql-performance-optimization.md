@@ -4,7 +4,7 @@ slug: "postgresql-performance-optimization"
 excerpt: "Advanced PostgreSQL tuning techniques for query optimization, indexing strategies, and connection pooling."
 featured: false
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.793Z"
 author: "Robert Taylor"
 category: "Database"
 tags: ["postgresql", "performance", "optimization", "database", "sql"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=800&
 seo:
   title: "PostgreSQL Performance Optimization Techniques - LinuxID Tutorial"
   description: "Advanced PostgreSQL tuning techniques for query optimization, indexing strategies, and connection pooling."
-  keywords: ["postgresql", "performance", "optimization", "database", "sql"]
+  keywords: ["postgresql", "performance", "optimization", "database", "sql", "techniques", "advanced", "tuning", "query"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/postgresql-performance-optimization"
 ---
+
+
 
 # PostgreSQL Performance Optimization Techniques
 

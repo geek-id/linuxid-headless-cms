@@ -4,7 +4,7 @@ slug: "terraform-infrastructure-automation"
 excerpt: "Learn Terraform best practices for managing cloud infrastructure across AWS, Azure, and GCP."
 featured: true
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.795Z"
 author: "Amanda Brown"
 category: "Infrastructure"
 tags: ["terraform", "infrastructure", "automation", "cloud", "iac"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=8
 seo:
   title: "Infrastructure as Code with Terraform Best Practices - LinuxID Tutorial"
   description: "Learn Terraform best practices for managing cloud infrastructure across AWS, Azure, and GCP."
-  keywords: ["terraform", "infrastructure", "automation", "cloud", "iac"]
+  keywords: ["terraform", "infrastructure", "automation", "cloud", "iac", "code", "with", "best", "practices", "learn", "managing"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/terraform-infrastructure-automation"
 ---
+
+
 
 # Infrastructure as Code with Terraform Best Practices
 

@@ -13,8 +13,16 @@ featuredImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&
 seo:
   title: "Scaleway Cloud: French Innovation in Cloud Computing - LinuxID Review"
   description: "In-depth review of Scaleway's cloud services, ARM-based instances, and edge computing solutions."
-  keywords: ["scaleway", "cloud", "arm-instances", "france", "edge-computing"]
+  keywords: ["scaleway", "cloud", "arm-instances", "france", "edge-computing", "french", "innovation", "computing", "depth", "review"]
+schema:
+  type: "Review"
+  datePublished: "2025-05-11T16:45:48Z"
+  readingTime: "3 minutes"
+  rating: 4
+readingTime: "3 minutes"
+canonical: "https://linux-id.net/reviews/scaleway-cloud-review"
 ---
+
 
 # Scaleway Cloud: French Innovation in Cloud Computing
 

@@ -13,8 +13,16 @@ featuredImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&
 seo:
   title: "Cloudflare Pages: JAMstack Hosting Review - LinuxID Review"
   description: "Review of Cloudflare Pages for static site hosting, focusing on performance, global CDN, and developer experience."
-  keywords: ["cloudflare", "jamstack", "static-hosting", "cdn", "performance"]
+  keywords: ["cloudflare", "jamstack", "static-hosting", "cdn", "performance", "pages", "hosting", "review", "static", "site"]
+schema:
+  type: "Review"
+  datePublished: "2025-05-03T16:45:49Z"
+  readingTime: "3 minutes"
+  rating: 5
+readingTime: "3 minutes"
+canonical: "https://linux-id.net/reviews/cloudflare-hosting-review"
 ---
+
 
 # Cloudflare Pages: JAMstack Hosting Review
 

@@ -4,7 +4,7 @@ slug: "backup-strategies-linux"
 excerpt: "Implement comprehensive backup strategies and disaster recovery plans for Linux systems."
 featured: false
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.781Z"
 author: "Catherine Lee"
 category: "Backup"
 tags: ["backup", "disaster-recovery", "linux", "storage", "automation"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=800&
 seo:
   title: "Linux Backup Strategies and Disaster Recovery - LinuxID Tutorial"
   description: "Implement comprehensive backup strategies and disaster recovery plans for Linux systems."
-  keywords: ["backup", "disaster-recovery", "linux", "storage", "automation"]
+  keywords: ["backup", "disaster-recovery", "linux", "storage", "automation", "strategies", "and", "disaster", "recovery", "implement", "comprehensive"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/backup-strategies-linux"
 ---
+
+
 
 # Linux Backup Strategies and Disaster Recovery
 

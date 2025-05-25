@@ -4,7 +4,7 @@ slug: "linux-performance-tuning-guide"
 excerpt: "Master the art of Linux performance optimization with advanced techniques for CPU, memory, disk I/O, and network tuning."
 featured: true
 published: true
-publishedAt: ""
+publishedAt: "2025-05-25T06:00:16.789Z"
 author: "Alex Rodriguez"
 category: "Performance"
 tags: ["linux", "performance", "tuning", "optimization", "servers"]
@@ -12,8 +12,18 @@ featuredImage: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=8
 seo:
   title: "Complete Linux Performance Tuning Guide for Production Servers - LinuxID Tutorial"
   description: "Master the art of Linux performance optimization with advanced techniques for CPU, memory, disk I/O, and network tuning."
-  keywords: ["linux", "performance", "tuning", "optimization", "servers"]
+  keywords: ["linux", "performance", "tuning", "optimization", "servers", "complete", "guide", "for", "production", "master", "with"]
+schema:
+  type: "TechArticle"
+  datePublished: "2025-05-25"
+  readingTime: "2 minutes"
+  difficulty: "Intermediate"
+readingTime: "2 minutes"
+difficulty: "Intermediate"
+canonical: "https://linux-id.net/posts/linux-performance-tuning-guide"
 ---
+
+
 
 # Complete Linux Performance Tuning Guide for Production Servers
 
