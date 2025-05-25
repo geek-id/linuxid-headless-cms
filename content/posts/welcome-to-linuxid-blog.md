@@ -4,7 +4,7 @@ slug: "welcome-to-linuxid-blog"
 excerpt: "Discover expert tutorials, in-depth reviews, and practical guides for Linux administration, DevOps tools, and modern infrastructure management."
 featured: true
 published: true
-publishedAt: "2024-01-01T00:00:00Z"
+publishedAt: "2020-01-01T00:00:00Z"
 author: "LinuxID Team"
 category: "General"
 tags: ["welcome", "linux", "devops", "tutorials", "community"]
