@@ -194,21 +194,30 @@ export function parseMarkdownFile(filePath: string, type: 'post' | 'page' | 'rev
         title: frontmatter.seo?.title || frontmatter.title,
         description: frontmatter.seo?.description || frontmatter.excerpt,
         keywords: frontmatter.seo?.keywords || tags,
-        canonical: frontmatter.seo?.canonical,
-        ogTitle: frontmatter.seo?.ogTitle,
-        ogDescription: frontmatter.seo?.ogDescription,
-        ogImage: frontmatter.seo?.ogImage || featuredImage?.url,
-        ogType: frontmatter.seo?.ogType || 'article',
-        twitterCard: frontmatter.seo?.twitterCard || 'summary_large_image',
-        twitterTitle: frontmatter.seo?.twitterTitle,
-        twitterDescription: frontmatter.seo?.twitterDescription,
-        twitterImage: frontmatter.seo?.twitterImage || featuredImage?.url,
-        schema: frontmatter.seo?.schema
+        canonical: frontmatter.canonical,
+        ogTitle: frontmatter.seo?.title || frontmatter.title,
+        ogDescription: frontmatter.seo?.description || frontmatter.excerpt,
+        ogImage: featuredImage?.url,
+        ogType: 'article',
+        twitterCard: 'summary_large_image',
+        twitterTitle: frontmatter.seo?.title || frontmatter.title,
+        twitterDescription: frontmatter.seo?.description || frontmatter.excerpt,
+        twitterImage: featuredImage?.url,
+        schema: frontmatter.schema,
+        focusKeyword: undefined,
+        metaRobots: 'index, follow',
+        breadcrumbTitle: frontmatter.title,
+        socialTitle: frontmatter.seo?.title || frontmatter.title,
+        socialDescription: frontmatter.seo?.description || frontmatter.excerpt
       },
       tags,
       category: frontmatter.category,
       featuredImage,
-      images: uniqueImages
+      images: uniqueImages,
+      canonical: frontmatter.canonical,
+      schema: frontmatter.schema,
+      readingTime: frontmatter.readingTime || `${calculateReadingTime(processedContent)} minutes`,
+      difficulty: frontmatter.difficulty || 'Intermediate'
     };
 
     // Return type-specific content
@@ -217,9 +226,8 @@ export function parseMarkdownFile(filePath: string, type: 'post' | 'page' | 'rev
         return {
           ...baseContent,
           type: 'post',
-          readingTime: calculateReadingTime(processedContent),
           series: frontmatter.series,
-          seriesOrder: frontmatter.seriesOrder
+          seriesOrder: frontmatter.seriesOrder,
         } as BlogPost;
 
       case 'page':

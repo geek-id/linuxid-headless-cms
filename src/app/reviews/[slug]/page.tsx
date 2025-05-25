@@ -23,6 +23,7 @@ export async function generateStaticParams() {
     }));
 }
 
+// Enhanced metadata generation for reviews
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const review = getContentBySlug('review', params.slug) as Review | null;
   
@@ -32,21 +33,157 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
+  const seoTitle = review.seo?.title || `${review.title} | ${siteConfig.siteName}`;
+  const seoDescription = review.seo?.description || review.excerpt || '';
+  const seoKeywords = review.seo?.keywords || review.tags || [];
+  const reviewUrl = `${siteConfig.siteUrl}/reviews/${review.slug}`;
+  const canonicalUrl = (review as any).canonical || reviewUrl;
+  const featuredImageUrl = typeof review.featuredImage === 'string' 
+    ? review.featuredImage 
+    : review.featuredImage?.url;
+
   return {
-    title: review.seo?.title || review.title,
-    description: review.seo?.description || review.excerpt,
-    keywords: review.seo?.keywords?.join(', ') || review.tags?.join(', '),
+    title: seoTitle,
+    description: seoDescription,
+    keywords: seoKeywords.join(', '),
+    robots: 'index, follow',
+    
     openGraph: {
-      title: review.seo?.ogTitle || review.title,
-      description: review.seo?.ogDescription || review.excerpt,
-      images: review.featuredImage ? [review.featuredImage.url] : [],
+      title: review.seo?.title || review.title,
+      description: review.seo?.description || review.excerpt || '',
+      url: canonicalUrl,
+      siteName: siteConfig.siteName,
+      type: 'article',
+      publishedTime: review.publishedAt?.toISOString(),
+      modifiedTime: review.updatedAt?.toISOString(),
+      authors: review.author?.name ? [review.author.name] : [],
+      section: review.category,
+      tags: review.tags,
+      images: featuredImageUrl ? [{
+        url: featuredImageUrl,
+        width: 1200,
+        height: 630,
+        alt: typeof review.featuredImage === 'object' 
+          ? review.featuredImage?.alt || review.title 
+          : review.title,
+      }] : [],
     },
+    
     twitter: {
       card: 'summary_large_image',
-      title: review.seo?.twitterTitle || review.title,
-      description: review.seo?.twitterDescription || review.excerpt,
-      images: review.featuredImage ? [review.featuredImage.url] : [],
+      site: siteConfig.twitterHandle,
+      creator: siteConfig.twitterHandle,
+      title: review.seo?.title || review.title,
+      description: review.seo?.description || review.excerpt || '',
+      images: featuredImageUrl ? [featuredImageUrl] : [],
     },
+    
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    
+    other: {
+      'article:author': review.author?.name || siteConfig.author,
+      'article:section': review.category || 'Reviews',
+      'article:tag': review.tags?.join(', ') || '',
+      'article:published_time': review.publishedAt?.toISOString() || '',
+      'article:modified_time': review.updatedAt?.toISOString() || '',
+      'canonical': canonicalUrl,
+    },
+  };
+}
+
+// Generate schema markup for reviews
+function generateReviewSchemaMarkup(review: Review): { review: any; breadcrumb: any } {
+  const reviewUrl = `${siteConfig.siteUrl}/reviews/${review.slug}`;
+  const canonicalUrl = (review as any).canonical || reviewUrl;
+  const featuredImageUrl = typeof review.featuredImage === 'string' 
+    ? review.featuredImage 
+    : review.featuredImage?.url;
+  const rating = (review as any).rating || 0;
+
+  const reviewSchema: any = {
+    '@context': 'https://schema.org',
+    '@type': (review as any).schema?.type || 'Review',
+    headline: review.title,
+    description: review.excerpt || '',
+    url: canonicalUrl,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': canonicalUrl,
+    },
+    datePublished: (review as any).schema?.datePublished || review.publishedAt?.toISOString() || review.createdAt.toISOString(),
+    dateModified: review.updatedAt?.toISOString() || review.createdAt.toISOString(),
+    author: {
+      '@type': 'Person',
+      name: review.author?.name || siteConfig.author,
+      url: `${siteConfig.siteUrl}/author/${encodeURIComponent(review.author?.name || siteConfig.author)}`,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: siteConfig.siteName,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteConfig.siteUrl}/static/img/linux-id_logo.png`,
+      },
+    },
+    image: featuredImageUrl ? {
+      '@type': 'ImageObject',
+      url: featuredImageUrl,
+      width: typeof review.featuredImage === 'object' ? review.featuredImage?.width || 1200 : 1200,
+      height: typeof review.featuredImage === 'object' ? review.featuredImage?.height || 630 : 630,
+    } : undefined,
+    articleSection: review.category || 'Reviews',
+    keywords: review.tags?.join(', ') || '',
+    inLanguage: 'en-US',
+  };
+
+  // Add reading time if available
+  if ((review as any).readingTime || (review as any).schema?.readingTime) {
+    const readingTimeValue = (review as any).readingTime || (review as any).schema?.readingTime || '';
+    const minutes = readingTimeValue.match(/(\d+)/)?.[1] || '15';
+    reviewSchema.timeRequired = `PT${minutes}M`;
+  }
+
+  // Add rating if available
+  if (rating > 0) {
+    reviewSchema.reviewRating = {
+      '@type': 'Rating',
+      ratingValue: rating,
+      bestRating: 5,
+      worstRating: 1,
+    };
+  }
+
+  // Add breadcrumb schema
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteConfig.siteUrl,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Reviews',
+        item: `${siteConfig.siteUrl}/reviews`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: review.seo?.breadcrumbTitle || review.title,
+        item: canonicalUrl,
+      },
+    ],
+  };
+
+  return {
+    review: reviewSchema,
+    breadcrumb: breadcrumbSchema,
   };
 }
 
@@ -75,7 +212,8 @@ export default async function ReviewPage({ params }: Props) {
     notFound();
   }
 
-  const rating = 'rating' in review ? (review as any).rating : 0;
+  const rating = (review as any).rating || 0;
+  const readingTime = (review as any).readingTime || '';
 
   // Get related reviews
   const allReviews = getAllContent('review') as Review[];
@@ -88,9 +226,20 @@ export default async function ReviewPage({ params }: Props) {
     .slice(0, 3);
 
   const reviewUrl = `${siteConfig.siteUrl}/reviews/${review.slug}`;
+  const schemas = generateReviewSchemaMarkup(review);
 
   return (
     <div>
+      {/* Schema Markup */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.review) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.breadcrumb) }}
+      />
+      
       {/* Header */}
       <Header />
 
@@ -130,6 +279,11 @@ export default async function ReviewPage({ params }: Props) {
             <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
               📅 {format(review.publishedAt || review.createdAt, 'MMMM d, yyyy')}
             </span>
+            {readingTime && (
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                ⏱️ {readingTime} read
+              </span>
+            )}
             {rating > 0 && (
               <div style={{ 
                 display: 'flex', 

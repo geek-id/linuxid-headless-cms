@@ -1,7 +1,32 @@
+export interface SchemaMarkup {
+  type: "Article" | "BlogPosting" | "TechArticle" | "Tutorial" | "Review" | "Product";
+  datePublished: string;
+  dateModified?: string;
+  readingTime?: string;
+  difficulty?: "Beginner" | "Intermediate" | "Advanced";
+  author?: {
+    name: string;
+    url?: string;
+  };
+  publisher?: {
+    name: string;
+    logo?: string;
+  };
+  mainEntityOfPage?: string;
+  headline?: string;
+  image?: string | string[];
+  wordCount?: number;
+  inLanguage?: string;
+  about?: string[];
+  mentions?: string[];
+}
+
 export interface SEOMetadata {
+  // Core SEO fields (simplified format - matching Ansible Tower review)
   title?: string;
   description?: string;
   keywords?: string[];
+  // Extended fields (generated automatically by parser)
   canonical?: string;
   ogTitle?: string;
   ogDescription?: string;
@@ -11,7 +36,13 @@ export interface SEOMetadata {
   twitterTitle?: string;
   twitterDescription?: string;
   twitterImage?: string;
-  schema?: any; // JSON-LD structured data
+  schema?: SchemaMarkup; // Enhanced structured data
+  // Additional SEO fields (auto-generated)
+  focusKeyword?: string;
+  metaRobots?: string;
+  breadcrumbTitle?: string;
+  socialTitle?: string;
+  socialDescription?: string;
 }
 
 export interface ImageMetadata {
@@ -46,13 +77,18 @@ export interface BaseContent {
   category?: string;
   featuredImage?: ImageMetadata;
   images?: ImageMetadata[]; // Images used in content
+  // Post-level fields from new format
+  canonical?: string;
+  schema?: SchemaMarkup;
+  readingTime?: string;
+  difficulty?: "Beginner" | "Intermediate" | "Advanced";
 }
 
 export interface BlogPost extends BaseContent {
   type: 'post';
-  readingTime?: number;
   series?: string;
   seriesOrder?: number;
+  // Note: readingTime, schema, and difficulty are now inherited from BaseContent
 }
 
 export interface Page extends BaseContent {
@@ -109,8 +145,13 @@ export interface Frontmatter {
   category?: string;
   tags?: string | string[];
   seo?: Partial<SEOMetadata>;
+  schema?: Partial<SchemaMarkup>; // Add schema support to frontmatter
+  canonical?: string; // Add canonical URL support at post level
   featuredImage?: string | ImageMetadata;
   images?: string[] | ImageMetadata[];
+  // Enhanced content metadata
+  readingTime?: string;
+  difficulty?: "Beginner" | "Intermediate" | "Advanced";
   // Type-specific fields
   rating?: number;
   productName?: string;

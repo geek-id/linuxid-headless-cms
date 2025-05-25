@@ -6,6 +6,7 @@ import { formatDistanceToNow, format } from 'date-fns';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { siteConfig } from '@/lib/config/site';
+import { generatePostMetadata, generateSchemaMarkup } from '@/lib/seo/metadata';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import TableOfContents from '@/components/TableOfContents';
@@ -32,22 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  return {
-    title: post.seo?.title || post.title,
-    description: post.seo?.description || post.excerpt,
-    keywords: post.seo?.keywords?.join(', ') || post.tags?.join(', '),
-    openGraph: {
-      title: post.seo?.ogTitle || post.title,
-      description: post.seo?.ogDescription || post.excerpt,
-      images: post.featuredImage ? [post.featuredImage.url] : [],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: post.seo?.twitterTitle || post.title,
-      description: post.seo?.twitterDescription || post.excerpt,
-      images: post.featuredImage ? [post.featuredImage.url] : [],
-    },
-  };
+  return generatePostMetadata(post);
 }
 
 export default async function PostPage({ params }: Props) {
@@ -68,9 +54,20 @@ export default async function PostPage({ params }: Props) {
     .slice(0, 3);
 
   const postUrl = `${siteConfig.siteUrl}/posts/${post.slug}`;
+  const schemas = generateSchemaMarkup(post);
 
   return (
     <div>
+      {/* Schema Markup */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.article) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.breadcrumb) }}
+      />
+      
       {/* Header */}
       <Header />
 
