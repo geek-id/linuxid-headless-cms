@@ -8,18 +8,18 @@ author: "Team"
 template: "page"
 order: 1
 seo:
-  title: "About Us - LinuxID VPS Reviews & Hosting Guides"
+  title: "About Us - Linux-ID.net VPS Reviews & Hosting Guides"
   description: "Learn about our mission to provide unbiased VPS hosting reviews, technical guides, and performance benchmarks."
   keywords: ["about us", "vps reviews", "hosting guides", "team"]
   canonical: "https://your-domain.com/about"
-  ogTitle: "About LinuxID - VPS Reviews & Hosting Guides"
+  ogTitle: "About Linux-ID.net - VPS Reviews & Hosting Guides"
   ogDescription: "Learn about our mission to provide unbiased VPS hosting reviews and guides"
   ogType: "website"
 ---
 
-# About LinuxID
+# About Linux-ID.net
 
-Welcome to LinuxID, your trusted source for VPS hosting reviews, technical guides, and performance benchmarks. We're passionate about helping developers and businesses find the perfect hosting solutions for their needs.
+Welcome to Linux-ID.net, your trusted source for VPS hosting reviews, technical guides, and performance benchmarks. We're passionate about helping developers and businesses find the perfect hosting solutions for their needs.
 
 ## Our Mission
 
@@ -78,9 +78,9 @@ We maintain a rigorous testing process:
 
 Have questions about our reviews or need specific hosting advice?
 
-- **Email**: contact@linuxid.com
-- **Twitter**: @LinuxIDReviews
-- **GitHub**: github.com/linuxid
+- **Email**: me@linux-id.net
+- **Twitter**: @buruh_serabutan
+- **GitHub**: [@geek-id](https://github.com/geek-id)
 
 ## Community
 
