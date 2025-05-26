@@ -1,0 +1,89 @@
+name: Scheduled Post Publishing
+
+on:
+  schedule:
+    # Run every hour to check for posts that should be published
+    - cron: '0 * * * *'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  check-and-publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for scheduled posts
+        id: check-posts
+        run: |
+          node -e "
+          const fs = require('fs');
+          const path = require('path');
+          const matter = require('gray-matter');
+          
+          const postsDir = path.join(process.cwd(), 'content/posts');
+          const files = fs.readdirSync(postsDir).filter(file => file.endsWith('.md'));
+          
+          let hasScheduledPosts = false;
+          const now = new Date();
+          
+          files.forEach(file => {
+            const filePath = path.join(postsDir, file);
+            const fileContent = fs.readFileSync(filePath, 'utf8');
+            const { data: frontmatter } = matter(fileContent);
+            
+            if (frontmatter.published && frontmatter.publishedAt) {
+              const publishDate = new Date(frontmatter.publishedAt);
+              // Check if post should be published now (within the last hour)
+              const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+              
+              if (publishDate <= now && publishDate > oneHourAgo) {
+                console.log(\`Post ready to publish: \${frontmatter.title}\`);
+                hasScheduledPosts = true;
+              }
+            }
+          });
+          
+          console.log(\`has_scheduled_posts=\${hasScheduledPosts}\`);
+          console.log(\`::set-output name=has_scheduled_posts::\${hasScheduledPosts}\`);
+          "
+
+      - name: Build and deploy
+        if: steps.check-posts.outputs.has_scheduled_posts == 'true'
+        run: |
+          echo "Building site with newly published posts..."
+          npm run build
+          
+      - name: Deploy to production
+        if: steps.check-posts.outputs.has_scheduled_posts == 'true'
+        run: |
+          echo "Deploying to production..."
+          # Add your deployment commands here
+          # For example, if using Vercel:
+          # npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+          # Or if using Netlify:
+          # npx netlify deploy --prod --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          # Or if using GitHub Pages:
+          # npm run export && gh-pages -d out
+
+      - name: Notify about published posts
+        if: steps.check-posts.outputs.has_scheduled_posts == 'true'
+        run: |
+          echo "✅ Scheduled posts have been published and deployed!"
+          # Optional: Send notification to Slack, Discord, etc.
+          # curl -X POST -H 'Content-type: application/json' \
+          #   --data '{"text":"🚀 Scheduled posts have been published!"}' \
+          #   ${{ secrets.SLACK_WEBHOOK_URL }} 

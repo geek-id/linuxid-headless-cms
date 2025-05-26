@@ -10,7 +10,10 @@
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf .next out node_modules/.cache",
-    "reset": "rm -rf node_modules package-lock.json && npm install"
+    "reset": "rm -rf node_modules package-lock.json && npm install",
+    "publish:scheduled": "node scripts/publish-scheduler.js",
+    "publish:check": "node scripts/publish-scheduler.js --dry-run --verbose",
+    "schedule:cron": "node scripts/publish-scheduler.js && npm run build"
   },
   "keywords": [
     "static-site-generator",
