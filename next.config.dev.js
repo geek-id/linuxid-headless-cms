@@ -1,14 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable static export for pure static site
-  // output: 'export', // Temporarily disabled for admin dashboard development
+  // Enable API routes for development (admin dashboard)
+  // output: 'export', // Commented out for development
   
-  // Disable image optimization for static export
+  // Keep image optimization disabled for consistency
   images: {
     unoptimized: true,
   },
   
-  // Disable server-side features for static export
+  // Keep trailing slash for consistency
   trailingSlash: true,
   
   // Configure headers for static assets

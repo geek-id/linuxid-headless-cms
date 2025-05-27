@@ -4,7 +4,9 @@
   "description": "A pure static site generator built with Next.js that reads content from markdown files - zero APIs, zero database, pure static",
   "scripts": {
     "dev": "next dev",
+    "dev:admin": "next dev -c next.config.dev.js",
     "build": "next build",
+    "build:static": "next build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
