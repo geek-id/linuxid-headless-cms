@@ -75,6 +75,15 @@ export default function Header({ className = '' }: HeaderProps) {
           </li>
           <li>
             <Link 
+              href="/cv" 
+              className={`nav-link ${isActive('/cv') ? 'active' : ''}`}
+              onClick={closeMobileMenu}
+            >
+              CV
+            </Link>
+          </li>
+          <li>
+            <Link 
               href="/about" 
               className={`nav-link ${isActive('/about') ? 'active' : ''}`}
               onClick={closeMobileMenu}
