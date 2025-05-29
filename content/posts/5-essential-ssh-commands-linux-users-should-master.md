@@ -7,11 +7,11 @@ publishedAt: "2021-01-06T04:08:00Z"
 author: "Linux-ID Team"
 template: "post"
 featured: true
-featuredImage: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
+featuredImage: "https://st5.depositphotos.com/1052205/67495/i/1600/depositphotos_674958428-stock-photo-monitor-closeup-function-source-code.jpg"
 category: "System Administration"
 tags: ["ssh", "linux", "server", "security", "networking", "tutorial"]
 seo:
-  title: "5 Essential SSH Commands Every Linux User Should Master | Complete Guide"
+  title: "5 Essential SSH Commands Every Linux User Should Master"
   description: "Learn the 5 most important SSH commands for Linux system administration, secure file transfers, port forwarding, and remote server management with practical examples."
   keywords: ["ssh commands", "linux ssh", "secure shell", "remote server", "ssh tutorial", "linux networking", "server administration", "ssh security"]
   canonical: "https://linux-id.net/posts/5-essential-ssh-commands-linux-users-should-master"
