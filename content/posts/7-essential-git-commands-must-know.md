@@ -7,7 +7,7 @@ publishedAt: "2021-02-28T11:40:00Z"
 author: "Linux-ID Team"
 template: "post"
 featured: true
-featuredImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+featuredImage: "https://cdn.pixabay.com/photo/2020/05/11/06/20/code-5290465_1280.jpg"
 category: "Development Tools"
 tags: ["git", "version-control", "development", "programming", "tutorial"]
 seo:
