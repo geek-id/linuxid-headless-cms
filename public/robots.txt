@@ -1,0 +1,27 @@
+# Robots.txt for LinuxID Static Site
+# Generated for headless CMS built with Next.js
+
+# Allow all crawlers to access public content
+User-agent: *
+
+# Allow access to main pages
+Allow: /
+Allow: /posts/
+Allow: /posts/*
+Allow: /reviews/
+Allow: /reviews/*
+Allow: /about
+Allow: /sitemap.xml
+Allow: /rss.xml
+
+# Block access to admin and sensitive areas
+Disallow: /admin/
+Disallow: /admin/*
+Disallow: /wp-admin/
+Disallow: /wp-login.php
+
+# Crawl delay (optional - adjust based on server capacity)
+# Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://linux-id.net/sitemap.xml 
