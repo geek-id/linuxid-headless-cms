@@ -3,7 +3,7 @@ title: "Fix 403 Forbidden Nginx Error: Troubleshooting Guide"
 slug: "fix-403-forbidden-nginx-error"
 excerpt: "Learn how to diagnose and fix the 403 Forbidden error in Nginx web server. Guide covering file permissions, configuration issues, PHP-FPM problems, and advanced troubleshooting techniques."
 published: true
-publishedAt: "2020-01-23T06:32:45Z"
+publishedAt: "2021-09-23T06:32:45Z"
 author: "Linux-ID Team"
 template: "post"
 featured: true
