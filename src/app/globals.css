@@ -1460,6 +1460,11 @@ html {
     min-width: 0; /* Prevent grid overflow */
 }
 
+/* Handle cases where sidebar might be empty */
+.post-layout:has(.post-sidebar:empty) {
+    grid-template-columns: 1fr;
+}
+
 /* Post Layout Responsive */
 @media (max-width: 1024px) {
     .post-layout {

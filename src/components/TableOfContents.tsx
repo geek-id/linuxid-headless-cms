@@ -107,6 +107,11 @@ export default function TableOfContents({ content, postTitle, postUrl }: TableOf
     return null;
   }
 
+  // Only show TOC if there are at least 3 headings for better consistency
+  if (tocItems.length < 3) {
+    return null;
+  }
+
   return (
     <div className="toc-sidebar">
       {/* Table of Contents */}
