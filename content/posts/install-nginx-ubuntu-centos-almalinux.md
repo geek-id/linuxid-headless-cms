@@ -1,6 +1,6 @@
 ---
 title: "Install Nginx on Ubuntu, CentOS, RHEL, and AlmaLinux"
-slug: "install-nginx-ubuntu-centos-rhel-almalinux"
+slug: "install-nginx-ubuntu-centos-almalinux"
 excerpt: "Complete guide to installing and configuring Nginx web server on Ubuntu, CentOS, RHEL, and AlmaLinux systems. Learn step-by-step installation procedures, basic configuration, security hardening, and performance optimization."
 published: true
 publishedAt: "2021-04-10T10:30:00Z"
@@ -14,7 +14,7 @@ seo:
   title: "Install Nginx on Ubuntu, CentOS, RHEL, and AlmaLinux - Complete Guide"
   description: "Learn how to install and configure Nginx web server on Ubuntu, CentOS, RHEL, and AlmaLinux. Complete guide covering installation, configuration, security, and optimization."
   keywords: ["install nginx", "nginx ubuntu", "nginx centos", "nginx rhel", "nginx almalinux", "web server", "nginx configuration"]
-  canonical: "https://linux-id.net/posts/install-nginx-ubuntu-centos-rhel-almalinux"
+  canonical: "https://linux-id.net/posts/install-nginx-ubuntu-centos-almalinux"
 ---
 
 **Nginx (pronounced "engine-x")** is a high-performance, open-source web server and reverse proxy server known for its stability, rich feature set, simple configuration, and low resource consumption. Originally developed by Igor Sysoev in 2004, Nginx has become one of the most popular web servers worldwide, powering millions of websites including high-traffic sites like Netflix, Dropbox, and WordPress.com.
