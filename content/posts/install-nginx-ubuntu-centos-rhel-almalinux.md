@@ -3,7 +3,7 @@ title: "Install Nginx on Ubuntu, CentOS, RHEL, and AlmaLinux"
 slug: "install-nginx-ubuntu-centos-rhel-almalinux"
 excerpt: "Complete guide to installing and configuring Nginx web server on Ubuntu, CentOS, RHEL, and AlmaLinux systems. Learn step-by-step installation procedures, basic configuration, security hardening, and performance optimization."
 published: true
-publishedAt: "2022-03-15T10:30:00Z"
+publishedAt: "2021-04-10T10:30:00Z"
 author: "Linux-ID Team"
 template: "post"
 featured: true
