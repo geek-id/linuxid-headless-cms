@@ -1476,3 +1476,277 @@ html {
         order: -1; /* Move sidebar above content on mobile */
     }
 }
+
+/* Enhanced Code Highlighting Styles */
+
+/* Code Block Wrapper */
+.code-block-wrapper {
+  margin: 2rem 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: var(--code-bg, #2d3748);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+/* Code Block Header */
+.code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--code-header-bg, #1a202c);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.875rem;
+}
+
+.code-language {
+  color: var(--text-muted, #a0a0a0);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.copy-code-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted, #a0a0a0);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copy-code-btn:hover {
+  color: var(--primary);
+  background: var(--bg-secondary);
+}
+
+/* Code Block Styling */
+.code-block {
+  margin: 0;
+  padding: 1.5rem;
+  background: var(--code-bg, #2d3748);
+  color: var(--code-text, #e2e8f0);
+  font-family: 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  tab-size: 4;
+}
+
+.code-block code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+  border-radius: 0;
+}
+
+/* Prism.js Theme Integration */
+.code-block .token.comment,
+.code-block .token.prolog,
+.code-block .token.doctype,
+.code-block .token.cdata {
+  color: #90a4ae;
+  font-style: italic;
+}
+
+.code-block .token.punctuation {
+  color: #9e9e9e;
+}
+
+.code-block .token.property,
+.code-block .token.tag,
+.code-block .token.boolean,
+.code-block .token.number,
+.code-block .token.constant,
+.code-block .token.symbol,
+.code-block .token.deleted {
+  color: #f07178;
+}
+
+.code-block .token.selector,
+.code-block .token.attr-name,
+.code-block .token.string,
+.code-block .token.char,
+.code-block .token.builtin,
+.code-block .token.inserted {
+  color: #c3e88d;
+}
+
+.code-block .token.operator,
+.code-block .token.entity,
+.code-block .token.url,
+.code-block .language-css .token.string,
+.code-block .style .token.string {
+  color: #89ddff;
+}
+
+.code-block .token.atrule,
+.code-block .token.attr-value,
+.code-block .token.keyword {
+  color: #c792ea;
+}
+
+.code-block .token.function,
+.code-block .token.class-name {
+  color: #82aaff;
+}
+
+.code-block .token.regex,
+.code-block .token.important,
+.code-block .token.variable {
+  color: #f78c6c;
+}
+
+/* HTML/Markup specific highlighting */
+.code-block .token.tag .token.tag,
+.code-block .token.tag .token.punctuation {
+  color: #f07178;
+}
+
+.code-block .token.attr-name {
+  color: #ffcb6b;
+}
+
+.code-block .token.attr-value,
+.code-block .token.attr-value .token.punctuation {
+  color: #c3e88d;
+}
+
+/* Bash/Shell specific highlighting */
+.code-block .token.function {
+  color: #82aaff;
+}
+
+.code-block .token.parameter {
+  color: #ffcb6b;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .code-block-wrapper {
+  --code-bg: #1a202c;
+  --code-header-bg: #2d3748;
+  --code-text: #e2e8f0;
+}
+
+/* Light mode adjustments */
+[data-theme="light"] .code-block-wrapper {
+  --code-bg: #f7fafc;
+  --code-header-bg: #edf2f7;
+  --code-text: #2d3748;
+}
+
+[data-theme="light"] .code-block .token.comment,
+[data-theme="light"] .code-block .token.prolog,
+[data-theme="light"] .code-block .token.doctype,
+[data-theme="light"] .code-block .token.cdata {
+  color: #6a737d;
+}
+
+[data-theme="light"] .code-block .token.punctuation {
+  color: #24292e;
+}
+
+[data-theme="light"] .code-block .token.property,
+[data-theme="light"] .code-block .token.tag,
+[data-theme="light"] .code-block .token.boolean,
+[data-theme="light"] .code-block .token.number,
+[data-theme="light"] .code-block .token.constant,
+[data-theme="light"] .code-block .token.symbol,
+[data-theme="light"] .code-block .token.deleted {
+  color: #d73a49;
+}
+
+[data-theme="light"] .code-block .token.selector,
+[data-theme="light"] .code-block .token.attr-name,
+[data-theme="light"] .code-block .token.string,
+[data-theme="light"] .code-block .token.char,
+[data-theme="light"] .code-block .token.builtin,
+[data-theme="light"] .code-block .token.inserted {
+  color: #032f62;
+}
+
+[data-theme="light"] .code-block .token.operator,
+[data-theme="light"] .code-block .token.entity,
+[data-theme="light"] .code-block .token.url,
+[data-theme="light"] .code-block .language-css .token.string,
+[data-theme="light"] .code-block .style .token.string {
+  color: #005cc5;
+}
+
+[data-theme="light"] .code-block .token.atrule,
+[data-theme="light"] .code-block .token.attr-value,
+[data-theme="light"] .code-block .token.keyword {
+  color: #d73a49;
+}
+
+[data-theme="light"] .code-block .token.function,
+[data-theme="light"] .code-block .token.class-name {
+  color: #6f42c1;
+}
+
+[data-theme="light"] .code-block .token.regex,
+[data-theme="light"] .code-block .token.important,
+[data-theme="light"] .code-block .token.variable {
+  color: #e36209;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .code-block {
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .code-block-header {
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* Scrollbar styling for code blocks */
+.code-block::-webkit-scrollbar {
+  height: 8px;
+}
+
+.code-block::-webkit-scrollbar-track {
+  background: var(--code-bg);
+}
+
+.code-block::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.code-block::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Override existing basic code styles to prevent conflicts */
+.article-content pre code[class*="language-"] {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-weight: 400;
+}
+
+/* Remove basic pre styling when using enhanced code blocks */
+.article-content .code-block-wrapper + p,
+.article-content p + .code-block-wrapper {
+  margin-top: 1.5rem;
+}
+
+.post-layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 3rem;
+    align-items: start;
+}

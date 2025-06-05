@@ -409,13 +409,13 @@ Add the following content:
     <title>Welcome to Nginx!</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        .container { max-width: 600px; margin: 0 auto; }
+        .nginx-welcome-container { max-width: 600px; margin: 0 auto; }
         h1 { color: #333; }
         p { color: #666; }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="nginx-welcome-container">
         <h1>Welcome to Nginx!</h1>
         <p>If you can see this page, Nginx is successfully installed and running.</p>
         <p>Server: Ubuntu/CentOS/RHEL/AlmaLinux</p>
@@ -714,3 +714,36 @@ After successfully installing Nginx, consider:
 5. **Learning advanced features** like rate limiting and caching
 
 Whether you're hosting a simple static website or a complex web application, Nginx provides the foundation for reliable, high-performance web services. With the knowledge gained from this guide, you're ready to deploy and manage Nginx on your preferred Linux distribution.
+
+### Create a Simple Test Page
+
+Create a custom test page to verify everything works:
+
+```bash
+sudo mkdir -p /var/www/html
+sudo nano /var/www/html/index.html
+```
+
+Add the following content:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Nginx!</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .nginx-welcome-container { max-width: 600px; margin: 0 auto; }
+        h1 { color: #333; }
+        p { color: #666; }
+    </style>
+</head>
+<body>
+    <div class="nginx-welcome-container">
+        <h1>Welcome to Nginx!</h1>
+        <p>If you can see this page, Nginx is successfully installed and running.</p>
+        <p>Server: Ubuntu/CentOS/RHEL/AlmaLinux</p>
+    </div>
+</body>
+</html>
+```

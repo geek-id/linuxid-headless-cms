@@ -3,6 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 import { ContentType, BlogPost, Page, Review, Frontmatter, ImageMetadata } from '@/types/content';
+import { createCodeRenderer } from './syntax-highlighter';
 
 const CONTENT_DIR = process.env.CONTENT_DIR || './content';
 
@@ -15,11 +16,8 @@ marked.setOptions({
 // Custom renderer for better HTML output
 const renderer = new marked.Renderer();
 
-// Enhanced code block rendering
-renderer.code = function(code, language) {
-  const validLanguage = language && language.trim() ? language.trim() : 'text';
-  return `<pre><code class="language-${validLanguage}">${code}</code></pre>`;
-};
+// Enhanced code block rendering with syntax highlighting
+renderer.code = createCodeRenderer();
 
 // Enhanced link rendering (add target="_blank" for external links)
 renderer.link = function(href, title, text) {
