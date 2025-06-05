@@ -1895,7 +1895,7 @@ html {
 /* Override existing basic code styles to prevent conflicts */
 .article-content pre code[class*="language-"] {
   background: none;
-  color: inherit;
+  /* color: inherit; */
   padding: 0;
   font-weight: 400;
 }
