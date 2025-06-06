@@ -13,14 +13,7 @@ seo:
   title: "GNU Screen Command Cheatsheet - Complete Linux Terminal Guide | LinuxID"
   description: "Master GNU Screen terminal multiplexer with our comprehensive cheatsheet. Essential commands, shortcuts, and advanced techniques for Linux system administrators."
   keywords: ["gnu screen", "terminal multiplexer", "linux screen command", "screen cheatsheet", "terminal sessions", "ssh sessions", "system administration"]
-schema:
-  type: "TechArticle"
-  datePublished: "2022-04-26"
-  readingTime: "8 minutes"
-  difficulty: "Beginner"
-readingTime: "8 minutes"
-difficulty: "Beginner"
-canonical: "https://linux-id.net/posts/screen-command-cheatsheet"
+  canonical: "https://linux-id.net/posts/screen-command-cheatsheet"
 ---
 
 # Complete GNU Screen Command Cheatsheet for Linux System Administrators

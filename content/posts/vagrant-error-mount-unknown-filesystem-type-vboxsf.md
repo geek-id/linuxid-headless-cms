@@ -13,14 +13,7 @@ seo:
   title: "Fix Vagrant vboxsf Error - Complete Troubleshooting Guide | LinuxID"
   description: "Resolve the 'mount: unknown filesystem type vboxsf' error in Vagrant with our comprehensive guide. Includes vagrant-vbguest plugin, manual fixes, and alternative solutions."
   keywords: ["vagrant error", "vboxsf mount error", "virtualbox guest additions", "vagrant troubleshooting", "development environment", "vagrant-vbguest", "shared folders"]
-schema:
-  type: "TechArticle"
-  datePublished: "2019-08-15"
-  readingTime: "12 minutes"
-  difficulty: "Intermediate"
-readingTime: "12 minutes"
-difficulty: "Intermediate"
-canonical: "https://linux-id.net/posts/vagrant-error-mount-unknown-filesystem-type-vboxsf"
+  canonical: "https://linux-id.net/posts/vagrant-error-mount-unknown-filesystem-type-vboxsf"
 ---
 
 ## Introduction

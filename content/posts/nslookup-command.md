@@ -15,13 +15,6 @@ seo:
   description: "Comprehensive nslookup tutorial with practical examples for DNS record queries, network troubleshooting, and system administration. Learn A, MX, NS, TXT record lookups, reverse DNS, and advanced debugging techniques."
   keywords: ["nslookup", "dns lookup", "network troubleshooting", "linux commands", "dns records", "system administration", "mx records", "ns records", "txt records", "reverse dns", "network debugging", "server administration", "command line tools", "dns queries"]
   canonical: "https://linux-id.net/posts/nslookup-command-guide"
-schema:
-  type: "TechArticle"
-  datePublished: "2021-03-30T01:38:00Z"
-  readingTime: "12 minutes"
-  difficulty: "Intermediate"
-readingTime: "12 minutes"
-difficulty: "Intermediate"
 ---
 
 ## What is nslookup?
