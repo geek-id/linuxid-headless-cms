@@ -117,7 +117,3 @@ sudo yum install btop
 
 ## Conclusion
 Each tool has its strengths. For most users, **htop** or **btop** will offer the best balance of usability and features. For advanced logging, choose **atop**. For minimalism and availability, stick with **top**. Try them all to see which fits your workflow best!
-
----
-
-**Featured Image Credit:** [Pixabay - Linux Process Management](https://pixabay.com/photos/linux-process-management-4259595/) 
