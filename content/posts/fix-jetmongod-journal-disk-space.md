@@ -1,7 +1,7 @@
 ---
-title: "How to Safely Fix JetMongoDB Journal Disk Space Issues - Complete Guide"
+title: "How to Safely Fix JetMongoDB Journal Disk Space Issues"
 slug: "fix-jetmongod-journal-disk-space"
-excerpt: "Complete guide to safely fix and vacuum JetMongoDB journal files that consume excessive disk space. Learn how to safely stop services, repair MongoDB, and clean up journal files without data loss."
+excerpt: "Guide to safely fix and vacuum JetMongoDB journal files that consume excessive disk space. how to safely stop services, repair MongoDB, and clean up journal files without data loss."
 published: true
 publishedAt: "2025-08-30T10:00:00Z"
 author: "Linux-ID Team"
@@ -11,8 +11,8 @@ featuredImage: "https://images.pexels.com/photos/5380643/pexels-photo-5380643.jp
 category: "Database"
 tags: ["mongodb", "jetmongod", "jetbackup", "disk-space", "journal-files", "database-maintenance", "system-administration", "mongodb-repair", "disk-cleanup"]
 seo:
-  title: "Fix JetMongoDB Journal Disk Space Issues - Safe Database Maintenance Guide"
-  description: "Step-by-step guide to safely fix JetMongoDB journal files consuming excessive disk space. Includes service management, MongoDB repair, and journal cleanup procedures."
+  title: "Fix JetMongoDB Journal Disk Space Issues"
+  description: "Guide to safely fix JetMongoDB journal files consuming excessive disk space. Includes service management, MongoDB repair, and journal cleanup procedures."
   keywords: ["jetmongod", "mongodb journal", "disk space", "mongodb repair", "jetbackup", "database maintenance", "journal cleanup", "mongodb optimization"]
   canonical: "https://linux-id.net/posts/fix-jetmongod-journal-disk-space"
 ---
