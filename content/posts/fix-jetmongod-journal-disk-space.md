@@ -3,7 +3,7 @@ title: "How to Safely Fix JetMongoDB Journal Disk Space Issues - Complete Guide"
 slug: "fix-jetmongod-journal-disk-space"
 excerpt: "Complete guide to safely fix and vacuum JetMongoDB journal files that consume excessive disk space. Learn how to safely stop services, repair MongoDB, and clean up journal files without data loss."
 published: true
-publishedAt: "2024-12-19T10:00:00Z"
+publishedAt: "2025-08-30T10:00:00Z"
 author: "Linux-ID Team"
 template: "post"
 featured: true
