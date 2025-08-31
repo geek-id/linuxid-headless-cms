@@ -42,3 +42,12 @@ next-env.d.ts
 # Backup files
 *.backup
 *.bak
+
+# Other files
+cloudflare-config.md
+update-posts-seo.js
+content/posts/test-*
+content/posts/example-*
+._*
+_headers
+.gitignore
