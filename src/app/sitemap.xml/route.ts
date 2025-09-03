@@ -3,7 +3,7 @@ import { BlogPost, Review, Page } from '@/types/content';
 import { siteConfig } from '@/lib/config/site';
 
 export async function GET() {
-  const baseUrl = siteConfig.siteUrl || 'https://your-domain.com';
+  const baseUrl = siteConfig.siteUrl || 'https://linux-id.net';
 
   // Get all content
   const posts = getAllContent('post') as BlogPost[];
