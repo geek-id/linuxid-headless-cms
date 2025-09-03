@@ -43,7 +43,7 @@ export async function GET() {
   <url>
     <loc>${baseUrl}/${page.slug}</loc>
     <lastmod>${new Date(page.updatedAt).toISOString()}</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>`).join('')}
   
@@ -52,7 +52,7 @@ export async function GET() {
   <url>
     <loc>${baseUrl}/posts/${post.slug}</loc>
     <lastmod>${new Date(post.updatedAt).toISOString()}</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>`).join('')}
   
@@ -61,7 +61,7 @@ export async function GET() {
   <url>
     <loc>${baseUrl}/reviews/${review.slug}</loc>
     <lastmod>${new Date(review.updatedAt).toISOString()}</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>`).join('')}
 </urlset>`;
